@@ -1,0 +1,9 @@
+﻿  Address.cpp
+  CrewMember.cpp
+  FlightCompany.cpp
+  FlightInfo.cpp
+  main.cpp
+c:\users\elads\onedrive\desktop\c++\project\project\project\main.cpp(14): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  Plane.cpp
+  Generating Code...
+  Project.vcxproj -> C:\Users\elads\OneDrive\Desktop\c++\Project\Project\Debug\Project.exe
