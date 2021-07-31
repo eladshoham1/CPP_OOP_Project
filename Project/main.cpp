@@ -10,7 +10,7 @@ using namespace std;
 #include "Address.h"
 
 
-void main()
+int main()
 {
 
 	cout << endl << "Checking CFlightCompany" << endl;
@@ -108,4 +108,5 @@ void main()
 		cout << "*****  NOT EQUALS *****" << endl;
 
 	system("pause");
+	return 0;
 }

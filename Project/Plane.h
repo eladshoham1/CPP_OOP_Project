@@ -2,12 +2,13 @@
 class CPlane
 {
 private:
+	static int generateNumber;
 	int id;
 	char* model;
 	int numOfChairs;
 
 public:
-	CPlane(int id, int numOfChairs, const char* model);
+	CPlane(int numOfChairs, const char* model);
 	CPlane(const CPlane& cPlane);
 	~CPlane();
 
@@ -17,4 +18,9 @@ public:
 
 	void print(ostream& out) const;
 	bool isEqual(const CPlane& cPlane);
+
+	const CPlane& operator=(const CPlane& other);
+	friend ostream& operator<<(ostream& os, const CPlane& cPlane);
+	const CPlane& operator++();
+	CPlane operator++(int);
 };

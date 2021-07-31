@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="Address.cpp" />
     <ClCompile Include="CrewMember.cpp" />
+    <ClCompile Include="Flight.cpp" />
     <ClCompile Include="FlightCompany.cpp" />
     <ClCompile Include="FlightInfo.cpp" />
     <ClCompile Include="main.cpp" />
@@ -133,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="Address.h" />
     <ClInclude Include="CrewMember.h" />
+    <ClInclude Include="Flight.h" />
     <ClInclude Include="FlightCompany.h" />
     <ClInclude Include="FlightInfo.h" />
     <ClInclude Include="Plane.h" />

@@ -4,9 +4,11 @@ using namespace std;
 
 #include "Plane.h"
 
-CPlane::CPlane(int id, int numOfChairs, const char* model)
+int CPlane::generateNumber = 100;
+
+CPlane::CPlane(int numOfChairs, const char* model)
 {
-	this->id = id;
+	this->id = CPlane::generateNumber++;
 	this->numOfChairs = numOfChairs;
 	this->model = _strdup(model);
 }
@@ -47,4 +49,34 @@ void CPlane::print(ostream& out) const
 bool CPlane::isEqual(const CPlane& cPlane)
 {
 	return this->id == cPlane.id;
+}
+
+const CPlane& CPlane::operator=(const CPlane& other)
+{
+	if (this != &other)
+	{
+		this->id = other.id;
+		delete[] this->model;
+		this->model = _strdup(other.model);
+		this->numOfChairs = other.numOfChairs;
+	}
+
+	return *this;
+}
+
+ostream& operator<<(ostream& os, const CPlane& cPlane)
+{
+	os << "Plane " << cPlane.id << " model " << cPlane.model << " seats " << cPlane.numOfChairs << endl;
+	return os;
+}
+
+const CPlane& CPlane::operator++()
+{
+	this->numOfChairs++;
+	return *this;
+}
+
+CPlane CPlane::operator++(int)
+{
+	return CPlane(this->numOfChairs++, this->model);
 }

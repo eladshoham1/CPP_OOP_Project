@@ -33,3 +33,14 @@ void CFlightCompany::print(ostream& out) const
 {
 	out << "Flight company: " << this->name << endl;
 }
+
+const CFlightCompany& CFlightCompany::operator=(const CFlightCompany& other)
+{
+	if (this != &other)
+	{
+		delete[] this->name;
+		this->name = _strdup(other.name);
+	}
+
+	return *this;
+}
