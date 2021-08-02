@@ -8,6 +8,7 @@ using namespace std;
 #include "CrewMember.h"
 #include "Flight.h"
 #include "Address.h"
+#include "Address.h"
 #include "FlightCompany.h"
 
 
@@ -35,7 +36,7 @@ int main()
 		cout << "error update minutes" << endl;
 
 	for (int i = 0; i < 3; i++)
-		if (!pDelta->AddCrewMember(*pCmArr[i]))
+		if (!pDelta->addCrewMember(*pCmArr[i]))
 			cout << "Problem adding crew member " << i + 1 << endl;
 
 	cout << "******** try adding CrewMembers again *********" << endl;
@@ -45,7 +46,7 @@ int main()
 		crewsDup[i] = new CCrewMember(*pCmArr[i]);
 
 	for (int i = 0; i < 3; i++) {
-		if (!pDelta->AddCrewMember(*pCmArr[i]))
+		if (!pDelta->addCrewMember(*pCmArr[i]))
 			cout << "Problem adding crew member " << i + 1 << endl;
 	}
 
@@ -74,7 +75,7 @@ int main()
 	cout << *pPlaneArr[1];
 
 	for (int i = 0; i < 2; i++)
-		if (!pDelta->AddPlane(*pPlaneArr[i]))
+		if (!pDelta->addPlane(*pPlaneArr[i]))
 			cout << "Problem adding plane " << i + 1 << endl;
 
 	for (int i = 0; i < 2; i++)
@@ -98,17 +99,17 @@ int main()
 
 	Flight* FArr[2];
 	FArr[0] = new Flight(fInfo1);
-	FArr[1] = new Flight(fInfo2, pDelta->GetPlane(1));
+	FArr[1] = new Flight(fInfo2, pDelta->getPlane(1));
 
 	cout << "Before seting plane" << endl;
 	cout << *FArr[0];
-	FArr[0]->setPlane(pDelta->GetPlane(0));
+	FArr[0]->setPlane(pDelta->getPlane(0));
 
 	cout << "After seting plane " << endl;
 	cout << *FArr[0];
 
 	for (int i = 0; i < 2; i++)
-		if (!pDelta->AddFlight(*FArr[i]))
+		if (!pDelta->addFlight(*FArr[i]))
 			cout << "Problem adding flight " << i + 1 << endl;
 
 	for (int i = 0; i < 2; i++)
@@ -118,9 +119,9 @@ int main()
 	pDelta->print(cout);
 
 
-	pDelta->AddCrewToFlight(fInfo1.GetFNum(), CCrewMember::START_ID);
-	pDelta->AddCrewToFlight(fInfo1.GetFNum(), CCrewMember::START_ID + 1);
-	pDelta->AddCrewToFlight(fInfo1.GetFNum(), CCrewMember::START_ID + 2);
+	pDelta->addCrewToFlight(fInfo1.getFNum(), CCrewMember::START_ID);
+	pDelta->addCrewToFlight(fInfo1.getFNum(), CCrewMember::START_ID + 1);
+	pDelta->addCrewToFlight(fInfo1.getFNum(), CCrewMember::START_ID + 2);
 
 	cout << "******** After adding Crew to Flight *********" << endl;
 	pDelta->print(cout);

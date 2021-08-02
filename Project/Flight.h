@@ -9,17 +9,18 @@ private:
 	static constexpr int MAX_CREW = 10;
 	CFlightInfo flightInfo;
 	CPlane* plane;
-	CCrewMember* crewMembers;
+	CCrewMember** crewMembers;
 	int currentCrew;
 
 public:
 	Flight(CFlightInfo flightInfo, CPlane* plane=nullptr);
-	Flight(const Flight& flight);
+	Flight(const Flight& cFlight);
 	~Flight();
 
 	void setPlane(CPlane* plane);
-	friend Flight operator+(const CCrewMember& cCrewMember);
-	friend ostream& operator<<(ostream& os, const Flight& cAddress);
+	friend Flight operator+(const Flight& theFlight, CCrewMember& cCrewMember);
+	friend Flight operator+(CCrewMember& cCrewMember, const Flight& theFlight);
+	friend ostream& operator<<(ostream& os, const Flight& cFlight);
 	bool operator==(const Flight& other) const;
 };
 
