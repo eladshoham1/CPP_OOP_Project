@@ -14,7 +14,6 @@ public:
 	char* getStreet();
 	int getHomeNumber();
 
-	void print(ostream& out) const;
 	void updateAddress(const char* city, const char* street, int homeNumber);
 	
 	const CAddress& operator=(const CAddress& other);

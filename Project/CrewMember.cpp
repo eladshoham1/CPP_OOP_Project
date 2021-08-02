@@ -4,11 +4,11 @@ using namespace std;
 
 #include "CrewMember.h"
 
-int CCrewMember::generateNumber = 1000;
+int CCrewMember::START_ID = 1000;
 
 CCrewMember::CCrewMember(const char* name, int flyMinutes)
 {
-	this->workerId = CCrewMember::generateNumber++;
+	this->workerId = CCrewMember::START_ID++;
 	setName(name);
 	this->flyMinutes = flyMinutes;
 }
@@ -23,6 +23,11 @@ CCrewMember::CCrewMember(const CCrewMember& cCrewMember)
 CCrewMember::~CCrewMember()
 {
 	delete[] this->name;
+}
+
+int CCrewMember::getWorkerId() const
+{
+	return this->workerId;
 }
 
 char* CCrewMember::getName()
@@ -62,14 +67,13 @@ const CCrewMember& CCrewMember::operator=(const CCrewMember& other)
 	return *this;
 }
 
-const CCrewMember& CCrewMember::operator+=(int minutes)
+bool CCrewMember::operator+=(int minutes)
 {
 	if (this->flyMinutes + minutes < 0)
-		this->flyMinutes = 0;
-	else
-		this->flyMinutes += minutes;
+		return false;
 
-	return *this;
+	this->flyMinutes += minutes;
+	return true;
 }
 
 bool CCrewMember::operator==(const CCrewMember& other) const

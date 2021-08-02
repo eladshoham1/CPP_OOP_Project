@@ -6,22 +6,22 @@ using namespace std;
 
 #include "FlightInfo.h"
 
-CFlightInfo::CFlightInfo(const char dest[], int flightNum, int flightMinutes, int destiny)
+CFlightInfo::CFlightInfo(const char dest[], int fNum, int flightMinutes, int destiny)
 {
 	setDest(dest);
-	this->flightNum = flightNum;
+	this->fNum = fNum;
 	this->flightMinutes = flightMinutes;
 	this->destiny = destiny;
 }
 
-int CFlightInfo::getFlightNum()
+int CFlightInfo::getFNum() const
 {
-	return this->flightNum;
+	return this->fNum;
 }
 
-void CFlightInfo::setFlightNum(int flightNum)
+void CFlightInfo::setFNum(int fNum)
 {
-	this->flightNum = flightNum;
+	this->fNum = fNum;
 }
 
 char* CFlightInfo::getDest()
@@ -56,12 +56,12 @@ void CFlightInfo::setDestiny(int destiny)
 
 bool CFlightInfo::isEqual(const CFlightInfo& cFlightInfo)
 {
-	return this->flightNum == cFlightInfo.flightNum;
+	return this->fNum == cFlightInfo.fNum;
 }
 
 void CFlightInfo::print(ostream& out) const
 {
-	out << "Flight Info dest: " << this->dest << " Number " << this->flightNum << 
+	out << "Flight Info dest: " << this->dest << " Number " << this->fNum <<
 		" minutes " << this->flightMinutes << " KM " << this->destiny << endl;
 }
 
@@ -70,7 +70,7 @@ const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other)
 {
 	if (this != &other)
 	{
-		this->flightNum = other.flightNum;
+		this->fNum = other.fNum;
 		strcpy(this->dest, other.dest);
 		this->flightMinutes = other.flightMinutes;
 		this->destiny = other.destiny;
@@ -81,14 +81,14 @@ const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other)
 
 ostream& operator<<(ostream& os, const CFlightInfo& cFlightInfo)
 {
-	os << "Flight Info dest: " << cFlightInfo.dest << " Number " << cFlightInfo.flightNum <<
+	os << "Flight Info dest: " << cFlightInfo.dest << " Number " << cFlightInfo.fNum <<
 		" minutes " << cFlightInfo.flightMinutes << " KM " << cFlightInfo.destiny << endl;
 	return os;
 }
 
 bool CFlightInfo::operator!=(const CFlightInfo& other) const
 {
-	return this->flightNum != other.flightNum ||
+	return this->fNum != other.fNum ||
 		strcmp(this->dest, other.dest) != 0 ||
 		this->flightMinutes != other.flightMinutes ||
 		this->destiny != other.destiny;

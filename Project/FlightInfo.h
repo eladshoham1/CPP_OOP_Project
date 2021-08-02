@@ -5,16 +5,16 @@
 class CFlightInfo
 {
 private:
-	int flightNum;
+	int fNum;
 	char dest[MAX];
 	int flightMinutes;
 	int destiny;
 
 public:
-	CFlightInfo(const char dest[], int flightNum, int flightMinutes, int destiny);
+	CFlightInfo(const char dest[], int fNum, int flightMinutes, int destiny);
 
-	int getFlightNum();
-	void setFlightNum(int flightNum);
+	int getFNum() const;
+	void setFNum(int fNum);
 	char* getDest();
 	void setDest(const char dest[]);
 	int getFlightMinutes();

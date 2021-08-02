@@ -17,6 +17,8 @@ public:
 	Flight(const Flight& cFlight);
 	~Flight();
 
+	const CFlightInfo& getFlightInfo();
+	int getCurrentCrew() const;
 	void setPlane(CPlane* plane);
 	friend Flight operator+(const Flight& theFlight, CCrewMember& cCrewMember);
 	friend Flight operator+(CCrewMember& cCrewMember, const Flight& theFlight);

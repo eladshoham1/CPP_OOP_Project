@@ -61,7 +61,8 @@ ostream& operator<<(ostream& os, const CAddress& cAddress)
 
 istream& operator>>(istream& in, CAddress& cAddress)
 {
-	in >> cAddress.street >> cAddress.homeNumber >> cAddress.city;
+	cout << "Please enter house number street name and city name:" << endl;
+	in >> cAddress.homeNumber >> cAddress.street >> cAddress.city;
 	return in;
 }
 

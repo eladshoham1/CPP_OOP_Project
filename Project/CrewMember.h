@@ -1,8 +1,9 @@
 #pragma once
 class CCrewMember
 {
+public:
+	static int START_ID;
 private:
-	static int generateNumber;
 	int workerId;
 	char* name;
 	int flyMinutes;
@@ -12,6 +13,7 @@ public:
 	CCrewMember(const CCrewMember& cCrewMember);
 	~CCrewMember();
 
+	int getWorkerId() const;
 	char* getName();
 	void setName(const char* name);
 	int getFlyMinutes();
@@ -20,7 +22,7 @@ public:
 	bool isEqual(const CCrewMember& cCrewMember);
 
 	const CCrewMember& operator=(const CCrewMember& other);
-	const CCrewMember& operator+=(int minutes);
+	bool operator+=(int minutes);
 	bool operator==(const CCrewMember& other) const;
 };
 

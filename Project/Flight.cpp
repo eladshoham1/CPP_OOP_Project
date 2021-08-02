@@ -9,6 +9,7 @@ Flight::Flight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 {
 	this->plane = plane;
 	this->crewMembers = new CCrewMember*[Flight::MAX_CREW];
+	this->crewMembers = 0;
 }
 
 Flight::Flight(const Flight& cFlight) : flightInfo(cFlight.flightInfo)
@@ -22,6 +23,16 @@ Flight::~Flight()
 {
 	delete this->plane;
 	delete[] this->crewMembers;
+}
+
+const CFlightInfo& Flight::getFlightInfo()
+{
+	return this->flightInfo;
+}
+
+int Flight::getCurrentCrew() const
+{
+	return this->currentCrew;
 }
 
 void Flight::setPlane(CPlane* plane)
