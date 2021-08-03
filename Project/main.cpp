@@ -15,7 +15,7 @@ using namespace std;
 int main()
 {
 	cout << endl << "Checking Address" << endl;
-	CAddress a(0, NULL, NULL);
+	CAddress a(0, NULL,NULL);
 	cin >> a;
 	cout << a;
 

@@ -6,9 +6,7 @@ using namespace std;
 
 CAddress::CAddress(int homeNumber, const char* street, const char* city)
 {
-	this->homeNumber = homeNumber;
-	this->street = _strdup(street);
-	this->city = _strdup(city);
+	updateAddress(city, street, homeNumber);
 }
 
 CAddress::~CAddress()
@@ -34,6 +32,10 @@ int CAddress::getHomeNumber()
 
 void CAddress::updateAddress(const char* city, const char* street, int homeNumber)
 {
+	if (street == NULL)
+		street = "";
+	if (city == NULL)
+		city = "";
 	this->city = _strdup(city);
 	this->street = _strdup(street);
 	this->homeNumber = homeNumber;
@@ -55,7 +57,7 @@ const CAddress& CAddress::operator=(const CAddress& other)
 
 ostream& operator<<(ostream& os, const CAddress& cAddress)
 {
-	os << cAddress.street << " " << cAddress.homeNumber << ", " << cAddress.city << endl;
+	os << cAddress.street << " " << cAddress.homeNumber << " " << cAddress.city << endl;
 	return os;
 }
 

@@ -9,7 +9,7 @@ Flight::Flight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 {
 	this->plane = plane;
 	this->crewMembers = new CCrewMember*[Flight::MAX_CREW];
-	this->crewMembers = 0;
+	this->currentCrew = 0;
 }
 
 Flight::Flight(const Flight& cFlight) : flightInfo(cFlight.flightInfo)
@@ -22,6 +22,8 @@ Flight::Flight(const Flight& cFlight) : flightInfo(cFlight.flightInfo)
 Flight::~Flight()
 {
 	delete this->plane;
+	for (int i = 0; i < currentCrew; i++)
+		delete crewMembers[i];
 	delete[] this->crewMembers;
 }
 
@@ -64,7 +66,12 @@ Flight operator+(CCrewMember& cCrewMember, const Flight& theFlight)
 
 ostream& operator<<(ostream& os, const Flight& cFlight)
 {
-	os << "Flight " << cFlight.flightInfo << cFlight.plane << endl << "There are " << cFlight.currentCrew << "crew members in flight:";
+	os << "Flight " << cFlight.flightInfo;
+	if (cFlight.plane)
+		os << *cFlight.plane << " ";
+	else
+		os << "No plane assign yet ";
+	os<< "There are " << cFlight.currentCrew << " crew members in flight:"<<endl;
 
 	for (int i = 0; i < cFlight.currentCrew; i++)
 		os << cFlight.crewMembers[i] << endl;

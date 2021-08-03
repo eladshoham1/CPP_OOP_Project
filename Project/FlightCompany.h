@@ -10,9 +10,9 @@ private:
 	static constexpr int MAX_PLANES = 10;
 	static constexpr int MAX_FLIGHT = 10;
 	char* name;
-	CCrewMember* crewMembers;
-	CPlane* planes;
-	Flight* flights;
+	CCrewMember** crewMembers;
+	CPlane** planes;
+	Flight** flights;
 	int currentCrew;
 	int currentPlanes;
 	int currentFlights;
@@ -34,6 +34,6 @@ public:
 	CCrewMember* getCrewMember(int workerId);
 	const Flight* getFlight(int fNum);
 	void addCrewToFlight(int fNum, int workerId);
-	CPlane* getPlane(int id);
+	CPlane* getPlane(int index);
 };
 
