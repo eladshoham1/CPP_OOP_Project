@@ -7,14 +7,16 @@ using namespace std;
 
 Flight::Flight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 {
-	this->plane = plane;
+	if(plane != nullptr)
+		this->plane = new CPlane(*plane);
 	this->crewMembers = new CCrewMember*[Flight::MAX_CREW];
 	this->currentCrew = 0;
 }
 
 Flight::Flight(const Flight& cFlight) : flightInfo(cFlight.flightInfo)
 {
-	this->plane = cFlight.plane;
+	if (cFlight.plane != nullptr)
+		this->plane = new CPlane(*cFlight.plane);
 	this->crewMembers = cFlight.crewMembers;
 	this->currentCrew = cFlight.currentCrew;
 }
@@ -54,7 +56,7 @@ Flight operator+(const Flight& theFlight, CCrewMember& newCrewMember)
 	}
 
 	Flight temp(theFlight);
-	temp.crewMembers[temp.currentCrew++] = &newCrewMember;
+	temp.crewMembers[temp.currentCrew++] = new CCrewMember(newCrewMember);
 
 	return temp;
 }

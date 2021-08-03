@@ -2,7 +2,8 @@
 class CCrewMember
 {
 public:
-	static int START_ID;
+	static int generateID;
+	static constexpr int START_ID = 1000;
 private:
 	int workerId;
 	char* name;

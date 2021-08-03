@@ -4,11 +4,11 @@ using namespace std;
 
 #include "CrewMember.h"
 
-int CCrewMember::START_ID = 1000;
+int CCrewMember::generateID = START_ID;
 
 CCrewMember::CCrewMember(const char* name, int flyMinutes)
 {
-	this->workerId = CCrewMember::START_ID++;
+	this->workerId = CCrewMember::generateID++;
 	setName(name);
 	this->flyMinutes = flyMinutes;
 }
