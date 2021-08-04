@@ -12,6 +12,7 @@ private:
 public:
 	CCrewMember(const char* name, int flyMinutes = 0);
 	CCrewMember(const CCrewMember& cCrewMember);
+	CCrewMember(CCrewMember&& cCrewMember);
 	~CCrewMember();
 
 	int getWorkerId() const;

@@ -97,27 +97,26 @@ int main()
 
 	cout << "Flight time is: " << (int)fInfo1;
 
-	Flight* FArr[2];
-	FArr[0] = new Flight(fInfo1);
-	FArr[1] = new Flight(fInfo2, pDelta->getPlane(1));
+	Flight* fArr[2];
+	fArr[0] = new Flight(fInfo1);
+	fArr[1] = new Flight(fInfo2, pDelta->getPlane(1));
 
 	cout << "Before seting plane" << endl;
-	cout << *FArr[0];
-	FArr[0]->setPlane(pDelta->getPlane(0));
+	cout << *fArr[0];
+	fArr[0]->setPlane(pDelta->getPlane(0));
 
 	cout << "After seting plane " << endl;
-	cout << *FArr[0];
+	cout << *fArr[0];
 
 	for (int i = 0; i < 2; i++)
-		if (!pDelta->addFlight(*FArr[i]))
+		if (!pDelta->addFlight(*fArr[i]))
 			cout << "Problem adding flight " << i + 1 << endl;
 
 	for (int i = 0; i < 2; i++)
-		delete FArr[i];
+		delete fArr[i];
 
 	cout << "******** After adding Flights *********" << endl;
 	pDelta->print(cout);
-
 
 	pDelta->addCrewToFlight(fInfo1.getFNum(), CCrewMember::START_ID);
 	pDelta->addCrewToFlight(fInfo1.getFNum(), CCrewMember::START_ID + 1);
@@ -125,7 +124,6 @@ int main()
 
 	cout << "******** After adding Crew to Flight *********" << endl;
 	pDelta->print(cout);
-
 
 	delete pDelta;
 

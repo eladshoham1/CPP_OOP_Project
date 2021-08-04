@@ -31,8 +31,8 @@ public:
 	bool addCrewMember(const CCrewMember& pCmArr);
 	bool addPlane(const CPlane& pPlaneArr);
 	bool addFlight(const Flight& fArr);
-	CCrewMember* getCrewMember(int workerId);
-	const Flight* getFlight(int fNum);
+	CCrewMember getCrewMember(int workerId);
+	Flight getFlight(int fNum);
 	void addCrewToFlight(int fNum, int workerId);
 	CPlane* getPlane(int index);
 };

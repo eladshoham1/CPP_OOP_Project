@@ -15,13 +15,14 @@ private:
 public:
 	Flight(CFlightInfo flightInfo, CPlane* plane=nullptr);
 	Flight(const Flight& cFlight);
+	Flight(Flight&& cFlight);
 	~Flight();
 
 	const CFlightInfo& getFlightInfo();
 	int getCurrentCrew() const;
 	void setPlane(CPlane* plane);
-	friend Flight operator+(const Flight& theFlight, CCrewMember& cCrewMember);
-	friend Flight operator+(CCrewMember& cCrewMember, const Flight& theFlight);
+	friend Flight operator+(Flight& theFlight, CCrewMember& cCrewMember);
+	friend Flight operator+(CCrewMember& cCrewMember, Flight& theFlight);
 	friend ostream& operator<<(ostream& os, const Flight& cFlight);
 	bool operator==(const Flight& other) const;
 };

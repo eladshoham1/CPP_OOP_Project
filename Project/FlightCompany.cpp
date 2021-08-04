@@ -61,7 +61,7 @@ void CFlightCompany::print(ostream& out) const
 		planes[i]->print(out);
 	out << "There are " << currentFlights << " Flights: " << endl;
 	for (int i = 0; i < currentFlights; i++)
-		out << flights[i];
+		out << *flights[i];
 }
 
 const CFlightCompany& CFlightCompany::operator=(const CFlightCompany& other)
@@ -120,32 +120,35 @@ bool CFlightCompany::addFlight(const Flight& fArr)// rename without arr
 	return true;
 }
 
-CCrewMember* CFlightCompany::getCrewMember(int workerId)
+CCrewMember CFlightCompany::getCrewMember(int workerId)
 {
 	for (int i = 0; i < this->currentCrew; i++)
 	{
 		if (this->crewMembers[i]->getWorkerId() == workerId)
-			return new CCrewMember(*this->crewMembers[i]);
+			return CCrewMember(*this->crewMembers[i]);
 	}
 
 	return nullptr;
 }
 
-const Flight* CFlightCompany::getFlight(int fNum)
+Flight CFlightCompany::getFlight(int fNum)
 {
+	Flight* temp = nullptr;
+
 	for (int i = 0; i < this->currentFlights; i++)
 	{
 		if (this->flights[i]->getFlightInfo().getFNum() == fNum)
-			return new Flight(*this->flights[i]);
+			return Flight(*this->flights[i]);
 	}
 
-	return nullptr;
+	return *temp;
 }
 
 void CFlightCompany::addCrewToFlight(int fNum, int workerId)
 {
-	const Flight& flight = *getFlight(fNum);
-	flight + *getCrewMember(workerId);
+	Flight flight = getFlight(fNum);
+	CCrewMember temp = getCrewMember(workerId);
+	flight + temp;
 }
 
 CPlane* CFlightCompany::getPlane(int index)

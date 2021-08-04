@@ -20,6 +20,14 @@ CCrewMember::CCrewMember(const CCrewMember& cCrewMember)
 	this->flyMinutes = cCrewMember.flyMinutes;
 }
 
+CCrewMember::CCrewMember(CCrewMember&& cCrewMember)
+{
+	this->workerId = cCrewMember.workerId;
+	setName(cCrewMember.name);
+	cCrewMember.name = nullptr;
+	this->flyMinutes = cCrewMember.flyMinutes;
+}
+
 CCrewMember::~CCrewMember()
 {
 	delete[] this->name;
