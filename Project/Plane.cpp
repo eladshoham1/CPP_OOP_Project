@@ -1,23 +1,20 @@
 #include <iostream>
-#include <string.h>
 using namespace std;
+#include <string.h>
 
 #include "Plane.h"
 
 int CPlane::generateNumber = 100;
 
-CPlane::CPlane(int numOfChairs, const char* model)
+CPlane::CPlane(int numOfChairs, const char* model) : numOfChairs(numOfChairs)
 {
 	this->id = CPlane::generateNumber++;
-	this->numOfChairs = numOfChairs;
-	this->model = _strdup(model);
+	setModel(model);
 }
 
 CPlane::CPlane(const CPlane& cPlane)
 {
-	this->id = cPlane.id;
-	this->numOfChairs = cPlane.numOfChairs;
-	this->model = _strdup(cPlane.model);
+	*this = cPlane;
 }
 
 CPlane::~CPlane()
@@ -25,25 +22,40 @@ CPlane::~CPlane()
 	delete[] this->model;
 }
 
-int CPlane::getId()
+int CPlane::getId() const
 {
 	return this->id;
 }
 
-
-char* CPlane::getModel()
+char* CPlane::getModel() const
 {
 	return this->model;
 }
 
-int CPlane::getNumOfChairs()
+int CPlane::getNumOfChairs() const
 {
 	return this->numOfChairs;
 }
 
+void CPlane::setId(int id)
+{
+	this->id = id;
+}
+
+void CPlane::setModel(const char* model)
+{
+	//delete[] this->model;
+	this->model = _strdup(model);
+}
+
+void CPlane::setNumOfChairs(int numOfChairs)
+{
+	this->numOfChairs = numOfChairs;
+}
+
 void CPlane::print(ostream& out) const
 {
-	out << "Plane " << this->id << " model " << this->model << " seats " << this->numOfChairs << endl;
+	out << *this;
 }
 
 bool CPlane::isEqual(const CPlane& cPlane)
@@ -55,10 +67,9 @@ const CPlane& CPlane::operator=(const CPlane& other)
 {
 	if (this != &other)
 	{
-		this->id = other.id;
-		delete[] this->model;
-		this->model = _strdup(other.model);
-		this->numOfChairs = other.numOfChairs;
+		setId(other.id);
+		setModel(other.model);
+		setNumOfChairs(other.numOfChairs);
 	}
 
 	return *this;

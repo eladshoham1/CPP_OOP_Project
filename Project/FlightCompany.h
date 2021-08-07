@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+using namespace std;
+
 #include "CrewMember.h"
 #include "Plane.h"
 #include "Flight.h"
@@ -19,10 +22,11 @@ private:
 
 public:
 	CFlightCompany(const char* name);
-	CFlightCompany(const CFlightCompany& cFlightCompany);
+	CFlightCompany(const CFlightCompany& cFlightCompany) = delete;
 	~CFlightCompany();
 
-	char* getName();
+	const char* getName() const;
+
 	void setName(const char* name);
 
 	void print(ostream& out) const;
@@ -31,9 +35,8 @@ public:
 	bool addCrewMember(const CCrewMember& pCmArr);
 	bool addPlane(const CPlane& pPlaneArr);
 	bool addFlight(const Flight& fArr);
-	CCrewMember getCrewMember(int workerId);
-	Flight getFlight(int fNum);
+	CCrewMember* getCrewMember(int workerId);
+	Flight* getFlight(int fNum);
 	void addCrewToFlight(int fNum, int workerId);
 	CPlane* getPlane(int index);
 };
-

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "FlightInfo.h"
 #include "Plane.h"
 #include "CrewMember.h"
@@ -13,17 +14,18 @@ private:
 	int currentCrew;
 
 public:
-	Flight(CFlightInfo flightInfo, CPlane* plane=nullptr);
+	Flight(CFlightInfo flightInfo, CPlane* plane = nullptr);
 	Flight(const Flight& cFlight);
-	Flight(Flight&& cFlight);
 	~Flight();
 
-	const CFlightInfo& getFlightInfo();
+	const CFlightInfo& getFlightInfo() const;
 	int getCurrentCrew() const;
+
 	void setPlane(CPlane* plane);
+
+	const Flight& operator=(const Flight& other);
 	friend Flight operator+(Flight& theFlight, CCrewMember& cCrewMember);
 	friend Flight operator+(CCrewMember& cCrewMember, Flight& theFlight);
 	friend ostream& operator<<(ostream& os, const Flight& cFlight);
 	bool operator==(const Flight& other) const;
 };
-

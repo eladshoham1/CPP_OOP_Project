@@ -1,6 +1,6 @@
 #include <iostream>
-#include <string.h>
 using namespace std;
+#include <string.h>
 
 #include "Address.h"
 
@@ -9,48 +9,66 @@ CAddress::CAddress(int homeNumber, const char* street, const char* city)
 	updateAddress(city, street, homeNumber);
 }
 
+CAddress::CAddress(const CAddress& cAddress)
+{
+	*this = cAddress;
+}
+
 CAddress::~CAddress()
 {
 	delete[] this->street;
 	delete[] this->city;
 }
 
-char* CAddress::getCity()
+char* CAddress::getCity() const
 {
 	return this->city;
 }
 
-char* CAddress::getStreet()
+char* CAddress::getStreet() const
 {
 	return this->street;
 }
 
-int CAddress::getHomeNumber()
+int CAddress::getHomeNumber() const
 {
 	return this->homeNumber;
 }
 
-void CAddress::updateAddress(const char* city, const char* street, int homeNumber)
+void CAddress::setCity(const char* city)
+{
+	if (city == NULL)
+		city = "";
+
+	delete[] this->city;
+	this->city = _strdup(city);
+}
+
+void CAddress::setStreet(const char* street)
 {
 	if (street == NULL)
 		street = "";
-	if (city == NULL)
-		city = "";
-	this->city = _strdup(city);
+
+	delete[] this->street;
 	this->street = _strdup(street);
+}
+
+void CAddress::setHomeNumber(int homeNumber)
+{
 	this->homeNumber = homeNumber;
+}
+
+void CAddress::updateAddress(const char* city, const char* street, int homeNumber)
+{
+	setCity(city);
+	setStreet(street);
+	setHomeNumber(homeNumber);
 }
 
 const CAddress& CAddress::operator=(const CAddress& other)
 {
 	if (this != &other)
-	{
-		this->homeNumber = other.homeNumber;
-		delete[] this->street;
-		this->street = _strdup(other.street);
-		delete[] this->city;
-		this->city = _strdup(other.city);
-	}
+		updateAddress(other.city, other.street, other.homeNumber);
 
 	return *this;
 }
@@ -80,7 +98,7 @@ bool CAddress::operator!=(const CAddress& other) const
 	return !(*this == other);
 }
 
-const CAddress& CAddress::getCurrentAddress()
+const CAddress& CAddress::getCurrentAddress() const
 {
 	return *this;
 }

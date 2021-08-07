@@ -1,4 +1,5 @@
 #pragma once
+
 class CCrewMember
 {
 public:
@@ -8,23 +9,25 @@ private:
 	int workerId;
 	char* name;
 	int flyMinutes;
-	
+
 public:
 	CCrewMember(const char* name, int flyMinutes = 0);
 	CCrewMember(const CCrewMember& cCrewMember);
-	CCrewMember(CCrewMember&& cCrewMember);
 	~CCrewMember();
 
 	int getWorkerId() const;
-	char* getName();
+	const char* getName() const;
+	int getFlyMinutes() const;
+
+	void setWorkerId(int workerId);
 	void setName(const char* name);
-	int getFlyMinutes();
+	void setFlyMinutes(int flyMinutes);
 
 	void print(ostream& out) const;
-	bool isEqual(const CCrewMember& cCrewMember);
+	bool isEqual(const CCrewMember& cCrewMember) const;
 
 	const CCrewMember& operator=(const CCrewMember& other);
 	bool operator+=(int minutes);
 	bool operator==(const CCrewMember& other) const;
+	friend ostream& operator<<(ostream& os, const CCrewMember& cCrewMember);
 };
-

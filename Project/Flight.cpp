@@ -1,49 +1,33 @@
 #include <iostream>
-#include <string.h>
 using namespace std;
+#include <string.h>
 
 #include "Flight.h"
-#include "CrewMember.h"
 
 Flight::Flight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 {
-	if(plane != nullptr)
-		this->plane = new CPlane(*plane);
-	else
-		this->plane = nullptr;
+	setPlane(plane);
 	this->crewMembers = new CCrewMember*[Flight::MAX_CREW];
 	this->currentCrew = 0;
 }
 
 Flight::Flight(const Flight& cFlight) : flightInfo(cFlight.flightInfo)
 {
-	if (cFlight.plane != nullptr)
-		this->plane = new CPlane(*cFlight.plane);
-	else
-		this->plane = nullptr;
-	this->crewMembers = cFlight.crewMembers;
-	this->currentCrew = cFlight.currentCrew;
-}
-
-Flight::Flight(Flight&& cFlight) : flightInfo(cFlight.flightInfo)
-{
-	this->plane = cFlight.plane;
-	cFlight.plane = nullptr;
-	this->crewMembers = cFlight.crewMembers;
-	cFlight.crewMembers = nullptr;
-	this->currentCrew = cFlight.currentCrew;
+	*this = cFlight;
 }
 
 Flight::~Flight()
 {
 	delete this->plane;
-	for (int i = 0; i < currentCrew; i++)
+
+	/*for (int i = 0; i < currentCrew; i++)
 		delete crewMembers[i];
+
 	if (this->crewMembers != nullptr)
-		delete[] this->crewMembers;
+		delete[] this->crewMembers;*/
 }
 
-const CFlightInfo& Flight::getFlightInfo()
+const CFlightInfo& Flight::getFlightInfo() const
 {
 	return this->flightInfo;
 }
@@ -55,7 +39,23 @@ int Flight::getCurrentCrew() const
 
 void Flight::setPlane(CPlane* plane)
 {
-	this->plane = plane;
+	if (plane != nullptr)
+		this->plane = new CPlane(*plane);
+	else
+		this->plane = nullptr;
+}
+
+const Flight& Flight::operator=(const Flight& other)
+{
+	if (this != &other)
+	{
+		this->flightInfo = other.flightInfo;
+		setPlane(other.plane);
+		this->crewMembers = other.crewMembers;
+		this->currentCrew = other.currentCrew;
+	}
+
+	return *this;
 }
 
 Flight operator+(Flight& theFlight, CCrewMember& newCrewMember)
@@ -82,13 +82,13 @@ ostream& operator<<(ostream& os, const Flight& cFlight)
 {
 	os << "Flight " << cFlight.flightInfo;
 	if (cFlight.plane)
-		os << *cFlight.plane << " ";
+		os << *cFlight.plane;
 	else
-		os << "No plane assign yet ";
-	os<< "There are " << cFlight.currentCrew << " crew members in flight:"<<endl;
+		os << "No plane assign yet";
+	os << " There are " << cFlight.currentCrew << " crew members in flight:" << endl;
 
 	for (int i = 0; i < cFlight.currentCrew; i++)
-		os << cFlight.crewMembers[i] << endl;
+		os << *cFlight.crewMembers[i];
 
 	return os;
 }

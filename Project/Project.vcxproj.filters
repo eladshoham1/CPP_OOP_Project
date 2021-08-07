@@ -30,10 +30,10 @@
     <ClCompile Include="FlightCompany.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Flight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Flight.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

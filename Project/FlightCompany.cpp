@@ -15,38 +15,31 @@ CFlightCompany::CFlightCompany(const char* name)
 	this->currentFlights = 0;
 }
 
-CFlightCompany::CFlightCompany(const CFlightCompany& cFlightCompany)
-{
-	setName(cFlightCompany.name);
-	this->planes = cFlightCompany.planes;
-	this->crewMembers = cFlightCompany.crewMembers;
-	this->flights = cFlightCompany.flights;
-	this->currentCrew = cFlightCompany.currentCrew;
-	this->currentPlanes = cFlightCompany.currentPlanes;
-	this->currentFlights = cFlightCompany.currentFlights;
-}
-
 CFlightCompany::~CFlightCompany()
 {
 	for (int i = 0; i < currentCrew; i++)
-		delete crewMembers[i];
-	delete[]crewMembers;
+		delete this->crewMembers[i];
+	delete[] this->crewMembers;
+
 	for (int i = 0; i < currentPlanes; i++)
-		delete planes[i];
-	delete[]planes;
+		delete this->planes[i];
+	delete[] this->planes;
+
 	for (int i = 0; i < currentFlights; i++)
-		delete flights[i];
-	delete[]flights;
+		delete this->flights[i];
+	delete[] this->flights;
+
 	delete[] this->name;
 }
 
-char* CFlightCompany::getName()
+const char* CFlightCompany::getName() const
 {
 	return this->name;
 }
 
 void CFlightCompany::setName(const char* name)
 {
+	delete[] this->name;
 	this->name = _strdup(name);
 }
 
@@ -90,65 +83,63 @@ bool CFlightCompany::addCrewMember(const CCrewMember& pCmArr)
 	return true;
 }
 
-bool CFlightCompany::addPlane(const CPlane& pPlaneArr) // rename without arr
+bool CFlightCompany::addPlane(const CPlane& pPlane)
 {
 	if (this->currentPlanes >= CFlightCompany::MAX_PLANES)
 		return false;
 
 	for (int i = 0; i < this->currentPlanes; i++)
 	{
-		if (this->planes[i]->isEqual(pPlaneArr))
+		if (this->planes[i]->isEqual(pPlane))
 			return false;
 	}
 
-	this->planes[this->currentPlanes++] = new CPlane(pPlaneArr);
+	this->planes[this->currentPlanes++] = new CPlane(pPlane);
 	return true;
 }
 
-bool CFlightCompany::addFlight(const Flight& fArr)// rename without arr
+bool CFlightCompany::addFlight(const Flight& flight)
 {
-	if (fArr.getCurrentCrew() != 0 || this->currentFlights >= CFlightCompany::MAX_FLIGHT)
+	if (flight.getCurrentCrew() != 0 || this->currentFlights >= CFlightCompany::MAX_FLIGHT)
 		return false;
 
 	for (int i = 0; i < this->currentFlights; i++)
 	{
-		if (this->flights[i] == &fArr)
+		if (this->flights[i] == &flight)
 			return false;
 	}
 
-	this->flights[this->currentFlights++] = new Flight(fArr);
+	this->flights[this->currentFlights++] = new Flight(flight);
 	return true;
 }
 
-CCrewMember CFlightCompany::getCrewMember(int workerId)
+CCrewMember* CFlightCompany::getCrewMember(int workerId)
 {
 	for (int i = 0; i < this->currentCrew; i++)
 	{
 		if (this->crewMembers[i]->getWorkerId() == workerId)
-			return CCrewMember(*this->crewMembers[i]);
+			return this->crewMembers[i];
 	}
 
 	return nullptr;
 }
 
-Flight CFlightCompany::getFlight(int fNum)
+Flight* CFlightCompany::getFlight(int fNum)
 {
-	Flight* temp = nullptr;
-
 	for (int i = 0; i < this->currentFlights; i++)
 	{
 		if (this->flights[i]->getFlightInfo().getFNum() == fNum)
-			return Flight(*this->flights[i]);
+			return this->flights[i];
 	}
 
-	return *temp;
+	return nullptr;
 }
 
 void CFlightCompany::addCrewToFlight(int fNum, int workerId)
 {
-	Flight flight = getFlight(fNum);
-	CCrewMember temp = getCrewMember(workerId);
-	flight + temp;
+	Flight* flight = getFlight(fNum);
+	CCrewMember* temp = getCrewMember(workerId);
+	*flight + *temp;
 }
 
 CPlane* CFlightCompany::getPlane(int index)

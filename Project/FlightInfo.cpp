@@ -1,8 +1,7 @@
-#define _CRT_SECURE_NO_DEPRECATE
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+using namespace std;
 #include <string.h>
-using namespace std; 
 
 #include "FlightInfo.h"
 
@@ -14,39 +13,44 @@ CFlightInfo::CFlightInfo(const char dest[], int fNum, int flightMinutes, int des
 	this->destiny = destiny;
 }
 
+CFlightInfo::CFlightInfo(const CFlightInfo& cFlightInfo)
+{
+	*this = cFlightInfo;
+}
+
 int CFlightInfo::getFNum() const
 {
 	return this->fNum;
 }
 
-void CFlightInfo::setFNum(int fNum)
-{
-	this->fNum = fNum;
-}
-
-char* CFlightInfo::getDest()
+const char* CFlightInfo::getDest() const
 {
 	return this->dest;
 }
 
-void CFlightInfo::setDest(const char dest[])
-{
-	strcpy(this->dest, dest);
-}
-
-int CFlightInfo::getFlightMinutes()
+int CFlightInfo::getFlightMinutes() const
 {
 	return this->flightMinutes;
+}
+
+int CFlightInfo::getDestiny() const
+{
+	return this->destiny;
+}
+
+void CFlightInfo::setFNum(int fNum) 
+{
+	this->fNum = fNum;
+}
+
+void CFlightInfo::setDest(const char* dest)
+{
+	strcpy(this->dest, dest);
 }
 
 void CFlightInfo::setFlightMinutes(int flightMinutes)
 {
 	this->flightMinutes = flightMinutes;
-}
-
-int CFlightInfo::getDestiny()
-{
-	return this->destiny;
 }
 
 void CFlightInfo::setDestiny(int destiny)
@@ -61,19 +65,17 @@ bool CFlightInfo::isEqual(const CFlightInfo& cFlightInfo)
 
 void CFlightInfo::print(ostream& out) const
 {
-	out << "Flight Info dest: " << this->dest << " Number " << this->fNum <<
-		" minutes " << this->flightMinutes << " KM " << this->destiny << endl;
+	out << this;
 }
-
 
 const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other)
 {
 	if (this != &other)
 	{
-		this->fNum = other.fNum;
-		strcpy(this->dest, other.dest);
-		this->flightMinutes = other.flightMinutes;
-		this->destiny = other.destiny;
+		setFNum(other.fNum);
+		setDest(other.dest);
+		setFlightMinutes(other.flightMinutes);
+		setDestiny(other.destiny);
 	}
 
 	return *this;
