@@ -19,12 +19,6 @@ Flight::Flight(const Flight& cFlight) : flightInfo(cFlight.flightInfo)
 Flight::~Flight()
 {
 	delete this->plane;
-
-	/*for (int i = 0; i < currentCrew; i++)
-		delete crewMembers[i];
-
-	if (this->crewMembers != nullptr)
-		delete[] this->crewMembers;*/
 }
 
 const CFlightInfo& Flight::getFlightInfo() const
