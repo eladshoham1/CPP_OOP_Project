@@ -3,6 +3,7 @@ using namespace std;
 #include <string.h>
 
 #include "Address.h"
+#include "FlightInfo.h"
 
 CAddress::CAddress(int homeNumber, const char* street, const char* city)
 {
@@ -37,18 +38,12 @@ int CAddress::getHomeNumber() const
 
 void CAddress::setCity(const char* city)
 {
-	if (city == NULL)
-		city = "";
-
 	delete[] this->city;
 	this->city = _strdup(city);
 }
 
 void CAddress::setStreet(const char* street)
 {
-	if (street == NULL)
-		street = "";
-
 	delete[] this->street;
 	this->street = _strdup(street);
 }
@@ -81,6 +76,11 @@ ostream& operator<<(ostream& os, const CAddress& cAddress)
 
 istream& operator>>(istream& in, CAddress& cAddress)
 {
+	delete[] cAddress.street;
+	delete[] cAddress.city;
+	cAddress.street = new char[MAX];
+	cAddress.city = new char[MAX];
+
 	cout << "Please enter house number street name and city name:" << endl;
 	in >> cAddress.homeNumber >> cAddress.street >> cAddress.city;
 	return in;
