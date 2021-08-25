@@ -9,7 +9,7 @@ CFlightCompany::CFlightCompany(const char* name)
 	setName(name);
 	this->crewMembers = new CCrewMember*[MAX_CREWS];
 	this->planes = new CPlane*[MAX_PLANES];
-	this->flights = new Flight*[MAX_FLIGHT];
+	this->flights = new CFlight*[MAX_FLIGHT];
 	this->currentCrew = 0;
 	this->currentPlanes = 0;
 	this->currentFlights = 0;
@@ -98,7 +98,7 @@ bool CFlightCompany::addPlane(const CPlane& pPlane)
 	return true;
 }
 
-bool CFlightCompany::addFlight(const Flight& flight)
+bool CFlightCompany::addFlight(const CFlight& flight)
 {
 	if (flight.getCurrentCrew() != 0 || this->currentFlights >= CFlightCompany::MAX_FLIGHT)
 		return false;
@@ -109,22 +109,19 @@ bool CFlightCompany::addFlight(const Flight& flight)
 			return false;
 	}
 
-	this->flights[this->currentFlights++] = new Flight(flight);
+	this->flights[this->currentFlights++] = new CFlight(flight);
 	return true;
 }
 
-CCrewMember* CFlightCompany::getCrewMember(int workerId)
+CCrewMember* CFlightCompany::getCrewMember(int index)
 {
-	for (int i = 0; i < this->currentCrew; i++)
-	{
-		if (this->crewMembers[i]->getWorkerId() == workerId)
-			return this->crewMembers[i];
-	}
+	if (index >= this->currentCrew)
+		return nullptr;
 
-	return nullptr;
+	return this->crewMembers[index];
 }
 
-Flight* CFlightCompany::getFlight(int fNum)
+CFlight* CFlightCompany::getFlightByNum(int fNum)
 {
 	for (int i = 0; i < this->currentFlights; i++)
 	{
@@ -137,14 +134,65 @@ Flight* CFlightCompany::getFlight(int fNum)
 
 void CFlightCompany::addCrewToFlight(int fNum, int workerId)
 {
-	Flight* flight = getFlight(fNum);
+	CFlight* cFlight = getFlightByNum(fNum);
 	CCrewMember* temp = getCrewMember(workerId);
-	*flight + *temp;
+	*cFlight + temp;
 }
 
 CPlane* CFlightCompany::getPlane(int index)
 {
 	if (index < 0 || index >= currentPlanes)
 		return nullptr;
+
 	return new CPlane(*this->planes[index]);
+}
+
+int CFlightCompany::getCargoCount() const
+{
+	int cargoCount = 0;
+
+	for (int i = 0; i < this->currentPlanes; i++)
+	{
+		if (strcmp(typeid(this->planes[i]).name + 6, "CCargo") == 0)
+			cargoCount++;
+	}
+
+	return cargoCount;
+}
+
+void CFlightCompany::pilotsToSimulator() const
+{
+	CPilot *cPilot = nullptr;
+
+	for (int i = 0; i < this->currentCrew; i++)
+	{
+		cPilot = dynamic_cast<CPilot*>(this->crewMembers[i]);
+		if (cPilot)
+			cPilot->toSimulator();
+	}
+}
+
+void CFlightCompany::crewGetPresent() const
+{
+	for (int i = 0; i < this->currentCrew; i++)
+		this->crewMembers[i]->getPresent();
+}
+
+void CFlightCompany::crewGetUniform() const
+{
+	for (int i = 0; i < this->currentCrew; i++)
+		this->crewMembers[i]->getUniform();
+}
+
+bool CFlightCompany::takeOff(int fNum)
+{
+	CFlight *cFlight = this->getFlightByNum(fNum);
+	if (!cFlight)
+		return false;
+
+	if (!cFlight->takeOff())
+		return false;
+
+	CPlane cPlane = new CPlane();
+	//this->addPlane()
 }

@@ -2,29 +2,25 @@
 
 class CCrewMember
 {
-public:
-	static int generateID;
-	static constexpr int START_ID = 1000;
-private:
-	int workerId;
+protected:
 	char* name;
 	int flyMinutes;
 
 public:
 	CCrewMember(const char* name, int flyMinutes = 0);
 	CCrewMember(const CCrewMember& cCrewMember);
-	~CCrewMember();
-
-	int getWorkerId() const;
+	virtual ~CCrewMember();
 	const char* getName() const;
 	int getFlyMinutes() const;
 
-	void setWorkerId(int workerId);
 	void setName(const char* name);
-	void setFlyMinutes(int flyMinutes);
+	virtual void setFlyMinutes(int flyMinutes);
 
 	void print(ostream& out) const;
 	bool isEqual(const CCrewMember& cCrewMember) const;
+
+	virtual void getPresent() const;
+	virtual void getUniform() const = 0;
 
 	const CCrewMember& operator=(const CCrewMember& other);
 	bool operator+=(int minutes);

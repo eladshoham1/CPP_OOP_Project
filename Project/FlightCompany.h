@@ -5,6 +5,7 @@ using namespace std;
 #include "CrewMember.h"
 #include "Plane.h"
 #include "Flight.h"
+#include "Pilot.h"
 
 class CFlightCompany
 {
@@ -15,7 +16,7 @@ private:
 	char* name;
 	CCrewMember** crewMembers;
 	CPlane** planes;
-	Flight** flights;
+	CFlight** flights;
 	int currentCrew;
 	int currentPlanes;
 	int currentFlights;
@@ -34,9 +35,15 @@ public:
 	const CFlightCompany& operator=(const CFlightCompany& other);
 	bool addCrewMember(const CCrewMember& pCmArr);
 	bool addPlane(const CPlane& pPlaneArr);
-	bool addFlight(const Flight& fArr);
+	bool addFlight(const CFlight& fArr);
 	CCrewMember* getCrewMember(int workerId);
-	Flight* getFlight(int fNum);
+	CFlight* getFlightByNum(int fNum);
 	void addCrewToFlight(int fNum, int workerId);
 	CPlane* getPlane(int index);
+
+	int getCargoCount() const;
+	void pilotsToSimulator() const;
+	void crewGetPresent() const;
+	void crewGetUniform() const;
+	bool takeOff(int fNum);
 };

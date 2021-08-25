@@ -2,9 +2,10 @@
 
 #include "FlightInfo.h"
 #include "Plane.h"
+#include "Cargo.h"
 #include "CrewMember.h"
 
-class Flight
+class CFlight
 {
 private:
 	static constexpr int MAX_CREW = 10;
@@ -14,18 +15,20 @@ private:
 	int currentCrew;
 
 public:
-	Flight(CFlightInfo flightInfo, CPlane* plane = nullptr);
-	Flight(const Flight& cFlight);
-	~Flight();
+	CFlight(CFlightInfo flightInfo, CPlane* plane = nullptr);
+	CFlight(const CFlight& cFlight);
+	~CFlight();
 
 	const CFlightInfo& getFlightInfo() const;
 	int getCurrentCrew() const;
 
 	void setPlane(CPlane* plane);
 
-	const Flight& operator=(const Flight& other);
-	friend Flight operator+(Flight& theFlight, CCrewMember& cCrewMember);
-	friend Flight operator+(CCrewMember& cCrewMember, Flight& theFlight);
-	friend ostream& operator<<(ostream& os, const Flight& cFlight);
-	bool operator==(const Flight& other) const;
+	virtual bool takeOff() const;
+
+	const CFlight& operator=(const CFlight& other);
+	friend CFlight operator+(CFlight& theFlight, CCrewMember* cCrewMember);
+	friend CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight);
+	friend ostream& operator<<(ostream& os, const CFlight& cFlight);
+	bool operator==(const CFlight& other) const;
 };

@@ -2,7 +2,7 @@
 
 class CPlane
 {
-private:
+protected:
 	static int generateNumber;
 	int id;
 	char* model;

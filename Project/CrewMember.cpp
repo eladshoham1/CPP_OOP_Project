@@ -4,11 +4,8 @@ using namespace std;
 
 #include "CrewMember.h"
 
-int CCrewMember::generateID = START_ID;
-
 CCrewMember::CCrewMember(const char* name, int flyMinutes)
 {
-	this->workerId = CCrewMember::generateID++;
 	setName(name);
 	this->flyMinutes = flyMinutes;
 }
@@ -23,11 +20,6 @@ CCrewMember::~CCrewMember()
 	delete[] this->name;
 }
 
-int CCrewMember::getWorkerId() const
-{
-	return this->workerId;
-}
-
 const char* CCrewMember::getName() const
 {
 	return this->name;
@@ -36,11 +28,6 @@ const char* CCrewMember::getName() const
 int CCrewMember::getFlyMinutes() const
 {
 	return this->flyMinutes;
-}
-
-void CCrewMember::setWorkerId(int workerId)
-{
-	this->workerId = workerId;
 }
 
 void CCrewMember::setName(const char* name)
@@ -64,11 +51,15 @@ bool CCrewMember::isEqual(const CCrewMember& cCrewMember) const
 	return strcmp(this->name, cCrewMember.name) == 0;
 }
 
+void CCrewMember::getPresent() const
+{
+	cout << this->name << " thanking the company for receiving the holiday gift." << endl;
+}
+
 const CCrewMember& CCrewMember::operator=(const CCrewMember& other)
 {
 	if (this != &other)
 	{
-		setWorkerId(other.workerId);
 		setName(other.name);
 		setFlyMinutes(other.flyMinutes);
 	}
@@ -87,7 +78,7 @@ bool CCrewMember::operator+=(int minutes)
 
 bool CCrewMember::operator==(const CCrewMember& other) const
 {
-	return this->workerId == other.workerId;
+	return strcmp(this->name, other.name) == 0;
 }
 
 ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)

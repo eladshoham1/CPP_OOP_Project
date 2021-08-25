@@ -4,34 +4,34 @@ using namespace std;
 
 #include "Flight.h"
 
-Flight::Flight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
+CFlight::CFlight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 {
 	setPlane(plane);
-	this->crewMembers = new CCrewMember*[Flight::MAX_CREW];
+	this->crewMembers = new CCrewMember*[CFlight::MAX_CREW];
 	this->currentCrew = 0;
 }
 
-Flight::Flight(const Flight& cFlight) : flightInfo(cFlight.flightInfo)
+CFlight::CFlight(const CFlight& cFlight) : flightInfo(cFlight.flightInfo)
 {
 	*this = cFlight;
 }
 
-Flight::~Flight()
+CFlight::~CFlight()
 {
 	delete this->plane;
 }
 
-const CFlightInfo& Flight::getFlightInfo() const
+const CFlightInfo& CFlight::getFlightInfo() const
 {
 	return this->flightInfo;
 }
 
-int Flight::getCurrentCrew() const
+int CFlight::getCurrentCrew() const
 {
 	return this->currentCrew;
 }
 
-void Flight::setPlane(CPlane* plane)
+void CFlight::setPlane(CPlane* plane)
 {
 	if (plane != nullptr)
 		this->plane = new CPlane(*plane);
@@ -39,7 +39,22 @@ void Flight::setPlane(CPlane* plane)
 		this->plane = nullptr;
 }
 
-const Flight& Flight::operator=(const Flight& other)
+bool CFlight::takeOff() const
+{
+	switch (typeid(this->plane).name)
+	{
+		case typeid(CPlane).name:
+
+			break;
+		case typeid(CCargo).name:
+
+			break;
+	}
+
+	return false;
+}
+
+const CFlight& CFlight::operator=(const CFlight& other)
 {
 	if (this != &other)
 	{
@@ -52,27 +67,27 @@ const Flight& Flight::operator=(const Flight& other)
 	return *this;
 }
 
-Flight operator+(Flight& theFlight, CCrewMember& newCrewMember)
+CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember)
 {
-	if (theFlight.currentCrew >= Flight::MAX_CREW)
+	if (theFlight.currentCrew >= CFlight::MAX_CREW)
 		return theFlight;
 
 	for (int i = 0; i < theFlight.currentCrew; i++)
 	{
-		if (theFlight.crewMembers[i] == &newCrewMember)
+		if (theFlight.crewMembers[i] == newCrewMember)
 			return theFlight;
 	}
 
-	theFlight.crewMembers[theFlight.currentCrew++] = &newCrewMember;
+	theFlight.crewMembers[theFlight.currentCrew++] = newCrewMember;
 	return theFlight;
 }
 
-Flight operator+(CCrewMember& cCrewMember, Flight& theFlight)
+CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight)
 {
 	return theFlight + cCrewMember;
 }
 
-ostream& operator<<(ostream& os, const Flight& cFlight)
+ostream& operator<<(ostream& os, const CFlight& cFlight)
 {
 	os << "Flight " << cFlight.flightInfo;
 	if (cFlight.plane)
@@ -87,7 +102,7 @@ ostream& operator<<(ostream& os, const Flight& cFlight)
 	return os;
 }
 
-bool Flight::operator==(const Flight& other) const
+bool CFlight::operator==(const CFlight& other) const
 {
 	return !(this->flightInfo != other.flightInfo);
 }
