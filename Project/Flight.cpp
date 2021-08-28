@@ -26,6 +26,11 @@ const CFlightInfo& CFlight::getFlightInfo() const
 	return this->flightInfo;
 }
 
+CPlane* CFlight::getPlane() const
+{
+	return this->plane;
+}
+
 int CFlight::getCurrentCrew() const
 {
 	return this->currentCrew;
@@ -39,19 +44,58 @@ void CFlight::setPlane(CPlane* plane)
 		this->plane = nullptr;
 }
 
-bool CFlight::takeOff() const
+bool CFlight::checkPlane() const
 {
-	switch (typeid(this->plane).name)
+	CHost *host = nullptr;
+	int isOnePilot = 0, isSuperHost = 0;
+
+	for (int i = 0; i < this->currentCrew; i++)
 	{
-		case typeid(CPlane).name:
+		if (typeid(this->crewMembers[i]) == typeid(CPilot))
+		{
+			if (isOnePilot == 1)
+				return false;
+			isOnePilot = 1;
+		}
+		else
+		{
+			host = dynamic_cast<CHost*>(this->crewMembers[i]);
+			if (host && host->getHostType() == CHost::eSuper)
+			{
+				if (isSuperHost == 1)
+					return false;
+				isSuperHost = 1;
+			}
+		}
+	}
 
-			break;
-		case typeid(CCargo).name:
+	return isOnePilot == 1;
+}
 
-			break;
+bool CFlight::checkCargo() const
+{
+	for (int i = 0; i < this->currentCrew; i++)
+	{
+		if (typeid(this->crewMembers[i]) == typeid(CPilot))
+			return true;
 	}
 
 	return false;
+}
+
+bool CFlight::takeOff()
+{
+	int minutes = this->flightInfo.getFlightMinutes();
+
+	if (!this->plane || (typeid(*this->plane) == typeid(CPlane) && !checkPlane()) ||
+		(typeid(*this->plane) == typeid(CCargo) && !checkCargo()))
+		return false;
+
+	for (int i = 0; i < this->currentCrew; i++)
+		this->crewMembers[i]->takeOff(minutes);
+	this->plane->takeOff(minutes);
+
+	return true;
 }
 
 const CFlight& CFlight::operator=(const CFlight& other)

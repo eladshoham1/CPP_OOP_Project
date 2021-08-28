@@ -56,6 +56,11 @@ void CCrewMember::getPresent() const
 	cout << this->name << " thanking the company for receiving the holiday gift." << endl;
 }
 
+void CCrewMember::takeOff(int minutes)
+{
+	this->flyMinutes += minutes;
+}
+
 const CCrewMember& CCrewMember::operator=(const CCrewMember& other)
 {
 	if (this != &other)
@@ -83,6 +88,7 @@ bool CCrewMember::operator==(const CCrewMember& other) const
 
 ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)
 {
-	os << "Crewmember " << cCrewMember.name << " minutes " << cCrewMember.flyMinutes << endl;
+	os << typeid(cCrewMember).name() + 7 << " ";
+	cCrewMember.toOs(os);
 	return os;
 }

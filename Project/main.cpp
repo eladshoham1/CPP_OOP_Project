@@ -8,7 +8,7 @@ using namespace std;
 #include "CrewMember.h"
 #include "Flight.h"
 #include "FlightCompany.h"
-#include "address.h"
+#include "Address.h"
 #include "Pilot.h"
 #include "Cargo.h"
 #include "Host.h"
@@ -58,8 +58,8 @@ int main()
 
 	cout << "********  *********" << endl;
 
-	for (int i = 0; i < CM_COUNT; i++)
-		delete cmArr[i];
+	//for (int i = 0; i < CM_COUNT; i++)
+		//delete cmArr[i];
 
 	CPlane* pArr[PLANE_COUNT];
 	pArr[0] = new CPlane(100, "Boing373"); //seats and degem

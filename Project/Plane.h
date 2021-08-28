@@ -21,9 +21,11 @@ public:
 	void setModel(const char* model);
 	void setNumOfChairs(int numOfChairs);
 
+	virtual void toOs(ostream& os) const { };
 	void print(ostream& out) const;
 	bool isEqual(const CPlane& cPlane);
-
+	virtual void takeOff(int minutes) const { };
+	
 	const CPlane& operator=(const CPlane& other);
 	friend ostream& operator<<(ostream& os, const CPlane& cPlane);
 	const CPlane& operator++();

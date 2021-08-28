@@ -33,7 +33,7 @@ public:
 	void print(ostream& out) const;
 
 	const CFlightCompany& operator=(const CFlightCompany& other);
-	bool addCrewMember(const CCrewMember& pCmArr);
+	bool addCrewMember(const CCrewMember& pCrewMember);
 	bool addPlane(const CPlane& pPlaneArr);
 	bool addFlight(const CFlight& fArr);
 	CCrewMember* getCrewMember(int workerId);

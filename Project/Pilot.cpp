@@ -32,11 +32,6 @@ void CPilot::setHomeAddress(CAddress *homeAddress)
 	this->homeAddress = homeAddress;
 }
 
-void CPilot::setFlyMinutes(int flyMinutes)
-{
-	CCrewMember::setFlyMinutes(this->isCaptain ? int(flyMinutes * 1.1f) : flyMinutes);
-}
-
 void CPilot::toSimulator() const
 {
 	cout << "Pilot " << this->name << " got the message will come soon" << endl;
@@ -44,5 +39,25 @@ void CPilot::toSimulator() const
 
 void CPilot::getUniform() const
 {
-	cout << this->name << " this is the fifth time I get a new uniform – this is a waste of money!" << endl;
+	cout << this->name << " this is the fifth time I get a new uniform, this is a waste of money!" << endl;
+}
+
+void CPilot::print(ostream& out) const
+{
+	out << *this;
+}
+
+void CPilot::toOs(ostream& os) const
+{
+	os << this->name << " minutes " << this->flyMinutes;
+	
+	if (this->homeAddress)
+		os << " Home " << *this->homeAddress;
+
+	os << (this->isCaptain ? " a Captain" : "Not a Captain") << endl;
+}
+
+bool CPilot::operator+=(int minutes)
+{
+	return CCrewMember::operator+=(this->isCaptain ? int(minutes * 1.1f) : minutes);
 }

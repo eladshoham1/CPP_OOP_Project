@@ -4,6 +4,8 @@
 #include "Plane.h"
 #include "Cargo.h"
 #include "CrewMember.h"
+#include "Pilot.h"
+#include "Host.h"
 
 class CFlight
 {
@@ -20,11 +22,14 @@ public:
 	~CFlight();
 
 	const CFlightInfo& getFlightInfo() const;
+	CPlane* getPlane() const;
 	int getCurrentCrew() const;
 
 	void setPlane(CPlane* plane);
 
-	virtual bool takeOff() const;
+	bool checkPlane() const;
+	bool checkCargo() const;
+	virtual bool takeOff();
 
 	const CFlight& operator=(const CFlight& other);
 	friend CFlight operator+(CFlight& theFlight, CCrewMember* cCrewMember);

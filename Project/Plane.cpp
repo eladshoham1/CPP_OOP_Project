@@ -44,7 +44,7 @@ void CPlane::setId(int id)
 
 void CPlane::setModel(const char* model)
 {
-	//delete[] this->model;
+	delete[] this->model;
 	this->model = _strdup(model);
 }
 
@@ -78,6 +78,7 @@ const CPlane& CPlane::operator=(const CPlane& other)
 ostream& operator<<(ostream& os, const CPlane& cPlane)
 {
 	os << "Plane " << cPlane.id << " model " << cPlane.model << " seats " << cPlane.numOfChairs << endl;
+	cPlane.toOs(os);
 	return os;
 }
 

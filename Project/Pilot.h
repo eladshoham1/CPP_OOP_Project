@@ -16,9 +16,12 @@ public:
 
 	void setIsCaptain(bool isCaptain);
 	void setHomeAddress(CAddress *homeAddress);
-	virtual void setFlyMinutes(int flyMinutes);
 
 	void toSimulator() const;
 	virtual void getUniform() const override;
+	virtual void print(ostream& out) const override;
+	virtual void toOs(ostream& os) const override;
+
+	virtual bool operator+=(int minutes);
 };
 

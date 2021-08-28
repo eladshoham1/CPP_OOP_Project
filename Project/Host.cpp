@@ -3,9 +3,9 @@ using namespace std;
 
 #include "Host.h"
 
-CHost::CHost(const char* name, type hostType, int flyMinutes) : CCrewMember(name, flyMinutes)
+CHost::CHost(const char* name, eType hostType, int flyMinutes) : CCrewMember(name, flyMinutes)
 {
-	this->hostType = hostType;
+	setHostType(hostType);
 }
 
 CHost::CHost(const CHost& cHost) : CCrewMember(cHost)
@@ -13,7 +13,12 @@ CHost::CHost(const CHost& cHost) : CCrewMember(cHost)
 	setHostType(cHost.hostType);
 }
 
-void CHost::setHostType(type hostType)
+CHost::eType CHost::getHostType() const
+{
+	return this->hostType;
+}
+
+void CHost::setHostType(eType hostType)
 {
 	this->hostType = hostType;
 }
@@ -21,10 +26,15 @@ void CHost::setHostType(type hostType)
 void CHost::getPresent() const
 {
 	CCrewMember::getPresent();
-	cout << "I wasn’t expecting it" << endl;
+	cout << "I was not expecting it" << endl;
 }
 
 void CHost::getUniform() const
 {
 	cout << "I think the new uniform is very nice!" << endl;
+}
+
+void CHost::toOs(ostream& os) const
+{
+	os << types[this->hostType] << " " << this->name << " minutes " << this->flyMinutes << endl;
 }

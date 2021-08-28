@@ -14,16 +14,18 @@ public:
 	int getFlyMinutes() const;
 
 	void setName(const char* name);
-	virtual void setFlyMinutes(int flyMinutes);
+	void setFlyMinutes(int flyMinutes);
 
-	void print(ostream& out) const;
+	virtual void print(ostream& out) const;
 	bool isEqual(const CCrewMember& cCrewMember) const;
 
 	virtual void getPresent() const;
 	virtual void getUniform() const = 0;
+	void takeOff(int minutes);
+	virtual void toOs(ostream& os) const = 0;
 
 	const CCrewMember& operator=(const CCrewMember& other);
-	bool operator+=(int minutes);
+	virtual bool operator+=(int minutes);
 	bool operator==(const CCrewMember& other) const;
 	friend ostream& operator<<(ostream& os, const CCrewMember& cCrewMember);
 };

@@ -18,7 +18,8 @@ public:
 	void setCurrentWeight(float currentWeight);
 	void setCurrentVolume(float currentVolume);
 
-	bool load(float volume, float weight);
-	void taskOffMessage(int minutes);
+	bool load(float weight, float volume);
+	virtual void takeOff(int minutes) const override;
+	virtual void toOs(ostream& os) const override;
 };
 

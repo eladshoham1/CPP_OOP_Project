@@ -68,18 +68,23 @@ const CFlightCompany& CFlightCompany::operator=(const CFlightCompany& other)
 	return *this;
 }
 
-bool CFlightCompany::addCrewMember(const CCrewMember& pCmArr)
+bool CFlightCompany::addCrewMember(const CCrewMember& pCrewMember)
 {
 	if (this->currentCrew >= CFlightCompany::MAX_CREWS)
 		return false;
 
 	for (int i = 0; i < this->currentCrew; i++)
 	{
-		if (this->crewMembers[i]->isEqual(pCmArr))
+		if (this->crewMembers[i]->isEqual(pCrewMember))
 			return false;
 	}
 
-	this->crewMembers[this->currentCrew++] = new CCrewMember(pCmArr);
+	const CPilot *p = dynamic_cast<const CPilot*>(&pCrewMember);
+	if (p)
+		this->crewMembers[this->currentCrew++] = new CPilot(*p);
+	const CHost *p1 = dynamic_cast<const CHost*>(&pCrewMember);
+	if (p1)
+		this->crewMembers[this->currentCrew++] = new CHost(*p1);
 	return true;
 }
 
@@ -94,7 +99,11 @@ bool CFlightCompany::addPlane(const CPlane& pPlane)
 			return false;
 	}
 
-	this->planes[this->currentPlanes++] = new CPlane(pPlane);
+	const CCargo *p = dynamic_cast<const CCargo*>(&pPlane);
+	if (p)
+		this->planes[this->currentPlanes++] = new CCargo(*p);
+	else
+		this->planes[this->currentPlanes++] = new CPlane(pPlane);
 	return true;
 }
 
@@ -105,7 +114,7 @@ bool CFlightCompany::addFlight(const CFlight& flight)
 
 	for (int i = 0; i < this->currentFlights; i++)
 	{
-		if (this->flights[i] == &flight)
+		if (*this->flights[i] == flight)
 			return false;
 	}
 
@@ -144,7 +153,7 @@ CPlane* CFlightCompany::getPlane(int index)
 	if (index < 0 || index >= currentPlanes)
 		return nullptr;
 
-	return new CPlane(*this->planes[index]);
+	return this->planes[index];
 }
 
 int CFlightCompany::getCargoCount() const
@@ -153,7 +162,7 @@ int CFlightCompany::getCargoCount() const
 
 	for (int i = 0; i < this->currentPlanes; i++)
 	{
-		if (strcmp(typeid(this->planes[i]).name + 6, "CCargo") == 0)
+		if (typeid(*this->planes[i]) == typeid(CCargo))
 			cargoCount++;
 	}
 
@@ -186,13 +195,5 @@ void CFlightCompany::crewGetUniform() const
 
 bool CFlightCompany::takeOff(int fNum)
 {
-	CFlight *cFlight = this->getFlightByNum(fNum);
-	if (!cFlight)
-		return false;
-
-	if (!cFlight->takeOff())
-		return false;
-
-	CPlane cPlane = new CPlane();
-	//this->addPlane()
+	return getFlightByNum(fNum)->takeOff();
 }
