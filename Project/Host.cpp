@@ -31,7 +31,7 @@ void CHost::getPresent() const
 
 void CHost::getUniform() const
 {
-	cout << "I think the new uniform is very nice!" << endl;
+	cout << this->name << ": I think the new uniform is very nice!" << endl;
 }
 
 void CHost::toOs(ostream& os) const

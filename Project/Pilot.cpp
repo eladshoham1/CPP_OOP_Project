@@ -39,7 +39,7 @@ void CPilot::toSimulator() const
 
 void CPilot::getUniform() const
 {
-	cout << this->name << " this is the fifth time I get a new uniform, this is a waste of money!" << endl;
+	cout << this->name << ": this is the fifth time I get a new uniform, this is a waste of money!" << endl;
 }
 
 void CPilot::print(ostream& out) const

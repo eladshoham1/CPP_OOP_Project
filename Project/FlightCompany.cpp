@@ -17,6 +17,8 @@ CFlightCompany::CFlightCompany(const char* name)
 
 CFlightCompany::~CFlightCompany()
 {
+	delete[] this->name;
+
 	for (int i = 0; i < currentCrew; i++)
 		delete this->crewMembers[i];
 	delete[] this->crewMembers;
@@ -28,8 +30,6 @@ CFlightCompany::~CFlightCompany()
 	for (int i = 0; i < currentFlights; i++)
 		delete this->flights[i];
 	delete[] this->flights;
-
-	delete[] this->name;
 }
 
 const char* CFlightCompany::getName() const
@@ -70,6 +70,9 @@ const CFlightCompany& CFlightCompany::operator=(const CFlightCompany& other)
 
 bool CFlightCompany::addCrewMember(const CCrewMember& pCrewMember)
 {
+	const CPilot *cPilot = dynamic_cast<const CPilot*>(&pCrewMember);
+	const CHost *cHost = dynamic_cast<const CHost*>(&pCrewMember);
+
 	if (this->currentCrew >= CFlightCompany::MAX_CREWS)
 		return false;
 
@@ -79,17 +82,18 @@ bool CFlightCompany::addCrewMember(const CCrewMember& pCrewMember)
 			return false;
 	}
 
-	const CPilot *p = dynamic_cast<const CPilot*>(&pCrewMember);
-	if (p)
-		this->crewMembers[this->currentCrew++] = new CPilot(*p);
-	const CHost *p1 = dynamic_cast<const CHost*>(&pCrewMember);
-	if (p1)
-		this->crewMembers[this->currentCrew++] = new CHost(*p1);
+	if (cPilot)
+		this->crewMembers[this->currentCrew++] = new CPilot(*cPilot);
+	else if (cHost)
+		this->crewMembers[this->currentCrew++] = new CHost(*cHost);
+
 	return true;
 }
 
 bool CFlightCompany::addPlane(const CPlane& pPlane)
 {
+	const CCargo *cCargo = dynamic_cast<const CCargo*>(&pPlane);
+
 	if (this->currentPlanes >= CFlightCompany::MAX_PLANES)
 		return false;
 
@@ -99,11 +103,11 @@ bool CFlightCompany::addPlane(const CPlane& pPlane)
 			return false;
 	}
 
-	const CCargo *p = dynamic_cast<const CCargo*>(&pPlane);
-	if (p)
-		this->planes[this->currentPlanes++] = new CCargo(*p);
+	if (cCargo)
+		this->planes[this->currentPlanes++] = new CCargo(*cCargo);
 	else
 		this->planes[this->currentPlanes++] = new CPlane(pPlane);
+
 	return true;
 }
 
@@ -117,7 +121,7 @@ bool CFlightCompany::addFlight(const CFlight& flight)
 		if (*this->flights[i] == flight)
 			return false;
 	}
-
+	
 	this->flights[this->currentFlights++] = new CFlight(flight);
 	return true;
 }

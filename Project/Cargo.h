@@ -12,6 +12,7 @@ private:
 
 public:
 	CCargo(int numOfChairs, const char* model, float maxWeight, float maxVolume);
+	CCargo(const CCargo& cCargo);
 
 	void setMaxWeight(float maxWeight);
 	void setMaxVolume(float maxVolume);

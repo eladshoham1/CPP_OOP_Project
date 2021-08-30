@@ -11,6 +11,14 @@ CCargo::CCargo (int numOfChairs, const char* model, float maxWeight, float maxVo
 	setCurrentVolume(0.f);
 }
 
+CCargo::CCargo(const CCargo& cCargo) : CPlane(cCargo)
+{
+	setMaxWeight(cCargo.maxWeight);
+	setMaxVolume(cCargo.maxVolume);
+	setCurrentWeight(cCargo.currentWeight);
+	setCurrentVolume(cCargo.currentVolume);
+}
+
 void CCargo::setMaxWeight(float maxWeight)
 {
 	this->maxWeight = maxWeight;
@@ -46,11 +54,11 @@ bool CCargo::load(float weight, float volume)
 
 void CCargo::takeOff(int minutes) const
 {
-	cout << "Need to add " << minutes << " to my log book" << endl;
+	cout << "Need to add " << minutes << " minutes to my log book" << endl;
 }
 
 void CCargo::toOs(ostream& os) const
 {
-	os << "Cargo " << "M_vol " << this->maxVolume << " M_Kg " << this->maxWeight << " C_vol " 
+	os << "Cargo " << "M_vol " << this->maxVolume << " M_Kg " << this->maxWeight << " C_vol "
 		<< this->currentVolume << " C_Kg " << this->currentWeight << endl;
 }

@@ -38,10 +38,11 @@ int CFlight::getCurrentCrew() const
 
 void CFlight::setPlane(CPlane* plane)
 {
-	if (plane != nullptr)
-		this->plane = new CPlane(*plane);
+	CCargo *cCargo = dynamic_cast<CCargo*>(plane);
+	if (cCargo)
+		this->plane = new CCargo(*cCargo);
 	else
-		this->plane = nullptr;
+		this->plane = new CPlane(*plane);
 }
 
 bool CFlight::checkPlane() const
@@ -76,7 +77,7 @@ bool CFlight::checkCargo() const
 {
 	for (int i = 0; i < this->currentCrew; i++)
 	{
-		if (typeid(this->crewMembers[i]) == typeid(CPilot))
+		if (typeid(*this->crewMembers[i]) == typeid(CPilot))
 			return true;
 	}
 
@@ -87,7 +88,7 @@ bool CFlight::takeOff()
 {
 	int minutes = this->flightInfo.getFlightMinutes();
 
-	if (!this->plane || (typeid(*this->plane) == typeid(CPlane) && !checkPlane()) ||
+	if (!this->plane || (typeid(*this->plane) == typeid(CPlane) && !checkPlane()) || 
 		(typeid(*this->plane) == typeid(CCargo) && !checkCargo()))
 		return false;
 

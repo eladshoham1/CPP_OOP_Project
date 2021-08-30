@@ -12,7 +12,7 @@ private:
 public:
 	CPilot(const char *name, bool isCaptain, CAddress *homeAddress = nullptr, int flyMinutes = 0);
 	CPilot(const CPilot& cPilot);
-	virtual ~CPilot();
+	~CPilot();
 
 	void setIsCaptain(bool isCaptain);
 	void setHomeAddress(CAddress *homeAddress);

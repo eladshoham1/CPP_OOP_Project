@@ -53,7 +53,7 @@ bool CCrewMember::isEqual(const CCrewMember& cCrewMember) const
 
 void CCrewMember::getPresent() const
 {
-	cout << this->name << " thanking the company for receiving the holiday gift." << endl;
+	cout << this->name << " thanking the company for receiving the holiday gift" << endl;
 }
 
 void CCrewMember::takeOff(int minutes)

@@ -60,7 +60,7 @@ void CPlane::print(ostream& out) const
 
 bool CPlane::isEqual(const CPlane& cPlane)
 {
-	return this->id == cPlane.id;
+	return *this == cPlane;
 }
 
 const CPlane& CPlane::operator=(const CPlane& other)
@@ -91,4 +91,9 @@ const CPlane& CPlane::operator++()
 CPlane CPlane::operator++(int)
 {
 	return CPlane(this->numOfChairs++, this->model);
+}
+
+bool CPlane::operator==(const CPlane& other) const
+{
+	return this->id == other.id;
 }

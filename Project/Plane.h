@@ -30,4 +30,5 @@ public:
 	friend ostream& operator<<(ostream& os, const CPlane& cPlane);
 	const CPlane& operator++();
 	CPlane operator++(int);
+	bool operator==(const CPlane& other) const;
 };
