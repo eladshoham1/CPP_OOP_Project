@@ -9,7 +9,7 @@ protected:
 public:
 	CCrewMember(const char* name, int flyMinutes = 0);
 	CCrewMember(const CCrewMember& cCrewMember);
-	/* virtual */ ~CCrewMember();
+	virtual ~CCrewMember();
 	const char* getName() const;
 	int getFlyMinutes() const;
 

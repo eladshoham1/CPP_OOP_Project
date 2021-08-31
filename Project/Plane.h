@@ -11,7 +11,7 @@ protected:
 public:
 	CPlane(int numOfChairs, const char* model);
 	CPlane(const CPlane& cPlane);
-	~CPlane();
+	virtual ~CPlane();
 
 	int getId() const;
 	char* getModel() const;

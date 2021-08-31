@@ -39,6 +39,7 @@ int CFlight::getCurrentCrew() const
 void CFlight::setPlane(CPlane* plane)
 {
 	CCargo *cCargo = dynamic_cast<CCargo*>(plane);
+	
 	if (cCargo)
 		this->plane = new CCargo(*cCargo);
 	else
@@ -52,7 +53,7 @@ bool CFlight::checkPlane() const
 
 	for (int i = 0; i < this->currentCrew; i++)
 	{
-		if (typeid(this->crewMembers[i]) == typeid(CPilot))
+		if (typeid(*this->crewMembers[i]) == typeid(CPilot))
 		{
 			if (isOnePilot == 1)
 				return false;

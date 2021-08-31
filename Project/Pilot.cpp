@@ -29,7 +29,8 @@ void CPilot::setIsCaptain(bool isCaptain)
 void CPilot::setHomeAddress(CAddress *homeAddress)
 {
 	delete this->homeAddress;
-	this->homeAddress = homeAddress;
+	if (homeAddress != nullptr)
+		this->homeAddress = new CAddress(*homeAddress);
 }
 
 void CPilot::toSimulator() const
