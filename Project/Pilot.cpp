@@ -58,7 +58,7 @@ void CPilot::toOs(ostream& os) const
 	os << (this->isCaptain ? " a Captain" : "Not a Captain") << endl;
 }
 
-bool CPilot::operator+=(int minutes)
+bool CPilot::operator+=(int minutes);
 {
 	return CCrewMember::operator+=(this->isCaptain ? int(minutes * 1.1f) : minutes);
 }

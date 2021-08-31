@@ -6,13 +6,13 @@ using namespace std;
 
 int CPlane::generateNumber = 100;
 
-CPlane::CPlane(int numOfChairs, const char* model) : numOfChairs(numOfChairs)
+CPlane::CPlane(int numOfChairs, const char* model) throw(CCompStringException) : numOfChairs(numOfChairs)
 {
 	this->id = CPlane::generateNumber++;
 	setModel(model);
 }
 
-CPlane::CPlane(const CPlane& cPlane)
+CPlane::CPlane(const CPlane& cPlane) throw(CCompStringException)
 {
 	*this = cPlane;
 }
@@ -37,19 +37,28 @@ int CPlane::getNumOfChairs() const
 	return this->numOfChairs;
 }
 
-void CPlane::setId(int id)
+void CPlane::setId(int id) throw(CCompStringException)
 {
+	if (id < 0)
+		throw("Id must be positive number");
+
 	this->id = id;
 }
 
-void CPlane::setModel(const char* model)
+void CPlane::setModel(const char* model) throw(CCompStringException)
 {
+	if (strcmp(model, "") == 0)
+		throw("Model can't be empty");
+
 	delete[] this->model;
 	this->model = _strdup(model);
 }
 
-void CPlane::setNumOfChairs(int numOfChairs)
+void CPlane::setNumOfChairs(int numOfChairs) throw(CCompStringException)
 {
+	if (numOfChairs < 0)
+		throw("Number of chairs must be positive number");
+
 	this->numOfChairs = numOfChairs;
 }
 
@@ -63,7 +72,7 @@ bool CPlane::isEqual(const CPlane& cPlane)
 	return *this == cPlane;
 }
 
-const CPlane& CPlane::operator=(const CPlane& other)
+const CPlane& CPlane::operator=(const CPlane& other) throw(CCompStringException)
 {
 	if (this != &other)
 	{

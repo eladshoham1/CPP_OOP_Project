@@ -3,7 +3,7 @@ using namespace std;
 
 #include "Cargo.h"
 
-CCargo::CCargo (int numOfChairs, const char* model, float maxWeight, float maxVolume) : CPlane(numOfChairs, model)
+CCargo::CCargo (int numOfChairs, const char* model, float maxWeight, float maxVolume) throw(CCompStringException) : CPlane(numOfChairs, model)
 {
 	setMaxWeight(maxWeight);
 	setMaxVolume(maxVolume);
@@ -11,7 +11,7 @@ CCargo::CCargo (int numOfChairs, const char* model, float maxWeight, float maxVo
 	setCurrentVolume(0.f);
 }
 
-CCargo::CCargo(const CCargo& cCargo) : CPlane(cCargo)
+CCargo::CCargo(const CCargo& cCargo) throw(CCompStringException) : CPlane(cCargo)
 {
 	setMaxWeight(cCargo.maxWeight);
 	setMaxVolume(cCargo.maxVolume);
@@ -19,37 +19,48 @@ CCargo::CCargo(const CCargo& cCargo) : CPlane(cCargo)
 	setCurrentVolume(cCargo.currentVolume);
 }
 
-void CCargo::setMaxWeight(float maxWeight)
+void CCargo::setMaxWeight(float maxWeight) throw(CCompStringException)
 {
+	if (maxWeight < 0)
+		throw("Max weight must be positive number");
+
 	this->maxWeight = maxWeight;
 }
 
-void CCargo::setMaxVolume(float maxVolume)
+void CCargo::setMaxVolume(float maxVolume) throw(CCompStringException)
 {
+	if (maxVolume < 0)
+		throw("Max volume must be positive number");
+
 	this->maxVolume = maxVolume;
 }
 
-void CCargo::setCurrentWeight(float currentWeight)
+void CCargo::setCurrentWeight(float currentWeight) throw(CCompStringException)
 {
+	if (currentWeight < 0)
+		throw("Current volume must be positive number");
+
 	this->currentWeight = currentWeight;
 }
 
-void CCargo::setCurrentVolume(float currentVolume)
+void CCargo::setCurrentVolume(float currentVolume) throw(CCompStringException)
 {
+	if (currentVolume < 0)
+		throw("Current volume must be positive number");
+
 	this->currentVolume = currentVolume;
 }
 
-bool CCargo::load(float weight, float volume)
+void CCargo::load(float weight, float volume) throw(CCompStringException)
 {
-	if (this->currentVolume + volume <= this->maxVolume && this->currentWeight + weight <= this->maxWeight)
-	{
-		setCurrentVolume(this->currentVolume + volume);
-		setCurrentWeight(this->currentWeight + weight);
+	if (this->currentVolume + volume > this->maxVolume)
+		throw("There is not enough volume on the plane for this volume");
 
-		return true;
-	}
+	if (this->currentWeight + weight > this->maxWeight)
+		throw("There is not enough weight on the plane for this weight");
 
-	return false;
+	setCurrentVolume(this->currentVolume + volume);
+	setCurrentWeight(this->currentWeight + weight);
 }
 
 void CCargo::takeOff(int minutes) const

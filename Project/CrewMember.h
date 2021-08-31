@@ -1,4 +1,5 @@
 #pragma once
+#include "FlightCompException.h"
 
 class CCrewMember
 {
@@ -21,7 +22,7 @@ public:
 
 	virtual void getPresent() const;
 	virtual void getUniform() const = 0;
-	void takeOff(int minutes);
+	void takeOff(int minutes) throw(CCompStringException);
 	virtual void toOs(ostream& os) const = 0;
 
 	const CCrewMember& operator=(const CCrewMember& other);

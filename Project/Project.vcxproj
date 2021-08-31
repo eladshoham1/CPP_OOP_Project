@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="Address.h" />
     <ClInclude Include="Cargo.h" />
+    <ClInclude Include="FlightCompException.h" />
     <ClInclude Include="CrewMember.h" />
     <ClInclude Include="Flight.h" />
     <ClInclude Include="FlightCompany.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="Host.h" />
     <ClInclude Include="Pilot.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="PlaneCrewFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Address.cpp" />
@@ -144,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pilot.cpp" />
     <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="PlaneCrewFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -56,8 +56,11 @@ void CCrewMember::getPresent() const
 	cout << this->name << " thanking the company for receiving the holiday gift" << endl;
 }
 
-void CCrewMember::takeOff(int minutes)
+void CCrewMember::takeOff(int minutes) throw(CCompStringException);
 {
+	if (minutes < 0)
+		throw("Minutes can't be negative");
+
 	this->flyMinutes += minutes;
 }
 
@@ -74,7 +77,7 @@ const CCrewMember& CCrewMember::operator=(const CCrewMember& other)
 
 bool CCrewMember::operator+=(int minutes)
 {
-	if (this->flyMinutes + minutes < 0)
+	if (minutes < 0)
 		return false;
 
 	this->flyMinutes += minutes;

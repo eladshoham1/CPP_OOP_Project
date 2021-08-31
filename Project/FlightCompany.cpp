@@ -15,6 +15,12 @@ CFlightCompany::CFlightCompany(const char* name)
 	this->currentFlights = 0;
 }
 
+CFlightCompany::CFlightCompany(const char* fileName, int file)
+{
+	ifstream inFile(fileName);
+	this->name << inFile;
+}
+
 CFlightCompany::~CFlightCompany()
 {
 	delete[] this->name;
@@ -43,8 +49,11 @@ void CFlightCompany::setName(const char* name)
 	this->name = _strdup(name);
 }
 
-void CFlightCompany::print(ostream& out) const
+void CFlightCompany::print(ostream& out) const throw(CCompStringException)
 {
+	if (!this->name)
+		throw("There is no flight company name");
+
 	out << "Flight company: " << this->name << endl;
 	out << "There are " << currentCrew << " Crew members: " << endl;
 	for (int i = 0; i < currentCrew; i++)
@@ -55,17 +64,6 @@ void CFlightCompany::print(ostream& out) const
 	out << "There are " << currentFlights << " Flights: " << endl;
 	for (int i = 0; i < currentFlights; i++)
 		out << *flights[i];
-}
-
-const CFlightCompany& CFlightCompany::operator=(const CFlightCompany& other)
-{
-	if (this != &other)
-	{
-		delete[] this->name;
-		this->name = _strdup(other.name);
-	}
-
-	return *this;
 }
 
 bool CFlightCompany::addCrewMember(const CCrewMember& pCrewMember)
@@ -152,14 +150,6 @@ void CFlightCompany::addCrewToFlight(int fNum, int workerId)
 	*cFlight + temp;
 }
 
-CPlane* CFlightCompany::getPlane(int index)
-{
-	if (index < 0 || index >= currentPlanes)
-		return nullptr;
-
-	return this->planes[index];
-}
-
 int CFlightCompany::getCargoCount() const
 {
 	int cargoCount = 0;
@@ -200,4 +190,38 @@ void CFlightCompany::crewGetUniform() const
 bool CFlightCompany::takeOff(int fNum)
 {
 	return getFlightByNum(fNum)->takeOff();
+}
+
+int CFlightCompany::getCrewCount() const
+{
+	return this->currentCrew;
+}
+
+void CFlightCompany::saveToFile(const char* fileName) throw(CCompFileException)
+{
+
+}
+
+const CFlightCompany& CFlightCompany::operator=(const CFlightCompany& other)
+{
+	if (this != &other)
+	{
+		delete[] this->name;
+		this->name = _strdup(other.name);
+	}
+
+	return *this;
+}
+
+CPlane& CFlightCompany::operator[](int index) throw(CCompLimitException)
+{
+	if (index >= this->currentPlanes)
+		throw(MAX_PLANES);
+
+	return *this->planes[index];
+}
+
+ostream& operator>>(istream& in, const CFlightCompany& cFlightCompany)
+{
+	in >> cFlightCompany.getName();
 }
