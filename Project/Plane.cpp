@@ -91,7 +91,11 @@ const CPlane& CPlane::operator=(const CPlane& other) throw(CCompStringException)
 
 ostream& operator<<(ostream& os, const CPlane& cPlane)
 {
-	os << "Plane " << cPlane.id << " model " << cPlane.model << " seats " << cPlane.seats << endl;
+	if (typeid(os) == typeid(ofstream))
+		os << (typeid(cPlane) == typeid(CPlane) ? 0 : 1) << cPlane.id << " " << cPlane.model << " " << cPlane.seats << endl;
+	else
+		os << "Plane " << cPlane.id << " model " << cPlane.model << " seats " << cPlane.seats << endl;
+
 	cPlane.toOs(os);
 	return os;
 }

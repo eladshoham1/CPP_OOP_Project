@@ -100,7 +100,10 @@ const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other) throw(CFligh
 
 ostream& operator<<(ostream& os, const CFlightInfo& cFlightInfo)
 {
-	os << "Flight Info dest: " << cFlightInfo.dest << " Number " << cFlightInfo.fNum <<
+	if (typeid(os) == typeid(ofstream))
+		os << cFlightInfo.dest << " " << cFlightInfo.fNum << " " << cFlightInfo.flightMinutes << " " << cFlightInfo.destiny << endl;
+	else
+		os << "Flight Info dest: " << cFlightInfo.dest << " Number " << cFlightInfo.fNum <<
 		" minutes " << cFlightInfo.flightMinutes << " KM " << cFlightInfo.destiny << endl;
 	return os;
 }

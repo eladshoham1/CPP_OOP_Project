@@ -55,12 +55,20 @@ void CPilot::print(ostream& out) const
 
 void CPilot::toOs(ostream& os) const
 {
-	os << this->name << " minutes " << this->flyMinutes;
-	
-	if (this->homeAddress)
-		os << " Home " << *this->homeAddress;
+	if (typeid(os) == typeid(ofstream))
+	{
+		if (this->homeAddress)
+			os << *this->homeAddress;
 
-	os << (this->isCaptain ? " a Captain" : "Not a Captain") << endl;
+		os << (this->isCaptain ? 1 : 0) << endl;
+	}
+	else
+	{
+		if (this->homeAddress)
+			os << " Home " << *this->homeAddress;
+
+		os << (this->isCaptain ? " a Captain" : "Not a Captain") << endl;
+	}
 }
 
 void CPilot::fromOs(istream& in)

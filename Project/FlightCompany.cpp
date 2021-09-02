@@ -55,10 +55,10 @@ CFlightCompany::CFlightCompany(const char* fileName, int file)
 	inFile.close();
 }
 
-CFlightCompany::CFlightCompany(const CFlightCompany& cFlightCompany)
+/*CFlightCompany::CFlightCompany(const CFlightCompany& cFlightCompany)
 {
 	*this = cFlightCompany;
-}
+}*/
 
 CFlightCompany::~CFlightCompany()
 {
@@ -88,13 +88,13 @@ void CFlightCompany::setName(const char* name)
 	this->name = _strdup(name);
 }
 
-void CFlightCompany::print(ostream& out) const throw(CCompStringException)
+void CFlightCompany::print(ostream& out)
 {
-	if (!this->name)
-		throw("There is no flight company name");
+	//if (!this->name)
+		//throw("There is no flight company name");
 
-	out << *this;
-	/*out << "Flight company: " << this->name << endl;
+	//out << *this;
+	out << "Flight company: " << this->name << endl;
 	out << "There are " << currentCrew << " Crew members: " << endl;
 	for (int i = 0; i < currentCrew; i++)
 		crewMembers[i]->print(out);
@@ -103,7 +103,7 @@ void CFlightCompany::print(ostream& out) const throw(CCompStringException)
 		planes[i]->print(out);
 	out << "There are " << currentFlights << " Flights: " << endl;
 	for (int i = 0; i < currentFlights; i++)
-		out << *flights[i];*/
+		out << *flights[i];
 }
 
 bool CFlightCompany::addCrewMember(const CCrewMember& pCrewMember)

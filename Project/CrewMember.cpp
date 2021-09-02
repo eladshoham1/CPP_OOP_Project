@@ -96,7 +96,11 @@ bool CCrewMember::operator==(const CCrewMember& other) const
 
 ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)
 {
-	os << typeid(cCrewMember).name() + 7 << " ";
+	if (typeid(os) == typeid(ofstream))
+		os << ((typeid(cCrewMember).name() + 7) == "Host" ? 0 : 1) << " " << cCrewMember.name << " " << cCrewMember.flyMinutes;
+	else
+		os << typeid(cCrewMember).name() + 7 << ": " << cCrewMember.name << " minutes " << cCrewMember.flyMinutes;
+
 	cCrewMember.toOs(os);
 	return os;
 }

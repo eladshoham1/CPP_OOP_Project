@@ -75,7 +75,10 @@ void CCargo::takeOff(int minutes) const
 
 void CCargo::toOs(ostream& os) const
 {
-	os << "Cargo " << "M_vol " << this->maxVolume << " M_Kg " << this->maxWeight << " C_vol "
+	if (typeid(os) == typeid(ofstream))
+		os << endl << this->maxVolume << " " << this->maxWeight << "  " << this->currentVolume << " " << this->currentWeight << endl;
+	else
+		os << "Cargo " << "M_vol " << this->maxVolume << " M_Kg " << this->maxWeight << " C_vol "
 		<< this->currentVolume << " C_Kg " << this->currentWeight << endl;
 }
 

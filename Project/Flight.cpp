@@ -140,15 +140,31 @@ CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight)
 
 ostream& operator<<(ostream& os, const CFlight& cFlight)
 {
-	os << "Flight " << cFlight.flightInfo;
-	if (cFlight.plane)
-		os << *cFlight.plane;
-	else
-		os << "No plane assign yet";
-	os << " There are " << cFlight.currentCrew << " crew members in flight:" << endl;
+	if (typeid(os) == typeid(ofstream))
+	{
+		os << cFlight.flightInfo << " ";
+		
+		if (cFlight.plane)
+			os << 1 << *cFlight.plane;
+		else
+			os << 0;
 
-	for (int i = 0; i < cFlight.currentCrew; i++)
-		os << *cFlight.crewMembers[i];
+		os << endl << cFlight.currentCrew << endl;
+		for (int i = 0; i < cFlight.currentCrew; i++)
+			os << *cFlight.crewMembers[i];
+	}
+	else
+	{
+		os << "Flight " << cFlight.flightInfo;
+		if (cFlight.plane)
+			os << *cFlight.plane;
+		else
+			os << "No plane assign yet";
+		os << " There are " << cFlight.currentCrew << " crew members in flight:" << endl;
+
+		for (int i = 0; i < cFlight.currentCrew; i++)
+			os << *cFlight.crewMembers[i];
+	}
 
 	return os;
 }

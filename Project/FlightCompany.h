@@ -27,22 +27,19 @@ private:
 public:
 	CFlightCompany(const char* name);
 	CFlightCompany(const char* fileName, int file);
-	CFlightCompany(const CFlightCompany& cFlightCompany);
+	CFlightCompany(const CFlightCompany& cFlightCompany) = delete;
 	~CFlightCompany();
 
 	const char* getName() const;
-
 	void setName(const char* name);
 
-	void print(ostream& out) const;
-
+	void print(ostream& out);
 	bool addCrewMember(const CCrewMember& pCrewMember);
 	bool addPlane(const CPlane& pPlaneArr);
 	bool addFlight(const CFlight& fArr);
 	CCrewMember* getCrewMember(int workerId);
 	CFlight* getFlightByNum(int fNum);
 	void addCrewToFlight(int fNum, int workerId);
-
 	int getCargoCount() const;
 	void pilotsToSimulator() const;
 	void crewGetPresent() const;

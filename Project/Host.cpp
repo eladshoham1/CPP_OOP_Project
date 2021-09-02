@@ -41,7 +41,10 @@ void CHost::getUniform() const
 
 void CHost::toOs(ostream& os) const
 {
-	os << types[this->hostType] << " " << this->name << " minutes " << this->flyMinutes << endl;
+	if (typeid(os) == typeid(ofstream))
+		os << " " << this->hostType << endl;
+	else
+		os << " " << types[this->hostType] << endl;
 }
 
 void CHost::fromOs(istream& in)
