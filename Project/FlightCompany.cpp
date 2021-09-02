@@ -18,7 +18,7 @@ CFlightCompany::CFlightCompany(const char* name)
 CFlightCompany::CFlightCompany(const char* fileName, int file)
 {
 	ifstream inFile(fileName);
-	this->name << inFile;
+	inFile >> *this;
 }
 
 CFlightCompany::~CFlightCompany()
@@ -221,7 +221,27 @@ CPlane& CFlightCompany::operator[](int index) throw(CCompLimitException)
 	return *this->planes[index];
 }
 
-ostream& operator>>(istream& in, const CFlightCompany& cFlightCompany)
+istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 {
-	in >> cFlightCompany.getName();
+	if (typeid(in) == typeid(ifstream))
+	{
+		in >> cFlightCompany.name;
+
+		in >> cFlightCompany.currentCrew;
+		for (int i = 0; i < cFlightCompany.currentCrew; i++)
+			in >> *cFlightCompany.crewMembers[i];
+
+		in >> cFlightCompany.currentPlanes;
+		for (int i = 0; i < cFlightCompany.currentPlanes; i++)
+			in >> *cFlightCompany.planes[i];
+
+		in >> cFlightCompany.currentFlights;
+		for (int i = 0; i < cFlightCompany.currentFlights; i++)
+			in >> *cFlightCompany.flights[i];
+	}
+	else
+	{
+		// 
+	}
+
 }

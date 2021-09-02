@@ -51,5 +51,5 @@ public:
 
 	const CFlightCompany& operator=(const CFlightCompany& other);
 	CPlane& operator[](int index) throw(CCompLimitException);
-	friend ostream& operator>>(istream& in, const CFlightCompany& cFlightCompany);
+	friend istream& operator>>(istream& in, CFlightCompany& cFlightCompany);
 };

@@ -9,6 +9,11 @@ CPilot::CPilot(const char *name, bool isCaptain, CAddress *homeAddress, int flyM
 	setHomeAddress(homeAddress);
 }
 
+CPilot::CPilot(ifstream& in) : CCrewMember(in)
+{
+	fromOs(in);
+}
+
 CPilot::CPilot(const CPilot& cPilot) : CCrewMember(cPilot)
 {
 	setIsCaptain(cPilot.isCaptain);
@@ -56,6 +61,12 @@ void CPilot::toOs(ostream& os) const
 		os << " Home " << *this->homeAddress;
 
 	os << (this->isCaptain ? " a Captain" : "Not a Captain") << endl;
+}
+
+void CPilot::fromOs(istream& in)
+{
+	delete this->homeAddress;
+	in >> this->isCaptain >> *this->homeAddress;
 }
 
 bool CPilot::operator+=(int minutes);

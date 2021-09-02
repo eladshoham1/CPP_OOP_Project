@@ -35,5 +35,6 @@ public:
 	friend CFlight operator+(CFlight& theFlight, CCrewMember* cCrewMember);
 	friend CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight);
 	friend ostream& operator<<(ostream& os, const CFlight& cFlight);
+	friend istream& operator>>(istream& in, CFlight& cFlight);
 	bool operator==(const CFlight& other) const;
 };

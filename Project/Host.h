@@ -13,6 +13,7 @@ private:
 
 public:
 	CHost(const char* name, eType hostType, int flyMinutes = 0);
+	CHost(ifstream& in);
 	CHost(const CHost& cHost);
 
 	eType getHostType() const;
@@ -21,5 +22,6 @@ public:
 	virtual void getPresent() const override;
 	virtual void getUniform() const override;
 	virtual void toOs(ostream& os) const override;
+	virtual void fromOs(istream& in) override;
 };
 

@@ -11,6 +11,7 @@ private:
 
 public:
 	CPilot(const char *name, bool isCaptain, CAddress *homeAddress = nullptr, int flyMinutes = 0);
+	CPilot(ifstream& in);
 	CPilot(const CPilot& cPilot);
 	~CPilot();
 
@@ -21,6 +22,7 @@ public:
 	virtual void getUniform() const override;
 	virtual void print(ostream& out) const override;
 	virtual void toOs(ostream& os) const override;
+	virtual void fromOs(istream& in) override;
 
 	virtual bool operator+=(int minutes);
 };

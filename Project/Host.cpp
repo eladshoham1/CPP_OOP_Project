@@ -8,6 +8,11 @@ CHost::CHost(const char* name, eType hostType, int flyMinutes) : CCrewMember(nam
 	setHostType(hostType);
 }
 
+CHost::CHost(ifstream& in) : CCrewMember(in)
+{
+	fromOs(in);
+}
+
 CHost::CHost(const CHost& cHost) : CCrewMember(cHost)
 {
 	setHostType(cHost.hostType);
@@ -37,4 +42,9 @@ void CHost::getUniform() const
 void CHost::toOs(ostream& os) const
 {
 	os << types[this->hostType] << " " << this->name << " minutes " << this->flyMinutes << endl;
+}
+
+void CHost::fromOs(istream& in)
+{
+	in >> this->hostType;
 }

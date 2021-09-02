@@ -10,6 +10,11 @@ CCrewMember::CCrewMember(const char* name, int flyMinutes)
 	this->flyMinutes = flyMinutes;
 }
 
+CCrewMember::CCrewMember(ifstream& in)
+{
+	in >> *this;
+}
+
 CCrewMember::CCrewMember(const CCrewMember& cCrewMember)
 {
 	*this = cCrewMember;
@@ -94,4 +99,18 @@ ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)
 	os << typeid(cCrewMember).name() + 7 << " ";
 	cCrewMember.toOs(os);
 	return os;
+}
+
+istream& operator>>(istream& in, const CCrewMember& cCrewMember)
+{
+	if (typeid(in) == typeid(ifstream))
+		in >> cCrewMember.name >> cCrewMember.flyMinutes;
+	else
+	{
+		char delimiter;
+		in >> delimiter >> cCrewMember.name >> delimiter >> cCrewMember.flyMinutes >> delimiter;
+	}
+
+	cCrewMember.fromOs(in);
+	return in;
 }

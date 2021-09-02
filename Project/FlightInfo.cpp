@@ -100,6 +100,16 @@ ostream& operator<<(ostream& os, const CFlightInfo& cFlightInfo)
 	return os;
 }
 
+istream& operator>>(istream& in, CFlightInfo& cFlightInfo)
+{
+	if (typeid(in) == typeid(ifstream))
+		in >> cFlightInfo.dest >> cFlightInfo.fNum >> cFlightInfo.flightMinutes >> cFlightInfo.destiny;
+	else
+	{
+
+	}
+}
+
 bool CFlightInfo::operator==(const CFlightInfo& other) const
 {
 	return this->fNum == other.fNum;

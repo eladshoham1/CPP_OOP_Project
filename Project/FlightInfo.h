@@ -30,6 +30,7 @@ public:
 
 	const CFlightInfo& operator=(const CFlightInfo& other) throw(CFlightCompException);
 	friend ostream& operator<<(ostream& os, const CFlightInfo& cFlightInfo);
+	friend istream& operator>>(istream& in, CFlightInfo& cFlightInfo);
 	bool operator==(const CFlightInfo& other) const;
 	bool operator!=(const CFlightInfo& other) const;
 	operator int() const { return this->flightMinutes; }

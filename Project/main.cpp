@@ -15,21 +15,14 @@ using namespace std;
 #include "FlightCompException.h"
 #include "PlaneCrewFactory.h"
 
-//const int CM_COUNT = 5;
-//const int PLANE_COUNT = 4;
-//const int FLIGHT_COUNT = 4;
-
-void main()
+int main()
 {
-
 	CFlightCompany* pDelta = NULL;
 	try
 	{
-
 		pDelta = new CFlightCompany("Delta.txt", 0);
 		cout << "This was in file " << endl;
 		pDelta->print(cout);
-
 	}
 	catch (const CFlightCompException& e) {
 		e.show();
@@ -51,17 +44,12 @@ void main()
 	(*pC2) += -4;
 	CPlane p0 = (*pDelta)[9];
 
-
-
 	//call a static function that get plane or customer from user.
-
 	CPlaneCrewFactory::getCompanyDataFromUser(*pDelta);
-
 
 	CFlightInfo Info("Paris", 343, 320, 5000);
 	CFlight flight1(Info, &(*pDelta)[0]);
 	pDelta->addFlight(flight1);
-
 
 	CFlight* pF = pDelta->getFlightByNum(343);
 	CCrewMember* pCmTemp;
@@ -73,23 +61,15 @@ void main()
 		}
 	}
 
-
 	try
 	{
-
 		pDelta->saveToFile("Delta.txt");
-
 	}
 	catch (const CFlightCompException& e) {
 		e.show();
 	}
 
-
 	delete pDelta;
-
-
-
-
-
 	system("pause");
+	return 0;
 }

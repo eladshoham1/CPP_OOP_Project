@@ -148,6 +148,25 @@ ostream& operator<<(ostream& os, const CFlight& cFlight)
 	return os;
 }
 
+istream& operator>>(istream& in, CFlight& cFlight)
+{
+	if (typeid(in) == typeid(ifstream))
+	{
+		int hasPlane;
+		in >> cFlight.flightInfo >> hasPlane;
+	
+		//if (hasPlane == 1)
+			//cFlight.plane = new CPlane();
+
+		for (int i = 0; i < cFlight.currentCrew; i++)
+			in >> *cFlight.crewMembers[i];
+	}
+	else
+	{
+
+	}
+}
+
 bool CFlight::operator==(const CFlight& other) const
 {
 	return !(this->flightInfo != other.flightInfo);

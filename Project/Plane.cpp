@@ -6,10 +6,15 @@ using namespace std;
 
 int CPlane::generateNumber = 100;
 
-CPlane::CPlane(int numOfChairs, const char* model) throw(CCompStringException) : numOfChairs(numOfChairs)
+CPlane::CPlane(int seats, const char* model) throw(CCompStringException) : seats(seats)
 {
 	this->id = CPlane::generateNumber++;
 	setModel(model);
+}
+
+CPlane::CPlane(ifstream& in)
+{
+	in >> *this;
 }
 
 CPlane::CPlane(const CPlane& cPlane) throw(CCompStringException)
@@ -32,9 +37,9 @@ char* CPlane::getModel() const
 	return this->model;
 }
 
-int CPlane::getNumOfChairs() const
+int CPlane::getSeats() const
 {
-	return this->numOfChairs;
+	return this->seats;
 }
 
 void CPlane::setId(int id) throw(CCompStringException)
@@ -54,12 +59,12 @@ void CPlane::setModel(const char* model) throw(CCompStringException)
 	this->model = _strdup(model);
 }
 
-void CPlane::setNumOfChairs(int numOfChairs) throw(CCompStringException)
+void CPlane::setSeats(int seats) throw(CCompStringException)
 {
-	if (numOfChairs < 0)
-		throw("Number of chairs must be positive number");
+	if (seats < 0)
+		throw("Number of seats must be positive number");
 
-	this->numOfChairs = numOfChairs;
+	this->seats = seats;
 }
 
 void CPlane::print(ostream& out) const
@@ -78,7 +83,7 @@ const CPlane& CPlane::operator=(const CPlane& other) throw(CCompStringException)
 	{
 		setId(other.id);
 		setModel(other.model);
-		setNumOfChairs(other.numOfChairs);
+		setSeats(other.seats);
 	}
 
 	return *this;
@@ -86,20 +91,33 @@ const CPlane& CPlane::operator=(const CPlane& other) throw(CCompStringException)
 
 ostream& operator<<(ostream& os, const CPlane& cPlane)
 {
-	os << "Plane " << cPlane.id << " model " << cPlane.model << " seats " << cPlane.numOfChairs << endl;
+	os << "Plane " << cPlane.id << " model " << cPlane.model << " seats " << cPlane.seats << endl;
 	cPlane.toOs(os);
 	return os;
 }
 
+istream& operator>>(istream& in, const CPlane& cPlane)
+{
+	if (typeid(in) == typeid(ifstream))
+		in >> CPlane::generateNumber >> this->id >> this->model >> this->seats;
+	else
+	{
+		char delimiter;
+		in >> delimiter >> this->id >> delimiter >> this->model >> delimiter >> this->seats >> delimiter;
+	}
+
+	cPlane.fromOs(in);
+}
+
 const CPlane& CPlane::operator++()
 {
-	this->numOfChairs++;
+	this->seats++;
 	return *this;
 }
 
 CPlane CPlane::operator++(int)
 {
-	return CPlane(this->numOfChairs++, this->model);
+	return CPlane(this->seats++, this->model);
 }
 
 bool CPlane::operator==(const CPlane& other) const
