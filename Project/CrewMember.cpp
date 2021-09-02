@@ -1,4 +1,4 @@
-#include <iostream>
+#include <fstream>
 using namespace std;
 #include <string.h>
 
@@ -61,7 +61,7 @@ void CCrewMember::getPresent() const
 	cout << this->name << " thanking the company for receiving the holiday gift" << endl;
 }
 
-void CCrewMember::takeOff(int minutes) throw(CCompStringException);
+void CCrewMember::takeOff(int minutes) throw(CCompStringException)
 {
 	if (minutes < 0)
 		throw("Minutes can't be negative");
@@ -101,14 +101,18 @@ ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)
 	return os;
 }
 
-istream& operator>>(istream& in, const CCrewMember& cCrewMember)
+istream& operator>>(istream& in, CCrewMember& cCrewMember)
 {
+	delete[] cCrewMember.name;
+	cCrewMember.name = new char[MAX_SIZE];
 	if (typeid(in) == typeid(ifstream))
 		in >> cCrewMember.name >> cCrewMember.flyMinutes;
 	else
 	{
-		char delimiter;
-		in >> delimiter >> cCrewMember.name >> delimiter >> cCrewMember.flyMinutes >> delimiter;
+		/*cout << "\nPlease enter name: ";
+		in.getline(cCrewMember.name, MAX);
+		cout << "\nPlease enter fly minutes: ";
+		in >> cCrewMember.flyMinutes;*/
 	}
 
 	cCrewMember.fromOs(in);

@@ -1,35 +1,12 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
-#include <string>
-using namespace std;
 
-#include "Plane.h"
-#include "Cargo.h"
-#include "Host.h"
-#include "Pilot.h"
-#include "Flight.h"
+#include "FlightCompany.h"
 
-typedef enum PlaneType
-{
-	eRegular,
-	eCargo,
-	nofPlaneType
-};
+enum PlaneType { eRegular, eCargo, nofPlaneType };
+enum CrewType { eHost, ePilot, nofCrewType };
 
-typedef enum CrewType
-{
-	eHost,
-	ePilot,
-	nofCrewType
-};
-
-const string planeType_TITLE[nofPlaneType] = { "Regular", "Cargo" };
-const string crewType_TITLE[nofCrewType] = { "Host", "Pilot" };
-
-class CPlane;
-class CCrewMember;
-class CFlightCompany;
-class CAddress;
+const string planeTypeTitle[nofPlaneType] = { "Regular", "Cargo" };
+const string crewTypeTitle[nofCrewType] = { "Host", "Pilot" };
 
 class CPlaneCrewFactory
 {

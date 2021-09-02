@@ -1,4 +1,4 @@
-#include <iostream>
+#include <fstream>
 using namespace std;
 
 #include "Pilot.h"
@@ -65,11 +65,23 @@ void CPilot::toOs(ostream& os) const
 
 void CPilot::fromOs(istream& in)
 {
-	delete this->homeAddress;
-	in >> this->isCaptain >> *this->homeAddress;
+	int hasAddress, isCaptain;
+
+	if (typeid(in) != typeid(ifstream))
+		cout << "\nHas address? (0-No, 1-Yes) ";
+
+	in >> hasAddress;
+	if (hasAddress == 1)
+		this->homeAddress = new CAddress(*dynamic_cast<ifstream*>(&in));
+
+	if (typeid(in) != typeid(ifstream))
+		cout << "\nIs Captain? (0-No, 1-Yes) ";
+
+	in >> isCaptain;
+	this->isCaptain = isCaptain == 1;
 }
 
-bool CPilot::operator+=(int minutes);
+bool CPilot::operator+=(int minutes)
 {
 	return CCrewMember::operator+=(this->isCaptain ? int(minutes * 1.1f) : minutes);
 }

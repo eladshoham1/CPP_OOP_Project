@@ -9,6 +9,7 @@ private:
 
 public:
 	CAddress(int homeNumber, const char* street, const char* city = "Tel Aviv");
+	CAddress(ifstream& in);
 	CAddress(const CAddress& cAddress);
 	~CAddress();
 

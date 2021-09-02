@@ -1,6 +1,8 @@
 #pragma once
 #include "FlightCompException.h"
 
+#define MAX_SIZE 100
+
 class CCrewMember
 {
 protected:
@@ -25,11 +27,11 @@ public:
 	virtual void getUniform() const = 0;
 	void takeOff(int minutes) throw(CCompStringException);
 	virtual void toOs(ostream& os) const = 0;
-	virtual void fromOs(istream& in) = 0;
+	virtual void fromOs(istream& in) { };
 
 	const CCrewMember& operator=(const CCrewMember& other);
 	virtual bool operator+=(int minutes);
 	bool operator==(const CCrewMember& other) const;
 	friend ostream& operator<<(ostream& os, const CCrewMember& cCrewMember);
-	friend istream& operator>>(istream& in, const CCrewMember& cCrewMember);
+	friend istream& operator>>(istream& in, CCrewMember& cCrewMember);
 };

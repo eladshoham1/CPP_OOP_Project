@@ -1,3 +1,4 @@
+#include <fstream>
 #include "PlaneCrewFactory.h"
 
 PlaneType CPlaneCrewFactory::getPlaneType(const CPlane* pPlane)
@@ -85,7 +86,7 @@ CPlane* CPlaneCrewFactory::getPlaneFromUser()
 {
 	CPlane* cPlane;
 	char model[MAX];
-	int planeType, numOfChairs;
+	int planeType, seats;
 	float maxWeight, maxVolume;
 
 	do
@@ -99,11 +100,11 @@ CPlane* CPlaneCrewFactory::getPlaneFromUser()
 
 	cout << "\nPlease enter model: ";
 	cin.getline(model, MAX);
-	cout << "\nPlease enter number of chairs: ";
-	cin >> numOfChairs;
+	cout << "\nPlease enter number of seats: ";
+	cin >> seats;
 
 	if (planeType == eRegular)
-		cPlane = new CPlane(numOfChairs, model);
+		cPlane = new CPlane(seats, model);
 	else
 	{
 		cout << "\nPlease enter max weight: ";
@@ -111,7 +112,7 @@ CPlane* CPlaneCrewFactory::getPlaneFromUser()
 		cout << "\nPlease enter max volume: ";
 		cin >> maxVolume;
 
-		cPlane = new CCargo(numOfChairs, model, maxWeight, maxVolume);
+		cPlane = new CCargo(seats, model, maxWeight, maxVolume);
 	}
 
 	return cPlane;

@@ -1,4 +1,4 @@
-#include <iostream>
+#include <fstream>
 using namespace std;
 #include <string.h>
 
@@ -8,6 +8,11 @@ using namespace std;
 CAddress::CAddress(int homeNumber, const char* street, const char* city)
 {
 	updateAddress(city, street, homeNumber);
+}
+
+CAddress::CAddress(ifstream& in)
+{
+	in >> *this;
 }
 
 CAddress::CAddress(const CAddress& cAddress)
@@ -81,7 +86,9 @@ istream& operator>>(istream& in, CAddress& cAddress)
 	cAddress.street = new char[MAX];
 	cAddress.city = new char[MAX];
 
-	cout << "Please enter house number street name and city name:" << endl;
+	if (typeid(in) != typeid(ifstream))
+		cout << "Please enter house number street name and city name:" << endl;
+
 	in >> cAddress.homeNumber >> cAddress.street >> cAddress.city;
 	return in;
 }

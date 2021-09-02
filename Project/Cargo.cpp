@@ -1,4 +1,4 @@
-#include <iostream>
+#include <fstream>
 using namespace std;
 
 #include "Cargo.h"
@@ -9,6 +9,11 @@ CCargo::CCargo (int numOfChairs, const char* model, float maxWeight, float maxVo
 	setMaxVolume(maxVolume);
 	setCurrentWeight(0.f);
 	setCurrentVolume(0.f);
+}
+
+CCargo::CCargo(ifstream& in) : CPlane(in)
+{
+	fromOs(in);
 }
 
 CCargo::CCargo(const CCargo& cCargo) throw(CCompStringException) : CPlane(cCargo)
@@ -72,4 +77,17 @@ void CCargo::toOs(ostream& os) const
 {
 	os << "Cargo " << "M_vol " << this->maxVolume << " M_Kg " << this->maxWeight << " C_vol "
 		<< this->currentVolume << " C_Kg " << this->currentWeight << endl;
+}
+
+void CCargo::fromOs(istream& in)
+{
+	if (typeid(in) == typeid(ifstream))
+		in >> this->maxVolume >> this->maxWeight >> this->currentVolume >> this->currentWeight;
+	else
+	{
+		cout << "\nPlease enter max weight: ";
+		in >> this->maxWeight;
+		cout << "\nPlease enter max volume: ";
+		in >> this->maxVolume;
+	}
 }

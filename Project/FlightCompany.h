@@ -8,6 +8,8 @@ using namespace std;
 #include "Flight.h"
 #include "Pilot.h"
 
+#define MAX_SIZE 100
+
 class CFlightCompany
 {
 private:
@@ -25,7 +27,7 @@ private:
 public:
 	CFlightCompany(const char* name);
 	CFlightCompany(const char* fileName, int file);
-	CFlightCompany(const CFlightCompany& cFlightCompany) = delete;
+	CFlightCompany(const CFlightCompany& cFlightCompany);
 	~CFlightCompany();
 
 	const char* getName() const;
@@ -51,5 +53,6 @@ public:
 
 	const CFlightCompany& operator=(const CFlightCompany& other);
 	CPlane& operator[](int index) throw(CCompLimitException);
+	friend ostream& operator<<(ostream os, const CFlightCompany& cFlightCompany);
 	friend istream& operator>>(istream& in, CFlightCompany& cFlightCompany);
 };

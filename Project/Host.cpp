@@ -1,4 +1,4 @@
-#include <iostream>
+#include <fstream>
 using namespace std;
 
 #include "Host.h"
@@ -46,5 +46,11 @@ void CHost::toOs(ostream& os) const
 
 void CHost::fromOs(istream& in)
 {
-	in >> this->hostType;
+	int hostType;
+
+	if (typeid(in) != typeid(ifstream))
+		cout << "Please enter host type(0-Regular, 1-Super, 2-Calcelan): ";
+
+	in >> hostType;
+	this->hostType = (eType)hostType;
 }

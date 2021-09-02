@@ -18,6 +18,7 @@ private:
 
 public:
 	CFlight(CFlightInfo flightInfo, CPlane* plane = nullptr);
+	CFlight(ifstream& in);
 	CFlight(const CFlight& cFlight);
 	~CFlight();
 

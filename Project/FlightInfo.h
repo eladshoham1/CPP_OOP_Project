@@ -13,6 +13,7 @@ private:
 
 public:
 	CFlightInfo(const char dest[], int fNum, int flightMinutes, int destiny) throw(CCompStringException);
+	CFlightInfo(ifstream& in);
 	CFlightInfo(const CFlightInfo& other) throw(CCompStringException);
 
 	int getFNum() const;

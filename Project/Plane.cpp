@@ -1,4 +1,4 @@
-#include <iostream>
+#include <fstream>
 using namespace std;
 #include <string.h>
 
@@ -96,17 +96,23 @@ ostream& operator<<(ostream& os, const CPlane& cPlane)
 	return os;
 }
 
-istream& operator>>(istream& in, const CPlane& cPlane)
+istream& operator>>(istream& in, CPlane& cPlane)
 {
+	delete[] cPlane.model;
+	cPlane.model = new char[100];
 	if (typeid(in) == typeid(ifstream))
-		in >> CPlane::generateNumber >> this->id >> this->model >> this->seats;
+		in >> CPlane::generateNumber >> cPlane.id >> cPlane.model >> cPlane.seats;
 	else
 	{
-		char delimiter;
-		in >> delimiter >> this->id >> delimiter >> this->model >> delimiter >> this->seats >> delimiter;
+		/*cout << "\nPlease enter model: ";
+		in.getline(cPlane.model, MAX);
+
+		cout << "\nPlease enter number of chairs: ";
+		in >> cPlane.seats;*/
 	}
 
 	cPlane.fromOs(in);
+	return in;
 }
 
 const CPlane& CPlane::operator++()

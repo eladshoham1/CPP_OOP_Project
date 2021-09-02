@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
+#include <fstream>
 using namespace std;
 #include <string.h>
 
@@ -11,6 +11,11 @@ CFlightInfo::CFlightInfo(const char dest[], int fNum, int flightMinutes, int des
 	setFNum(fNum);
 	setFlightMinutes(flightMinutes);
 	setDestiny(destiny);
+}
+
+CFlightInfo::CFlightInfo(ifstream& in)
+{
+	in >> *this;
 }
 
 CFlightInfo::CFlightInfo(const CFlightInfo& cFlightInfo) throw(CFlightCompException)
@@ -46,7 +51,7 @@ void CFlightInfo::setFNum(int fNum) throw(CCompStringException)
 	this->fNum = fNum;
 }
 
-void CFlightInfo::setDest(const char* dest) throw(CCompStringException);
+void CFlightInfo::setDest(const char* dest) throw(CCompStringException)
 {
 	if (strlen(dest) > MAX)
 		throw("Dest name is too long");
@@ -106,8 +111,10 @@ istream& operator>>(istream& in, CFlightInfo& cFlightInfo)
 		in >> cFlightInfo.dest >> cFlightInfo.fNum >> cFlightInfo.flightMinutes >> cFlightInfo.destiny;
 	else
 	{
-
+		//
 	}
+
+	return in;
 }
 
 bool CFlightInfo::operator==(const CFlightInfo& other) const

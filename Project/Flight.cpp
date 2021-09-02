@@ -1,4 +1,4 @@
-#include <iostream>
+#include <fstream>
 using namespace std;
 #include <string.h>
 
@@ -9,6 +9,11 @@ CFlight::CFlight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 	setPlane(plane);
 	this->crewMembers = new CCrewMember*[CFlight::MAX_CREW];
 	this->currentCrew = 0;
+}
+
+CFlight::CFlight(ifstream& in) : flightInfo(in)
+{
+	in >> *this;
 }
 
 CFlight::CFlight(const CFlight& cFlight) : flightInfo(cFlight.flightInfo)
@@ -153,18 +158,20 @@ istream& operator>>(istream& in, CFlight& cFlight)
 	if (typeid(in) == typeid(ifstream))
 	{
 		int hasPlane;
-		in >> cFlight.flightInfo >> hasPlane;
+		in >> hasPlane;
 	
 		//if (hasPlane == 1)
-			//cFlight.plane = new CPlane();
-
+			//cFlight.plane = new CPlane(in);
+		in >> cFlight.currentCrew;
 		for (int i = 0; i < cFlight.currentCrew; i++)
 			in >> *cFlight.crewMembers[i];
 	}
 	else
 	{
-
+		//
 	}
+
+	return in;
 }
 
 bool CFlight::operator==(const CFlight& other) const

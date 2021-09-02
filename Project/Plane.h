@@ -24,14 +24,14 @@ public:
 	void setSeats(int seats) throw(CCompStringException);
 
 	virtual void toOs(ostream& os) const { }
-	virtual void fromOs(istream& os) const { }
+	virtual void fromOs(istream& os) { }
 	void print(ostream& out) const;
 	bool isEqual(const CPlane& cPlane);
 	virtual void takeOff(int minutes) const { }
 	
 	const CPlane& operator=(const CPlane& other) throw(CCompStringException);
 	friend ostream& operator<<(ostream& os, const CPlane& cPlane);
-	friend istream& operator>>(istream& in, const CPlane& cPlane);
+	friend istream& operator>>(istream& in, CPlane& cPlane);
 	const CPlane& operator++();
 	CPlane operator++(int);
 	bool operator==(const CPlane& other) const;
