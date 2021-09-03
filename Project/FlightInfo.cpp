@@ -5,7 +5,7 @@ using namespace std;
 
 #include "FlightInfo.h"
 
-CFlightInfo::CFlightInfo(const char dest[], int fNum, int flightMinutes, int destiny) throw(CFlightCompException)
+CFlightInfo::CFlightInfo(const char dest[], int fNum, int flightMinutes, int destiny)
 {
 	setDest(dest);
 	setFNum(fNum);
@@ -18,7 +18,7 @@ CFlightInfo::CFlightInfo(ifstream& in)
 	in >> *this;
 }
 
-CFlightInfo::CFlightInfo(const CFlightInfo& cFlightInfo) throw(CFlightCompException)
+CFlightInfo::CFlightInfo(const CFlightInfo& cFlightInfo)
 {
 	*this = cFlightInfo;
 }
@@ -43,34 +43,34 @@ int CFlightInfo::getDestiny() const
 	return this->destiny;
 }
 
-void CFlightInfo::setFNum(int fNum) throw(CCompStringException)
+void CFlightInfo::setFNum(int fNum)
 {
 	if (fNum < 0)
-		throw("Flight number must be positive number");
+		throw CCompStringException("Flight number must be positive number");
 
 	this->fNum = fNum;
 }
 
-void CFlightInfo::setDest(const char* dest) throw(CCompStringException)
+void CFlightInfo::setDest(const char* dest)
 {
 	if (strlen(dest) > MAX)
-		throw("Dest name is too long");
+		throw CCompStringException("Dest name is too long");
 
 	strcpy(this->dest, dest);
 }
 
-void CFlightInfo::setFlightMinutes(int flightMinutes) throw(CCompStringException)
+void CFlightInfo::setFlightMinutes(int flightMinutes)
 {
 	if (flightMinutes < 0)
-		throw("Flight minutes must be positive number");
+		throw CCompStringException("Flight minutes must be positive number");
 
 	this->flightMinutes = flightMinutes;
 }
 
-void CFlightInfo::setDestiny(int destiny) throw(CCompStringException)
+void CFlightInfo::setDestiny(int destiny)
 {
 	if (destiny < 0)
-		throw("Destiny must be positive number");
+		throw CCompStringException("Destiny must be positive number");
 
 	this->destiny = destiny;
 }
@@ -85,7 +85,7 @@ void CFlightInfo::print(ostream& out) const
 	out << this;
 }
 
-const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other) throw(CFlightCompException)
+const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other)
 {
 	if (this != &other)
 	{
@@ -101,7 +101,7 @@ const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other) throw(CFligh
 ostream& operator<<(ostream& os, const CFlightInfo& cFlightInfo)
 {
 	if (typeid(os) == typeid(ofstream))
-		os << cFlightInfo.dest << " " << cFlightInfo.fNum << " " << cFlightInfo.flightMinutes << " " << cFlightInfo.destiny << endl;
+		os << cFlightInfo.dest << " " << cFlightInfo.fNum << " " << cFlightInfo.flightMinutes << " " << cFlightInfo.destiny;
 	else
 		os << "Flight Info dest: " << cFlightInfo.dest << " Number " << cFlightInfo.fNum <<
 		" minutes " << cFlightInfo.flightMinutes << " KM " << cFlightInfo.destiny << endl;

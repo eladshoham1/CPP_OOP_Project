@@ -33,9 +33,11 @@ void CPilot::setIsCaptain(bool isCaptain)
 
 void CPilot::setHomeAddress(CAddress *homeAddress)
 {
+	if (homeAddress == nullptr)
+		throw CCompStringException("Home address can't be null");
+
 	delete this->homeAddress;
-	if (homeAddress != nullptr)
-		this->homeAddress = new CAddress(*homeAddress);
+	this->homeAddress = new CAddress(*homeAddress);
 }
 
 void CPilot::toSimulator() const
@@ -57,15 +59,19 @@ void CPilot::toOs(ostream& os) const
 {
 	if (typeid(os) == typeid(ofstream))
 	{
-		if (this->homeAddress)
-			os << *this->homeAddress;
+		os << " ";
 
-		os << (this->isCaptain ? 1 : 0) << endl;
+		if (this->homeAddress)
+			os << 1 << " " << *this->homeAddress;
+		else
+			os << 0;
+
+		os << " " << (this->isCaptain ? 1 : 0) << endl;
 	}
 	else
 	{
 		if (this->homeAddress)
-			os << " Home " << *this->homeAddress;
+			os << *this->homeAddress;
 
 		os << (this->isCaptain ? " a Captain" : "Not a Captain") << endl;
 	}
@@ -75,21 +81,29 @@ void CPilot::fromOs(istream& in)
 {
 	int hasAddress, isCaptain;
 
-	if (typeid(in) != typeid(ifstream))
+	if (typeid(in) == typeid(ifstream))
+	{
+		in >> hasAddress;
+		if (hasAddress == 1)
+			this->homeAddress = new CAddress(*dynamic_cast<ifstream*>(&in));
+	}
+	else
+	{
 		cout << "\nHas address? (0-No, 1-Yes) ";
+		in >> hasAddress;
 
-	in >> hasAddress;
-	if (hasAddress == 1)
-		this->homeAddress = new CAddress(*dynamic_cast<ifstream*>(&in));
+		if (hasAddress)
+			in >> *this->homeAddress;
 
-	if (typeid(in) != typeid(ifstream))
 		cout << "\nIs Captain? (0-No, 1-Yes) ";
+	}
 
 	in >> isCaptain;
 	this->isCaptain = isCaptain == 1;
 }
+	
 
-bool CPilot::operator+=(int minutes)
+void CPilot::operator+=(int minutes)
 {
-	return CCrewMember::operator+=(this->isCaptain ? int(minutes * 1.1f) : minutes);
+	CCrewMember::operator+=(this->isCaptain ? int(minutes * 1.1f) : minutes);
 }

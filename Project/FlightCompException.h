@@ -35,7 +35,7 @@ public:
 
 	virtual void show() const override
 	{
-		cout << max << endl;
+		cout << "The max is " << max << endl;
 	}
 };
 
@@ -52,6 +52,6 @@ public:
 
 	virtual void show() const override
 	{
-		cout << fileName << endl;
+		cout << "There is a problem with the file " << fileName << endl;
 	}
 };

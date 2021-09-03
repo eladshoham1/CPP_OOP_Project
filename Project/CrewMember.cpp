@@ -7,7 +7,7 @@ using namespace std;
 CCrewMember::CCrewMember(const char* name, int flyMinutes)
 {
 	setName(name);
-	this->flyMinutes = flyMinutes;
+	setFlyMinutes(flyMinutes);
 }
 
 CCrewMember::CCrewMember(ifstream& in)
@@ -37,12 +37,18 @@ int CCrewMember::getFlyMinutes() const
 
 void CCrewMember::setName(const char* name)
 {
+	if (strcmp(name, "") == 0)
+		throw CCompStringException("Name can't be empty");
+
 	delete[] this->name;
 	this->name = _strdup(name);
 }
 
 void CCrewMember::setFlyMinutes(int flyMinutes)
 {
+	if (flyMinutes < 0)
+		throw CCompStringException("Fly minutes have to be positive number");
+
 	this->flyMinutes = flyMinutes;
 }
 
@@ -61,10 +67,10 @@ void CCrewMember::getPresent() const
 	cout << this->name << " thanking the company for receiving the holiday gift" << endl;
 }
 
-void CCrewMember::takeOff(int minutes) throw(CCompStringException)
+void CCrewMember::takeOff(int minutes)
 {
 	if (minutes < 0)
-		throw("Minutes can't be negative");
+		throw CCompStringException("Minutes have to be positive number");
 
 	this->flyMinutes += minutes;
 }
@@ -80,13 +86,12 @@ const CCrewMember& CCrewMember::operator=(const CCrewMember& other)
 	return *this;
 }
 
-bool CCrewMember::operator+=(int minutes)
+void CCrewMember::operator+=(int minutes)
 {
 	if (minutes < 0)
-		return false;
+		throw CCompStringException("Minutes have to be positive number");
 
 	this->flyMinutes += minutes;
-	return true;
 }
 
 bool CCrewMember::operator==(const CCrewMember& other) const
@@ -97,7 +102,7 @@ bool CCrewMember::operator==(const CCrewMember& other) const
 ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)
 {
 	if (typeid(os) == typeid(ofstream))
-		os << ((typeid(cCrewMember).name() + 7) == "Host" ? 0 : 1) << " " << cCrewMember.name << " " << cCrewMember.flyMinutes;
+		os << cCrewMember.name << " " << cCrewMember.flyMinutes;
 	else
 		os << typeid(cCrewMember).name() + 7 << ": " << cCrewMember.name << " minutes " << cCrewMember.flyMinutes;
 
@@ -109,14 +114,26 @@ istream& operator>>(istream& in, CCrewMember& cCrewMember)
 {
 	delete[] cCrewMember.name;
 	cCrewMember.name = new char[MAX_SIZE];
+
 	if (typeid(in) == typeid(ifstream))
 		in >> cCrewMember.name >> cCrewMember.flyMinutes;
 	else
 	{
-		/*cout << "\nPlease enter name: ";
-		in.getline(cCrewMember.name, MAX);
+		int crewType;
+
+		do
+		{
+			cout << "Please enter crew type (0-Host, 1-Pilot): ";
+			in >> crewType;
+
+			if (crewType != 0 || crewType != 1)
+				cout << "\nWrong input, Please try again" << endl;
+		} while (crewType != 0 || crewType != 1);
+
+		cout << "\nPlease enter name: ";
+		in.getline(cCrewMember.name, MAX_SIZE);
 		cout << "\nPlease enter fly minutes: ";
-		in >> cCrewMember.flyMinutes;*/
+		in >> cCrewMember.flyMinutes;
 	}
 
 	cCrewMember.fromOs(in);

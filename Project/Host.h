@@ -12,12 +12,12 @@ private:
 	eType hostType;
 
 public:
-	CHost(const char* name, eType hostType, int flyMinutes = 0);
+	CHost(const char* name, eType hostType, int flyMinutes = 0) throw(CCompStringException);;
 	CHost(ifstream& in);
-	CHost(const CHost& cHost);
+	CHost(const CHost& cHost) throw(CCompStringException);;
 
 	eType getHostType() const;
-	void setHostType(eType hostType);
+	void setHostType(eType hostType) throw(CCompStringException);
 
 	virtual void getPresent() const override;
 	virtual void getUniform() const override;

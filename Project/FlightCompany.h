@@ -17,27 +17,31 @@ private:
 	static constexpr int MAX_PLANES = 10;
 	static constexpr int MAX_FLIGHT = 10;
 	char* name;
-	CCrewMember** crewMembers;
-	CPlane** planes;
-	CFlight** flights;
+	CCrewMember* crewMembers[MAX_CREWS];
+	CPlane* planes[MAX_PLANES];
+	CFlight* flights[MAX_FLIGHT];
 	int currentCrew;
 	int currentPlanes;
 	int currentFlights;
 
 public:
-	CFlightCompany(const char* name);
-	CFlightCompany(const char* fileName, int file);
-	CFlightCompany(const CFlightCompany& cFlightCompany);// = delete;
+	CFlightCompany(const char* name)  throw(CCompStringException);
+	CFlightCompany(const char* fileName, int file) throw(CCompFileException);
+	CFlightCompany(const CFlightCompany& cFlightCompany) = delete;
 	~CFlightCompany();
 
 	const char* getName() const;
-	void setName(const char* name);
+	int getCurrentCrew() const;
+	int getCurrentPlanes() const;
+	int getCurrentFlights() const;
+
+	void setName(const char* name) throw(CCompStringException);
 
 	void print(ostream& out) const;
-	bool addCrewMember(const CCrewMember& pCrewMember);
-	bool addPlane(const CPlane& pPlaneArr);
-	bool addFlight(const CFlight& fArr);
-	CCrewMember* getCrewMember(int workerId);
+	void addCrewMember(const CCrewMember& pCrewMember) throw(CFlightCompException);
+	void addPlane(const CPlane& pPlaneArr) throw(CFlightCompException);
+	void addFlight(const CFlight& fArr) throw(CFlightCompException);
+	CCrewMember* getCrewMember(int workerId) throw(CCompStringException);
 	CFlight* getFlightByNum(int fNum);
 	void addCrewToFlight(int fNum, int workerId);
 	int getCargoCount() const;
@@ -50,6 +54,6 @@ public:
 
 	const CFlightCompany& operator=(const CFlightCompany& other);
 	CPlane& operator[](int index) throw(CCompLimitException);
-	friend ostream& operator<<(ostream os, const CFlightCompany& cFlightCompany);
+	friend ostream& operator<<(ostream& os, const CFlightCompany& cFlightCompany);
 	friend istream& operator>>(istream& in, CFlightCompany& cFlightCompany);
 };

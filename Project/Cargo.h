@@ -11,7 +11,7 @@ private:
 	float currentVolume;
 
 public:
-	CCargo(int numOfChairs, const char* model, float maxWeight, float maxVolume) throw(CCompStringException);
+	CCargo(int seats, const char* model, float maxWeight, float maxVolume) throw(CCompStringException);
 	CCargo(ifstream& in);
 	CCargo(const CCargo& cCargo) throw(CCompStringException);
 

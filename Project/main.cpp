@@ -24,27 +24,33 @@ int main()
 		cout << "This was in file " << endl;
 		pDelta->print(cout);
 	}
-	catch (const CFlightCompException& e) {
+	catch (const CFlightCompException& e) 
+	{
 		e.show();
 		pDelta = new CFlightCompany("Delta");
 	}
-	//Checking some of the exception put try and catch for each section	
+	
+	try
+	{
+		CPlane p1(-34, "AirBus");
+		CCargo c1(45, "Jumbo", -560, 200);
+		CCargo c2(45, "Jumbo", 560, -200);
+		CFlightInfo f1("London", -23, 120, 5000);
+		CFlightInfo f2("LondonVeryLong", 23, 120, 5000);
+		CFlightInfo f3("London", 23, -120, 5000);
+		CFlightInfo f4("London", 23, 120, -5000);
+		CCrewMember* pC1 = pDelta->getCrewMember(-1);
 
-	/*CPlane p1(-34, "AirBus");
-	CCargo c1(45, "Jumbo", -560, 200);
-	CCargo c2(45, "Jumbo", 560, -200);
-	CFlightInfo f1("London", -23, 120, 5000);
-	CFlightInfo f2("LondonVeryLong", 23, 120, 5000);
-	CFlightInfo f3("London", 23, -120, 5000);
-	CFlightInfo f4("London", 23, 120, -5000);
-	CCrewMember* pC1 = pDelta->getCrewMember(-1);
+		CCrewMember* pC2 = pDelta->getCrewMember(0);
+		(*pC2) += -4;
+		CPlane p0 = (*pDelta)[9];
+	}
+	catch (const CFlightCompException& e) 
+	{
+		e.show();
+	}
 
-	CCrewMember* pC2 = pDelta->getCrewMember(0);
-	(*pC2) += -4;
-	CPlane p0 = (*pDelta)[9];*/
-
-	//call a static function that get plane or customer from user.
-	/*CPlaneCrewFactory::getCompanyDataFromUser(*pDelta);
+	CPlaneCrewFactory::getCompanyDataFromUser(*pDelta);
 
 	CFlightInfo Info("Paris", 343, 320, 5000);
 	CFlight flight1(Info, &(*pDelta)[0]);
@@ -52,19 +58,22 @@ int main()
 
 	CFlight* pF = pDelta->getFlightByNum(343);
 	CCrewMember* pCmTemp;
-	if (pF != nullptr) {
+	if (pF != nullptr) 
+	{
 		cout << "flight 343 was found " << endl;
-		for (int i = 0; i < pDelta->getCrewCount(); i++) {
+		for (int i = 0; i < pDelta->getCrewCount(); i++) 
+		{
 			pCmTemp = pDelta->getCrewMember(i);
 			*pF + pCmTemp;
 		}
-	}*/
+	}
 
 	try
 	{
 		pDelta->saveToFile("Delta.txt");
 	}
-	catch (const CFlightCompException& e) {
+	catch (const CFlightCompException& e) 
+	{
 		e.show();
 	}
 

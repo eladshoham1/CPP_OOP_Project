@@ -23,46 +23,48 @@ CrewType CPlaneCrewFactory::getCrewType(const CCrewMember* pCrew)
 
 void CPlaneCrewFactory::getCompanyDataFromUser(CFlightCompany& comp)
 {
-	bool addData;
+	char addData, name[MAX];
 	CCrewMember* pCrewMember;
 	CPlane* pPlane;
-	CFlight* pFlight;
+
+	cout << "Please enter flight company name: ";
+	cin.getline(name, MAX);
+	comp.setName(name);
 
 	do
 	{
-		cout << "Add new crew member? (true/false) ";
+		cout << "Add new crew member? (Y/N) ";
 		cin >> addData;
 
-		if (!addData)
+		if (addData == 'N' || addData == 'n')
 			break;
 
 		pCrewMember = getCrewFromUser();
 		comp.addCrewMember(*pCrewMember);
-	} while (addData);
+	} while (addData == 'Y' || addData == 'y');
 
 	do
 	{
-		cout << "Add new plane? (true/false) ";
+		cout << "Add new plane? (Y/N) ";
 		cin >> addData;
 
-		if (!addData)
+		if (addData == 'N' || addData == 'n')
 			break;
 
 		pPlane = getPlaneFromUser();
 		comp.addPlane(*pPlane);
-	} while (addData);
+	} while (addData == 'Y' || addData == 'y');
 
 	do
 	{
-		cout << "Add new flight? (true/false) ";
+		cout << "Add new flight? (Y/N) ";
 		cin >> addData;
 
-		if (!addData)
+		if (addData == 'N' || addData == 'n')
 			break;
 
-		pFlight = getFlightFromUser();
-		comp.addFlight(*pFlight);
-	} while (addData);
+		getFlightFromUser(comp);
+	} while (addData == 'Y' || addData == 'y');
 }
 
 CAddress* CPlaneCrewFactory::getAddressFromUser()
@@ -73,9 +75,10 @@ CAddress* CPlaneCrewFactory::getAddressFromUser()
 
 	cout << "Please enter home number: ";
 	cin >> homeNumber;
-	cout << "\nPlease enter street: ";
+	cleanBuffer();
+	cout << "Please enter street: ";
 	cin.getline(street, MAX);
-	cout << "\nPlease enter city: ";
+	cout << "Please enter city: ";
 	cin.getline(city, MAX);
 
 	cAddress = new CAddress(homeNumber, street, city);
@@ -91,25 +94,26 @@ CPlane* CPlaneCrewFactory::getPlaneFromUser()
 
 	do
 	{
-		cout << "Please enter plane type(0-Regular, 1-Cargo): ";
+		cout << "Please enter plane type (0-Regular, 1-Cargo): ";
 		cin >> planeType;
 
-		if (planeType != 0 || planeType != 1)
+		if (planeType != 0 && planeType != 1)
 			cout << "Wrong input, Please try again" << endl;
-	} while (planeType != 0 || planeType != 1);
+	} while (planeType != 0 && planeType != 1);
 
-	cout << "\nPlease enter model: ";
+	cleanBuffer();
+	cout << "Please enter model: ";
 	cin.getline(model, MAX);
-	cout << "\nPlease enter number of seats: ";
+	cout << "Please enter number of seats: ";
 	cin >> seats;
 
 	if (planeType == eRegular)
 		cPlane = new CPlane(seats, model);
 	else
 	{
-		cout << "\nPlease enter max weight: ";
+		cout << "Please enter max weight: ";
 		cin >> maxWeight;
-		cout << "\nPlease enter max volume: ";
+		cout << "Please enter max volume: ";
 		cin >> maxVolume;
 
 		cPlane = new CCargo(seats, model, maxWeight, maxVolume);
@@ -123,77 +127,103 @@ CCrewMember* CPlaneCrewFactory::getCrewFromUser()
 	CCrewMember* cCrewMember;
 	char name[MAX];
 	int crewType, hostType, flyMinutes;
-	bool isCaptain;
+	char isCaptain;
 	CAddress *homeAddress;
 
 	do
 	{
-		cout << "Please enter crew type(0-Host, 1-Pilot): ";
+		cout << "Please enter crew type (0-Host, 1-Pilot): ";
 		cin >> crewType;
 
-		if (crewType != 0 || crewType != 1)
+		if (crewType != 0 && crewType != 1)
 			cout << "Wrong input, Please try again" << endl;
-	} while (crewType != 0 || crewType != 1);
+	} while (crewType != 0 && crewType != 1);
 
-	cout << "\nPlease enter name: ";
+	cleanBuffer();
+	cout << "Please enter name: ";
 	cin.getline(name, MAX);
-	cout << "\nPlease enter fly minutes: ";
+
+	cout << "Please enter fly minutes: ";
 	cin >> flyMinutes;
 
 	if (crewType == eHost)
 	{
-		cout << "Please enter host type(0-Regular, 1-Super, 2-Calcelan): ";
+		cout << "Please enter host type (0-Regular, 1-Super, 2-Calcelan): ";
 		cin >> hostType;
 
 		cCrewMember = new CHost(name, (CHost::eType)hostType, flyMinutes);
 	}
 	else
 	{
-		cout << "\nIs Captain? (true/false) ";
+		cout << "Is Captain? (Y/N) ";
 		cin >> isCaptain;
 		homeAddress = getAddressFromUser();
 
-		cCrewMember = new CPilot(name, isCaptain, homeAddress, flyMinutes);
+		cCrewMember = new CPilot(name, isCaptain == 'Y' || isCaptain == 'y', homeAddress, flyMinutes);
 	}
 
 	return cCrewMember;
 }
 
-CFlight* CPlaneCrewFactory::getFlightFromUser()
+void CPlaneCrewFactory::getFlightFromUser(CFlightCompany& comp)
 {
-	CFlight* pFlight;
-	CPlane* plane;
-	CCrewMember* pCrewMember;
+	CPlane* plane = nullptr;
+	CCrewMember* crewMember;
 	char dest[MAX];
-	int fNum, flightMinutes, destiny;
-	bool addData;
+	int fNum, flightMinutes, destiny, index, numOfPlanes = 0, numOfCrews = 0;
+	char addData;
 
-	cout << "\nPlease enter dest: ";
+	cleanBuffer();
+	cout << "Please enter dest: ";
 	cin.getline(dest, MAX);
-	cout << "\nPlease enter flight number: ";
+	cout << "Please enter flight number: ";
 	cin >> fNum;
-	cout << "\nPlease enter flight minutes: ";
+	cout << "Please enter flight minutes: ";
 	cin >> flightMinutes;
-	cout << "\nPlease enter destiny: ";
+	cout << "Please enter destiny: ";
 	cin >> destiny;
 
-	CFlightInfo flightInfo(dest, fNum, flightMinutes, destiny);
-	plane = getPlaneFromUser();
-	pFlight = new CFlight(flightInfo, plane);
-
-	do
+	numOfPlanes = comp.getCurrentPlanes();
+	if (numOfPlanes > 0)
 	{
-		cout << "Add new crew member? (true/false) ";
-		cin >> addData;
+		cout << "Please choose plane: " << endl;
+		for (int i = 0; i < numOfPlanes; i++)
+			cout << (i + 1) << ") " << comp[i] << endl;
+		cin >> index;
 
-		if (!addData)
-			break;
+		const CPlane* cPlane = dynamic_cast<const CPlane*>(&comp[index - 1]);
+		const CCargo* cCargo = dynamic_cast<const CCargo*>(&comp[index - 1]);
+		if (cPlane)
+			plane = new CPlane(*cPlane);
+		else if (cCargo)
+			plane = new CPlane(*cCargo);
+	}
 
-		pCrewMember = getCrewFromUser();
-		*pFlight + pCrewMember;
-	} while (addData);
+	CFlightInfo flightInfo(dest, fNum, flightMinutes, destiny);
+	CFlight flight(flightInfo, plane);
 
-	return pFlight;
+	numOfCrews = comp.getCrewCount();
+	if (numOfCrews > 0)
+	{
+		do
+		{
+			cout << "Add new crew member? (Y/N) ";
+			cin >> addData;
+
+			if (!addData == 'N' || addData == 'n')
+				break;
+
+			cout << "Please choose crew member: " << endl;
+			for (int i = 0; i < numOfPlanes; i++)
+				cout << (i + 1) << ") " << *comp.getCrewMember(i) << endl;
+			cin >> index;
+			crewMember = comp.getCrewMember(index - 1);
+			flight + crewMember;
+			numOfCrews--;
+		} while (numOfCrews > 0 && (addData == 'Y' || addData == 'y'));
+	}
+
+	comp.addFlight(flight);
 }
 
 CCrewMember* CPlaneCrewFactory::getCrewMemberFromFile(ifstream& inFile)
@@ -222,4 +252,13 @@ CPlane* CPlaneCrewFactory::getPlaneFromFile(ifstream& inFile)
 		pPlane = new CCargo(inFile);
 
 	return pPlane;
+}
+
+void CPlaneCrewFactory::cleanBuffer()
+{
+	int c;
+	do
+	{
+		c = getchar();
+	} while (c != EOF && c != '\n');
 }

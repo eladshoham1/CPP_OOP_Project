@@ -25,6 +25,9 @@ CHost::eType CHost::getHostType() const
 
 void CHost::setHostType(eType hostType)
 {
+	if (hostType > eCalcelan)
+		throw CCompStringException("There is no such a host type");
+
 	this->hostType = hostType;
 }
 

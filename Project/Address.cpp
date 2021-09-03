@@ -43,18 +43,27 @@ int CAddress::getHomeNumber() const
 
 void CAddress::setCity(const char* city)
 {
+	if (strcmp(city, "") == 0)
+		throw CCompStringException("City can't be empty");
+
 	delete[] this->city;
 	this->city = _strdup(city);
 }
 
 void CAddress::setStreet(const char* street)
 {
+	if (strcmp(street, "") == 0)
+		throw CCompStringException("Streer can't be empty");
+
 	delete[] this->street;
 	this->street = _strdup(street);
 }
 
 void CAddress::setHomeNumber(int homeNumber)
 {
+	if (homeNumber <= 0)
+		throw CCompStringException("Home number need to be postivie number");
+
 	this->homeNumber = homeNumber;
 }
 
@@ -75,7 +84,11 @@ const CAddress& CAddress::operator=(const CAddress& other)
 
 ostream& operator<<(ostream& os, const CAddress& cAddress)
 {
-	os << cAddress.street << " " << cAddress.homeNumber << " " << cAddress.city << endl;
+	if (typeid(os) == typeid(ofstream))
+		os << cAddress.homeNumber << " " << cAddress.street << " " << cAddress.city;
+	else
+		os << " Home Address: " << cAddress.street << " " << cAddress.homeNumber << ", " << cAddress.city << endl;
+
 	return os;
 }
 

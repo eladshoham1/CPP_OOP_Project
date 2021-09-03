@@ -10,13 +10,13 @@ private:
 	CAddress *homeAddress;
 
 public:
-	CPilot(const char *name, bool isCaptain, CAddress *homeAddress = nullptr, int flyMinutes = 0);
+	CPilot(const char *name, bool isCaptain, CAddress *homeAddress = nullptr, int flyMinutes = 0) throw(CCompStringException);
 	CPilot(ifstream& in);
-	CPilot(const CPilot& cPilot);
+	CPilot(const CPilot& cPilot) throw(CCompStringException);
 	~CPilot();
 
 	void setIsCaptain(bool isCaptain);
-	void setHomeAddress(CAddress *homeAddress);
+	void setHomeAddress(CAddress *homeAddress) throw(CCompStringException);
 
 	void toSimulator() const;
 	virtual void getUniform() const override;
@@ -24,6 +24,6 @@ public:
 	virtual void toOs(ostream& os) const override;
 	virtual void fromOs(istream& in) override;
 
-	virtual bool operator+=(int minutes);
+	virtual void operator+=(int minutes) throw(CCompStringException);;
 };
 

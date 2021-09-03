@@ -13,7 +13,7 @@ private:
 	static constexpr int MAX_CREW = 10;
 	CFlightInfo flightInfo;
 	CPlane* plane;
-	CCrewMember** crewMembers;
+	CCrewMember* crewMembers[MAX_CREW];
 	int currentCrew;
 
 public:
@@ -34,8 +34,8 @@ public:
 	void print(ostream& out) const;
 
 	const CFlight& operator=(const CFlight& other);
-	friend CFlight operator+(CFlight& theFlight, CCrewMember* cCrewMember);
-	friend CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight);
+	friend CFlight operator+(CFlight& theFlight, CCrewMember* cCrewMember) throw(CFlightCompException);
+	friend CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight) throw(CFlightCompException);
 	friend ostream& operator<<(ostream& os, const CFlight& cFlight);
 	friend istream& operator>>(istream& in, CFlight& cFlight);
 	bool operator==(const CFlight& other) const;

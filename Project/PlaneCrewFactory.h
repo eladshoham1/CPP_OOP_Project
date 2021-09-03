@@ -20,8 +20,10 @@ public:
 	static CAddress* getAddressFromUser();
 	static CPlane* getPlaneFromUser();
 	static CCrewMember* getCrewFromUser();
-	static CFlight* getFlightFromUser();
+	static void getFlightFromUser(CFlightCompany& comp);
 
 	static CCrewMember* getCrewMemberFromFile(ifstream& inFile);
 	static CPlane* getPlaneFromFile(ifstream& inFile);
+	
+	static void cleanBuffer();
 };

@@ -7,8 +7,8 @@ using namespace std;
 CFlight::CFlight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 {
 	setPlane(plane);
-	this->crewMembers = new CCrewMember*[CFlight::MAX_CREW];
 	this->currentCrew = 0;
+	cout << "\n\n\n in the cflight and the current Crew is " << this->currentCrew;
 }
 
 CFlight::CFlight(ifstream& in) : flightInfo(in)
@@ -23,7 +23,8 @@ CFlight::CFlight(const CFlight& cFlight) : flightInfo(cFlight.flightInfo)
 
 CFlight::~CFlight()
 {
-	delete this->plane;
+	if (this->plane != nullptr)
+		delete this->plane;
 }
 
 const CFlightInfo& CFlight::getFlightInfo() const
@@ -116,8 +117,9 @@ const CFlight& CFlight::operator=(const CFlight& other)
 	{
 		this->flightInfo = other.flightInfo;
 		setPlane(other.plane);
-		this->crewMembers = other.crewMembers;
-		this->currentCrew = other.currentCrew;
+
+		for (int i = 0; i < other.currentCrew; i++)
+			*this + other.crewMembers[i];
 	}
 
 	return *this;
@@ -125,16 +127,23 @@ const CFlight& CFlight::operator=(const CFlight& other)
 
 CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember)
 {
+	const CPilot *pilot = dynamic_cast<const CPilot*>(newCrewMember);
+	const CHost *host = dynamic_cast<const CHost*>(newCrewMember);
+
 	if (theFlight.currentCrew >= CFlight::MAX_CREW)
-		return theFlight;
+		throw CCompLimitException(CFlight::MAX_CREW);
 
 	for (int i = 0; i < theFlight.currentCrew; i++)
 	{
 		if (theFlight.crewMembers[i] == newCrewMember)
-			return theFlight;
+			throw CCompStringException("This crew member already in this flight");
 	}
 
-	theFlight.crewMembers[theFlight.currentCrew++] = newCrewMember;
+	if (pilot)
+		theFlight.crewMembers[theFlight.currentCrew++] = new CPilot(*pilot);
+	else if (host)
+		theFlight.crewMembers[theFlight.currentCrew++] = new CHost(*host);
+
 	return theFlight;
 }
 
@@ -150,13 +159,13 @@ ostream& operator<<(ostream& os, const CFlight& cFlight)
 		os << cFlight.flightInfo << " ";
 		
 		if (cFlight.plane)
-			os << 1 << *cFlight.plane;
+			os << 1 << (typeid(*cFlight.plane) == typeid(CPlane) ? 0 : 1) << " " << *cFlight.plane;
 		else
 			os << 0;
 
 		os << endl << cFlight.currentCrew << endl;
 		for (int i = 0; i < cFlight.currentCrew; i++)
-			os << *cFlight.crewMembers[i];
+			os << (typeid(*cFlight.crewMembers[i]) == typeid(CHost) ? 0 : 1) << " " << *cFlight.crewMembers[i];
 	}
 	else
 	{
@@ -193,7 +202,6 @@ istream& operator>>(istream& in, CFlight& cFlight)
 		}
 
 		in >> cFlight.currentCrew;
-		cFlight.crewMembers = new CCrewMember*[CFlight::MAX_CREW];
 		for (int i = 0; i < cFlight.currentCrew; i++)
 		{
 			in >> type;

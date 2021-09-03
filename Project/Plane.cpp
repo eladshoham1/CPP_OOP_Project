@@ -6,9 +6,10 @@ using namespace std;
 
 int CPlane::generateNumber = 100;
 
-CPlane::CPlane(int seats, const char* model) throw(CCompStringException) : seats(seats)
+CPlane::CPlane(int seats, const char* model)
 {
 	this->id = CPlane::generateNumber++;
+	setSeats(seats);
 	setModel(model);
 }
 
@@ -17,7 +18,7 @@ CPlane::CPlane(ifstream& in)
 	in >> *this;
 }
 
-CPlane::CPlane(const CPlane& cPlane) throw(CCompStringException)
+CPlane::CPlane(const CPlane& cPlane)
 {
 	*this = cPlane;
 }
@@ -42,27 +43,27 @@ int CPlane::getSeats() const
 	return this->seats;
 }
 
-void CPlane::setId(int id) throw(CCompStringException)
+void CPlane::setId(int id)
 {
 	if (id < 0)
-		throw("Id must be positive number");
+		throw CCompStringException("Id must be positive number");
 
 	this->id = id;
 }
 
-void CPlane::setModel(const char* model) throw(CCompStringException)
+void CPlane::setModel(const char* model)
 {
 	if (strcmp(model, "") == 0)
-		throw("Model can't be empty");
+		throw CCompStringException("Model can't be empty");
 
 	delete[] this->model;
 	this->model = _strdup(model);
 }
 
-void CPlane::setSeats(int seats) throw(CCompStringException)
+void CPlane::setSeats(int seats)
 {
 	if (seats < 0)
-		throw("Number of seats must be positive number");
+		throw CCompStringException("Number of seats must be positive number");
 
 	this->seats = seats;
 }
@@ -77,7 +78,7 @@ bool CPlane::isEqual(const CPlane& cPlane)
 	return *this == cPlane;
 }
 
-const CPlane& CPlane::operator=(const CPlane& other) throw(CCompStringException)
+const CPlane& CPlane::operator=(const CPlane& other)
 {
 	if (this != &other)
 	{
@@ -92,7 +93,7 @@ const CPlane& CPlane::operator=(const CPlane& other) throw(CCompStringException)
 ostream& operator<<(ostream& os, const CPlane& cPlane)
 {
 	if (typeid(os) == typeid(ofstream))
-		os << (typeid(cPlane) == typeid(CPlane) ? 0 : 1) << cPlane.id << " " << cPlane.model << " " << cPlane.seats << endl;
+		os << cPlane.id << " " << cPlane.model << " " << cPlane.seats << endl;
 	else
 		os << "Plane " << cPlane.id << " model " << cPlane.model << " seats " << cPlane.seats << endl;
 
