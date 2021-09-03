@@ -27,13 +27,13 @@ private:
 public:
 	CFlightCompany(const char* name);
 	CFlightCompany(const char* fileName, int file);
-	CFlightCompany(const CFlightCompany& cFlightCompany) = delete;
+	CFlightCompany(const CFlightCompany& cFlightCompany);// = delete;
 	~CFlightCompany();
 
 	const char* getName() const;
 	void setName(const char* name);
 
-	void print(ostream& out);
+	void print(ostream& out) const;
 	bool addCrewMember(const CCrewMember& pCrewMember);
 	bool addPlane(const CPlane& pPlaneArr);
 	bool addFlight(const CFlight& fArr);

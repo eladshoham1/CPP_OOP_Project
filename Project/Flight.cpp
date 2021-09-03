@@ -105,6 +105,11 @@ bool CFlight::takeOff()
 	return true;
 }
 
+void CFlight::print(ostream& out) const
+{
+	out << *this;
+}
+
 const CFlight& CFlight::operator=(const CFlight& other)
 {
 	if (this != &other)
@@ -159,7 +164,7 @@ ostream& operator<<(ostream& os, const CFlight& cFlight)
 		if (cFlight.plane)
 			os << *cFlight.plane;
 		else
-			os << "No plane assign yet";
+			os << "No plane assign yet" << endl;
 		os << " There are " << cFlight.currentCrew << " crew members in flight:" << endl;
 
 		for (int i = 0; i < cFlight.currentCrew; i++)
@@ -173,14 +178,31 @@ istream& operator>>(istream& in, CFlight& cFlight)
 {
 	if (typeid(in) == typeid(ifstream))
 	{
-		int hasPlane;
+		ifstream& inFile = dynamic_cast<ifstream&>(in);
+		int hasPlane, type;
 		in >> hasPlane;
 	
-		//if (hasPlane == 1)
-			//cFlight.plane = new CPlane(in);
+		if (hasPlane == 1)
+		{
+			in >> type;
+
+			if (type == 0)
+				cFlight.plane = new CPlane(inFile);
+			else
+				cFlight.plane = new CCargo(inFile);
+		}
+
 		in >> cFlight.currentCrew;
+		cFlight.crewMembers = new CCrewMember*[CFlight::MAX_CREW];
 		for (int i = 0; i < cFlight.currentCrew; i++)
-			in >> *cFlight.crewMembers[i];
+		{
+			in >> type;
+
+			if (type == 0)
+				cFlight.crewMembers[i] = new CHost(inFile);
+			else
+				cFlight.crewMembers[i] = new CPilot(inFile);
+		}
 	}
 	else
 	{

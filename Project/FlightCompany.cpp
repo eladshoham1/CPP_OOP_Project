@@ -19,7 +19,7 @@ CFlightCompany::CFlightCompany(const char* fileName, int file)
 {
 	ifstream inFile(fileName);
 
-	this->name = new char[MAX_SIZE];
+	/*this->name = new char[MAX_SIZE];
 	inFile >> this->name;
 	inFile >> this->currentCrew;
 	this->crewMembers = new CCrewMember*[CFlightCompany::MAX_CREWS];
@@ -49,16 +49,16 @@ CFlightCompany::CFlightCompany(const char* fileName, int file)
 	inFile >> this->currentFlights;
 	this->flights = new CFlight*[CFlightCompany::MAX_FLIGHT];
 	for (int i = 0; i < this->currentFlights; i++)
-		this->flights[i] = new CFlight(inFile);
+		this->flights[i] = new CFlight(inFile);*/
 
-	//inFile >> *this;
+	inFile >> *this;
 	inFile.close();
 }
 
-/*CFlightCompany::CFlightCompany(const CFlightCompany& cFlightCompany)
+CFlightCompany::CFlightCompany(const CFlightCompany& cFlightCompany)
 {
 	*this = cFlightCompany;
-}*/
+}
 
 CFlightCompany::~CFlightCompany()
 {
@@ -88,12 +88,11 @@ void CFlightCompany::setName(const char* name)
 	this->name = _strdup(name);
 }
 
-void CFlightCompany::print(ostream& out)
+void CFlightCompany::print(ostream& out) const
 {
 	//if (!this->name)
 		//throw("There is no flight company name");
 
-	//out << *this;
 	out << "Flight company: " << this->name << endl;
 	out << "There are " << currentCrew << " Crew members: " << endl;
 	for (int i = 0; i < currentCrew; i++)
@@ -103,7 +102,7 @@ void CFlightCompany::print(ostream& out)
 		planes[i]->print(out);
 	out << "There are " << currentFlights << " Flights: " << endl;
 	for (int i = 0; i < currentFlights; i++)
-		out << *flights[i];
+		flights[i]->print(out);
 }
 
 bool CFlightCompany::addCrewMember(const CCrewMember& pCrewMember)
@@ -240,7 +239,8 @@ int CFlightCompany::getCrewCount() const
 void CFlightCompany::saveToFile(const char* fileName) throw(CCompFileException)
 {
 	ofstream outFile(fileName);
-
+	outFile << *this;
+	outFile.close();
 }
 
 const CFlightCompany& CFlightCompany::operator=(const CFlightCompany& other)
@@ -274,6 +274,7 @@ ostream& operator<<(ostream os, const CFlightCompany& cFlightCompany)
 			os << *cFlightCompany.crewMembers[i];
 
 		os << cFlightCompany.currentPlanes << endl;
+		os << CPlane::generateNumber;
 		for (int i = 0; i < cFlightCompany.currentPlanes; i++)
 			os << *cFlightCompany.planes[i];
 
@@ -282,21 +283,7 @@ ostream& operator<<(ostream os, const CFlightCompany& cFlightCompany)
 			os << *cFlightCompany.flights[i];
 	}
 	else
-	{
-		os << "Flight company: " << cFlightCompany.name << endl;
-
-		os << "There are " << cFlightCompany.currentCrew << " Crew members: " << endl;
-		for (int i = 0; i < cFlightCompany.currentCrew; i++)
-			cFlightCompany.crewMembers[i]->print(os);
-
-		os << "There are " << cFlightCompany.currentPlanes << " Planes: " << endl;
-		for (int i = 0; i < cFlightCompany.currentPlanes; i++)
-			cFlightCompany.planes[i]->print(os);
-
-		os << "There are " << cFlightCompany.currentFlights << " Flights: " << endl;
-		for (int i = 0; i < cFlightCompany.currentFlights; i++)
-			os << *cFlightCompany.flights[i]; // to change to print -> cFlightCompany.flights[i]->print(os); (print in flight)
-	}
+		cFlightCompany.print(os);
 
 	return os;
 }
@@ -306,9 +293,8 @@ istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 
 	if (typeid(in) == typeid(ifstream))
 	{
-		ifstream *inFile = dynamic_cast<ifstream*>(&in);
+		ifstream& inFile = dynamic_cast<ifstream&>(in);
 		int type;
-		in >> type;
 
 		delete[] cFlightCompany.name;
 		cFlightCompany.name = new char[MAX_SIZE];
@@ -318,24 +304,29 @@ istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 		cFlightCompany.crewMembers = new CCrewMember*[CFlightCompany::MAX_CREWS];
 		for (int i = 0; i < cFlightCompany.currentCrew; i++)
 		{
+			in >> type;
 			if (type == 0)
-				cFlightCompany.crewMembers[i] = new CHost(*inFile);
+				cFlightCompany.crewMembers[i] = new CHost(inFile);
 			else
-				cFlightCompany.crewMembers[i] = new CPilot(*inFile);
+				cFlightCompany.crewMembers[i] = new CPilot(inFile);
 		}
 
 		in >> cFlightCompany.currentPlanes;
+		in >> CPlane::generateNumber;
+		cFlightCompany.planes = new CPlane*[CFlightCompany::MAX_PLANES];
 		for (int i = 0; i < cFlightCompany.currentPlanes; i++)
 		{
+			in >> type;
 			if (type == 0)
-				cFlightCompany.planes[i] = new CPlane(*inFile);
+				cFlightCompany.planes[i] = new CPlane(inFile);
 			else
-				cFlightCompany.planes[i] = new CCargo(*inFile);
+				cFlightCompany.planes[i] = new CCargo(inFile);
 		}
 
 		in >> cFlightCompany.currentFlights;
+		cFlightCompany.flights = new CFlight*[CFlightCompany::MAX_FLIGHT];
 		for (int i = 0; i < cFlightCompany.currentFlights; i++)
-			cFlightCompany.flights[i] = new CFlight(*inFile);
+			cFlightCompany.flights[i] = new CFlight(inFile);
 	}
 	else
 	{

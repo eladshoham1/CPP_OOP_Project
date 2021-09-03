@@ -4,12 +4,13 @@
 class CPlane
 {
 protected:
-	static int generateNumber;
 	int id;
 	char* model;
 	int seats;
 
 public:
+	static int generateNumber;
+	
 	CPlane(int seats, const char* model) throw(CCompStringException);
 	CPlane(ifstream& in);
 	CPlane(const CPlane& cPlane) throw(CCompStringException);

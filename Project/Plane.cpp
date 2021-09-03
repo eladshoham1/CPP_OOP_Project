@@ -104,8 +104,9 @@ istream& operator>>(istream& in, CPlane& cPlane)
 {
 	delete[] cPlane.model;
 	cPlane.model = new char[100];
+
 	if (typeid(in) == typeid(ifstream))
-		in >> CPlane::generateNumber >> cPlane.id >> cPlane.model >> cPlane.seats;
+		in >> cPlane.id >> cPlane.model >> cPlane.seats;
 	else
 	{
 		/*cout << "\nPlease enter model: ";

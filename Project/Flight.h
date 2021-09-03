@@ -31,6 +31,7 @@ public:
 	bool checkPlane() const;
 	bool checkCargo() const;
 	virtual bool takeOff();
+	void print(ostream& out) const;
 
 	const CFlight& operator=(const CFlight& other);
 	friend CFlight operator+(CFlight& theFlight, CCrewMember* cCrewMember);
