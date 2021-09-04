@@ -3,7 +3,7 @@ using namespace std;
 
 #include "Host.h"
 
-CHost::CHost(const char* name, eType hostType, int flyMinutes) : CCrewMember(name, flyMinutes)
+CHost::CHost(const char* name, eType hostType, int flyMinutes) throw (CCompStringException) : CCrewMember(name, flyMinutes)
 {
 	setHostType(hostType);
 }
@@ -13,7 +13,7 @@ CHost::CHost(ifstream& in) : CCrewMember(in)
 	fromOs(in);
 }
 
-CHost::CHost(const CHost& cHost) : CCrewMember(cHost)
+CHost::CHost(const CHost& cHost) throw (CCompStringException) : CCrewMember(cHost)
 {
 	setHostType(cHost.hostType);
 }
@@ -23,9 +23,9 @@ CHost::eType CHost::getHostType() const
 	return this->hostType;
 }
 
-void CHost::setHostType(eType hostType)
+void CHost::setHostType(eType hostType) throw (CCompStringException)
 {
-	if (hostType > eCalcelan)
+	if (hostType < 0 || hostType > eCalcelan)
 		throw CCompStringException("There is no such a host type");
 
 	this->hostType = hostType;

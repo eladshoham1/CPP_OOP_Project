@@ -3,7 +3,7 @@ using namespace std;
 
 #include "Pilot.h"
 
-CPilot::CPilot(const char *name, bool isCaptain, CAddress *homeAddress, int flyMinutes) : CCrewMember(name, flyMinutes)
+CPilot::CPilot(const char *name, bool isCaptain, CAddress *homeAddress, int flyMinutes) throw(CCompStringException) : CCrewMember(name, flyMinutes)
 {
 	setIsCaptain(isCaptain);
 	setHomeAddress(homeAddress);
@@ -14,7 +14,7 @@ CPilot::CPilot(ifstream& in) : CCrewMember(in)
 	fromOs(in);
 }
 
-CPilot::CPilot(const CPilot& cPilot) : CCrewMember(cPilot)
+CPilot::CPilot(const CPilot& cPilot) throw(CCompStringException) : CCrewMember(cPilot)
 {
 	setIsCaptain(cPilot.isCaptain);
 	setHomeAddress(cPilot.homeAddress);
@@ -31,9 +31,9 @@ void CPilot::setIsCaptain(bool isCaptain)
 	this->isCaptain = isCaptain;
 }
 
-void CPilot::setHomeAddress(CAddress *homeAddress)
+void CPilot::setHomeAddress(CAddress *homeAddress) throw(CCompStringException)
 {
-	if (homeAddress == nullptr)
+	if (!homeAddress)
 		throw CCompStringException("Home address can't be null");
 
 	delete this->homeAddress;
@@ -89,13 +89,13 @@ void CPilot::fromOs(istream& in)
 	}
 	else
 	{
-		cout << "\nHas address? (0-No, 1-Yes) ";
+		cout << "Has address? (0-No, 1-Yes) ";
 		in >> hasAddress;
 
 		if (hasAddress)
 			in >> *this->homeAddress;
 
-		cout << "\nIs Captain? (0-No, 1-Yes) ";
+		cout << "Is Captain? (0-No, 1-Yes) ";
 	}
 
 	in >> isCaptain;
@@ -103,7 +103,7 @@ void CPilot::fromOs(istream& in)
 }
 	
 
-void CPilot::operator+=(int minutes)
+void CPilot::operator+=(int minutes) throw(CCompStringException)
 {
 	CCrewMember::operator+=(this->isCaptain ? int(minutes * 1.1f) : minutes);
 }

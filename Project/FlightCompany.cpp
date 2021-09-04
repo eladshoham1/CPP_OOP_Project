@@ -5,7 +5,7 @@ using namespace std;
 
 #include "FlightCompany.h"
 
-CFlightCompany::CFlightCompany(const char* name)
+CFlightCompany::CFlightCompany(const char* name) throw(CCompStringException)
 {
 	setName(name);
 	this->currentCrew = 0;
@@ -13,7 +13,7 @@ CFlightCompany::CFlightCompany(const char* name)
 	this->currentFlights = 0;
 }
 
-CFlightCompany::CFlightCompany(const char* fileName, int file)
+CFlightCompany::CFlightCompany(const char* fileName, int file) throw(CCompFileException)
 {
 	ifstream inFile(fileName);
 
@@ -58,7 +58,7 @@ int CFlightCompany::getCurrentFlights() const
 	return this->currentFlights;
 }
 
-void CFlightCompany::setName(const char* name)
+void CFlightCompany::setName(const char* name) throw(CCompStringException)
 {
 	if (strcmp(name, "") == 0)
 		throw CCompStringException("Name can't be empty");
@@ -72,7 +72,7 @@ void CFlightCompany::print(ostream& out) const
 	out << *this;
 }
 
-void CFlightCompany::addCrewMember(const CCrewMember& pCrewMember)
+void CFlightCompany::addCrewMember(const CCrewMember& pCrewMember) throw(CFlightCompException)
 {
 	const CPilot *cPilot = dynamic_cast<const CPilot*>(&pCrewMember);
 	const CHost *cHost = dynamic_cast<const CHost*>(&pCrewMember);
@@ -92,7 +92,7 @@ void CFlightCompany::addCrewMember(const CCrewMember& pCrewMember)
 		this->crewMembers[this->currentCrew++] = new CHost(*cHost);
 }
 
-void CFlightCompany::addPlane(const CPlane& pPlane)
+void CFlightCompany::addPlane(const CPlane& pPlane) throw(CFlightCompException)
 {
 	const CCargo *cCargo = dynamic_cast<const CCargo*>(&pPlane);
 
@@ -111,7 +111,7 @@ void CFlightCompany::addPlane(const CPlane& pPlane)
 		this->planes[this->currentPlanes++] = new CPlane(pPlane);
 }
 
-void CFlightCompany::addFlight(const CFlight& flight)
+void CFlightCompany::addFlight(const CFlight& flight) throw(CFlightCompException)
 {
 	if (flight.getCurrentCrew() != 0 || this->currentFlights >= CFlightCompany::MAX_FLIGHT)
 		throw CCompLimitException(CFlightCompany::MAX_FLIGHT);
@@ -125,7 +125,7 @@ void CFlightCompany::addFlight(const CFlight& flight)
 	this->flights[this->currentFlights++] = new CFlight(flight);
 }
 
-CCrewMember* CFlightCompany::getCrewMember(int index)
+CCrewMember* CFlightCompany::getCrewMember(int index) throw(CCompStringException)
 {
 	if (index < 0 || index >= this->currentCrew)
 		throw CCompStringException("Illegal index of crew member");
@@ -198,7 +198,7 @@ int CFlightCompany::getCrewCount() const
 	return this->currentCrew;
 }
 
-void CFlightCompany::saveToFile(const char* fileName)
+void CFlightCompany::saveToFile(const char* fileName) throw(CCompFileException)
 {
 	ofstream outFile(fileName);
 
@@ -232,7 +232,7 @@ const CFlightCompany& CFlightCompany::operator=(const CFlightCompany& other)
 	return *this;
 }
 
-CPlane& CFlightCompany::operator[](int index)
+CPlane& CFlightCompany::operator[](int index) throw(CCompLimitException)
 {
 	if (index >= this->currentPlanes)
 		throw CCompLimitException(this->currentPlanes);
@@ -291,6 +291,7 @@ istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 		in >> cFlightCompany.currentCrew;
 		for (int i = 0; i < cFlightCompany.currentCrew; i++)
 		{
+			//cFlightCompany.crewMembers[i] = CPlaneCrewFactory::getCrewMemberFromFile(inFile);
 			in >> type;
 			if (type == 0)
 				cFlightCompany.crewMembers[i] = new CHost(inFile);
@@ -302,6 +303,7 @@ istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 		in >> CPlane::generateNumber;
 		for (int i = 0; i < cFlightCompany.currentPlanes; i++)
 		{
+			//cFlightCompany.planes[i] = CPlaneCrewFactory::getPlaneFromFile(inFile);
 			in >> type;
 			if (type == 0)
 				cFlightCompany.planes[i] = new CPlane(inFile);
@@ -315,45 +317,7 @@ istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 	}
 	else
 	{
-		char name[MAX];
-		bool addCrewMember;
-
-		cout << "Enter filght comapny name: ";
-		in.getline(name, MAX);
-		strcpy(cFlightCompany.name, name);
-
-		do
-		{
-			cout << "Add new crew member? (true/false) ";
-			in >> addCrewMember;
-
-			if (!addCrewMember)
-				break;
-
-			in >> *cFlightCompany.crewMembers[cFlightCompany.currentCrew++];
-		} while (addCrewMember);
-
-		do
-		{
-			cout << "Add new plane? (true/false) ";
-			in >> addCrewMember;
-
-			if (!addCrewMember)
-				break;
-
-			in >> *cFlightCompany.planes[cFlightCompany.currentPlanes++];
-		} while (addCrewMember);
-
-		do
-		{
-			cout << "Add new flight? (true/false) ";
-			in >> addCrewMember;
-
-			if (!addCrewMember)
-				break;
-
-			in >> *cFlightCompany.flights[cFlightCompany.currentFlights++];
-		} while (addCrewMember);
+		//
 	}
 
 	return in;

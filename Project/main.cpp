@@ -8,7 +8,7 @@ using namespace std;
 #include "CrewMember.h"
 #include "Flight.h"
 #include "FlightCompany.h"
-#include "address.h"
+#include "Address.h"
 #include "Pilot.h"
 #include "Cargo.h"
 #include "Host.h"
@@ -52,20 +52,27 @@ int main()
 
 	CPlaneCrewFactory::getCompanyDataFromUser(*pDelta);
 
-	CFlightInfo Info("Paris", 343, 320, 5000);
-	CFlight flight1(Info, &(*pDelta)[0]);
-	pDelta->addFlight(flight1);
-
-	CFlight* pF = pDelta->getFlightByNum(343);
-	CCrewMember* pCmTemp;
-	if (pF != nullptr) 
+	try
 	{
-		cout << "flight 343 was found " << endl;
-		for (int i = 0; i < pDelta->getCrewCount(); i++) 
+		CFlightInfo Info("Paris", 343, 320, 5000);
+		CFlight flight1(Info, &(*pDelta)[0]);
+		pDelta->addFlight(flight1);
+
+		CFlight* pF = pDelta->getFlightByNum(343);
+		CCrewMember* pCmTemp;
+		if (pF != nullptr)
 		{
-			pCmTemp = pDelta->getCrewMember(i);
-			*pF + pCmTemp;
+			cout << "flight 343 was found " << endl;
+			for (int i = 0; i < pDelta->getCrewCount(); i++)
+			{
+				pCmTemp = pDelta->getCrewMember(i);
+				*pF + pCmTemp;
+			}
 		}
+	}
+	catch (const CFlightCompException& e)
+	{
+		e.show();
 	}
 
 	try

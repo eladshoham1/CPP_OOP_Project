@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 using namespace std;
 
@@ -35,7 +36,12 @@ public:
 
 	virtual void show() const override
 	{
-		cout << "The max is " << max << endl;
+		cout << "Index out of boundry, ";
+
+		if (max == 0)
+			cout << "there is no elements" << endl;
+		else
+			cout << max << " is the maximum" << endl;
 	}
 };
 

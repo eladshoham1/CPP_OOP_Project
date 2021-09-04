@@ -5,7 +5,7 @@ using namespace std;
 #include "Address.h"
 #include "FlightInfo.h"
 
-CAddress::CAddress(int homeNumber, const char* street, const char* city)
+CAddress::CAddress(int homeNumber, const char* street, const char* city) throw (CCompStringException)
 {
 	updateAddress(city, street, homeNumber);
 }
@@ -15,7 +15,7 @@ CAddress::CAddress(ifstream& in)
 	in >> *this;
 }
 
-CAddress::CAddress(const CAddress& cAddress)
+CAddress::CAddress(const CAddress& cAddress) throw (CCompStringException)
 {
 	*this = cAddress;
 }
@@ -41,7 +41,7 @@ int CAddress::getHomeNumber() const
 	return this->homeNumber;
 }
 
-void CAddress::setCity(const char* city)
+void CAddress::setCity(const char* city) throw (CCompStringException)
 {
 	if (strcmp(city, "") == 0)
 		throw CCompStringException("City can't be empty");
@@ -50,16 +50,16 @@ void CAddress::setCity(const char* city)
 	this->city = _strdup(city);
 }
 
-void CAddress::setStreet(const char* street)
+void CAddress::setStreet(const char* street) throw (CCompStringException)
 {
 	if (strcmp(street, "") == 0)
-		throw CCompStringException("Streer can't be empty");
+		throw CCompStringException("Street can't be empty");
 
 	delete[] this->street;
 	this->street = _strdup(street);
 }
 
-void CAddress::setHomeNumber(int homeNumber)
+void CAddress::setHomeNumber(int homeNumber) throw (CCompStringException)
 {
 	if (homeNumber <= 0)
 		throw CCompStringException("Home number need to be postivie number");
@@ -67,14 +67,14 @@ void CAddress::setHomeNumber(int homeNumber)
 	this->homeNumber = homeNumber;
 }
 
-void CAddress::updateAddress(const char* city, const char* street, int homeNumber)
+void CAddress::updateAddress(const char* city, const char* street, int homeNumber) throw (CCompStringException)
 {
 	setCity(city);
 	setStreet(street);
 	setHomeNumber(homeNumber);
 }
 
-const CAddress& CAddress::operator=(const CAddress& other)
+const CAddress& CAddress::operator=(const CAddress& other) throw (CCompStringException)
 {
 	if (this != &other)
 		updateAddress(other.city, other.street, other.homeNumber);
@@ -99,8 +99,8 @@ istream& operator>>(istream& in, CAddress& cAddress)
 	cAddress.street = new char[MAX];
 	cAddress.city = new char[MAX];
 
-	if (typeid(in) != typeid(ifstream))
-		cout << "Please enter house number street name and city name:" << endl;
+	//if (typeid(in) != typeid(ifstream))
+		//cout << "Please enter house number street name and city name:" << endl;
 
 	in >> cAddress.homeNumber >> cAddress.street >> cAddress.city;
 	return in;

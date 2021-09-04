@@ -8,7 +8,6 @@ CFlight::CFlight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 {
 	setPlane(plane);
 	this->currentCrew = 0;
-	cout << "\n\n\n in the cflight and the current Crew is " << this->currentCrew;
 }
 
 CFlight::CFlight(ifstream& in) : flightInfo(in)
@@ -44,12 +43,17 @@ int CFlight::getCurrentCrew() const
 
 void CFlight::setPlane(CPlane* plane)
 {
-	CCargo *cCargo = dynamic_cast<CCargo*>(plane);
+	if (plane != nullptr)
+	{
+		CCargo *cCargo = dynamic_cast<CCargo*>(plane);
 	
-	if (cCargo)
-		this->plane = new CCargo(*cCargo);
+		if (cCargo)
+			this->plane = new CCargo(*cCargo);
+		else
+			this->plane = new CPlane(*plane);
+	}
 	else
-		this->plane = new CPlane(*plane);
+		this->plane = nullptr;
 }
 
 bool CFlight::checkPlane() const
@@ -125,7 +129,7 @@ const CFlight& CFlight::operator=(const CFlight& other)
 	return *this;
 }
 
-CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember)
+CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember) throw(CFlightCompException)
 {
 	const CPilot *pilot = dynamic_cast<const CPilot*>(newCrewMember);
 	const CHost *host = dynamic_cast<const CHost*>(newCrewMember);
@@ -147,7 +151,7 @@ CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember)
 	return theFlight;
 }
 
-CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight)
+CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight) throw(CFlightCompException)
 {
 	return theFlight + cCrewMember;
 }
@@ -189,7 +193,7 @@ istream& operator>>(istream& in, CFlight& cFlight)
 	{
 		ifstream& inFile = dynamic_cast<ifstream&>(in);
 		int hasPlane, type;
-		in >> hasPlane;
+		in >> cFlight.flightInfo >> hasPlane;
 	
 		if (hasPlane == 1)
 		{
@@ -204,6 +208,8 @@ istream& operator>>(istream& in, CFlight& cFlight)
 		in >> cFlight.currentCrew;
 		for (int i = 0; i < cFlight.currentCrew; i++)
 		{
+			//cFlight.crewMembers[i] = CPlaneCrewFactory::getCrewMemberFromFile(inFile);
+			in >> type;
 			in >> type;
 
 			if (type == 0)
@@ -214,7 +220,7 @@ istream& operator>>(istream& in, CFlight& cFlight)
 	}
 	else
 	{
-		//
+		// CPlaneCrewFactory::getFlightFromUser();
 	}
 
 	return in;

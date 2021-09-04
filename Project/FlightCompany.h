@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning(disable : 4290)
+
 #include <iostream>
 using namespace std;
 
@@ -25,7 +27,7 @@ private:
 	int currentFlights;
 
 public:
-	CFlightCompany(const char* name)  throw(CCompStringException);
+	CFlightCompany(const char* name) throw(CCompStringException);
 	CFlightCompany(const char* fileName, int file) throw(CCompFileException);
 	CFlightCompany(const CFlightCompany& cFlightCompany) = delete;
 	~CFlightCompany();

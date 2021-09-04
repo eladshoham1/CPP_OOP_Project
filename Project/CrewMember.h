@@ -1,4 +1,7 @@
 #pragma once
+#pragma warning(disable : 4290)
+
+//#include "PlaneCrewFactory.h"
 #include "FlightCompException.h"
 
 #define MAX_SIZE 100

@@ -3,7 +3,7 @@ using namespace std;
 
 #include "Cargo.h"
 
-CCargo::CCargo (int seats, const char* model, float maxWeight, float maxVolume) : CPlane(seats, model)
+CCargo::CCargo (int seats, const char* model, float maxWeight, float maxVolume)  throw(CCompStringException) : CPlane(seats, model)
 {
 	setMaxWeight(maxWeight);
 	setMaxVolume(maxVolume);
@@ -16,7 +16,7 @@ CCargo::CCargo(ifstream& in) : CPlane(in)
 	fromOs(in);
 }
 
-CCargo::CCargo(const CCargo& cCargo) : CPlane(cCargo)
+CCargo::CCargo(const CCargo& cCargo) throw(CCompStringException) : CPlane(cCargo)
 {
 	setMaxWeight(cCargo.maxWeight);
 	setMaxVolume(cCargo.maxVolume);
@@ -24,7 +24,7 @@ CCargo::CCargo(const CCargo& cCargo) : CPlane(cCargo)
 	setCurrentVolume(cCargo.currentVolume);
 }
 
-void CCargo::setMaxWeight(float maxWeight)
+void CCargo::setMaxWeight(float maxWeight) throw(CCompStringException)
 {
 	if (maxWeight < 0)
 		throw CCompStringException("Max weight must be positive number");
@@ -32,7 +32,7 @@ void CCargo::setMaxWeight(float maxWeight)
 	this->maxWeight = maxWeight;
 }
 
-void CCargo::setMaxVolume(float maxVolume)
+void CCargo::setMaxVolume(float maxVolume) throw(CCompStringException)
 {
 	if (maxVolume < 0)
 		throw CCompStringException("Max volume must be positive number");
@@ -40,7 +40,7 @@ void CCargo::setMaxVolume(float maxVolume)
 	this->maxVolume = maxVolume;
 }
 
-void CCargo::setCurrentWeight(float currentWeight)
+void CCargo::setCurrentWeight(float currentWeight) throw(CCompStringException)
 {
 	if (currentWeight < 0)
 		throw CCompStringException("Current volume must be positive number");
@@ -48,7 +48,7 @@ void CCargo::setCurrentWeight(float currentWeight)
 	this->currentWeight = currentWeight;
 }
 
-void CCargo::setCurrentVolume(float currentVolume)
+void CCargo::setCurrentVolume(float currentVolume) throw(CCompStringException)
 {
 	if (currentVolume < 0)
 		throw CCompStringException("Current volume must be positive number");
@@ -56,7 +56,7 @@ void CCargo::setCurrentVolume(float currentVolume)
 	this->currentVolume = currentVolume;
 }
 
-void CCargo::load(float weight, float volume)
+void CCargo::load(float weight, float volume) throw(CCompStringException)
 {
 	if (this->currentVolume + volume > this->maxVolume)
 		throw CCompStringException("There is not enough volume on the plane for this volume");
@@ -88,9 +88,9 @@ void CCargo::fromOs(istream& in)
 		in >> this->maxVolume >> this->maxWeight >> this->currentVolume >> this->currentWeight;
 	else
 	{
-		cout << "\nPlease enter max weight: ";
+		/*cout << "Please enter max weight: ";
 		in >> this->maxWeight;
-		cout << "\nPlease enter max volume: ";
-		in >> this->maxVolume;
+		cout << "Please enter max volume: ";
+		in >> this->maxVolume;*/
 	}
 }

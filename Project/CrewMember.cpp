@@ -4,7 +4,7 @@ using namespace std;
 
 #include "CrewMember.h"
 
-CCrewMember::CCrewMember(const char* name, int flyMinutes)
+CCrewMember::CCrewMember(const char* name, int flyMinutes) throw(CCompStringException)
 {
 	setName(name);
 	setFlyMinutes(flyMinutes);
@@ -15,7 +15,7 @@ CCrewMember::CCrewMember(ifstream& in)
 	in >> *this;
 }
 
-CCrewMember::CCrewMember(const CCrewMember& cCrewMember)
+CCrewMember::CCrewMember(const CCrewMember& cCrewMember) throw(CCompStringException)
 {
 	*this = cCrewMember;
 }
@@ -35,7 +35,7 @@ int CCrewMember::getFlyMinutes() const
 	return this->flyMinutes;
 }
 
-void CCrewMember::setName(const char* name)
+void CCrewMember::setName(const char* name) throw(CCompStringException)
 {
 	if (strcmp(name, "") == 0)
 		throw CCompStringException("Name can't be empty");
@@ -44,7 +44,7 @@ void CCrewMember::setName(const char* name)
 	this->name = _strdup(name);
 }
 
-void CCrewMember::setFlyMinutes(int flyMinutes)
+void CCrewMember::setFlyMinutes(int flyMinutes) throw(CCompStringException)
 {
 	if (flyMinutes < 0)
 		throw CCompStringException("Fly minutes have to be positive number");
@@ -67,7 +67,7 @@ void CCrewMember::getPresent() const
 	cout << this->name << " thanking the company for receiving the holiday gift" << endl;
 }
 
-void CCrewMember::takeOff(int minutes)
+void CCrewMember::takeOff(int minutes) throw(CCompStringException)
 {
 	if (minutes < 0)
 		throw CCompStringException("Minutes have to be positive number");
@@ -75,7 +75,7 @@ void CCrewMember::takeOff(int minutes)
 	this->flyMinutes += minutes;
 }
 
-const CCrewMember& CCrewMember::operator=(const CCrewMember& other)
+const CCrewMember& CCrewMember::operator=(const CCrewMember& other) throw(CCompStringException)
 {
 	if (this != &other)
 	{
@@ -86,7 +86,7 @@ const CCrewMember& CCrewMember::operator=(const CCrewMember& other)
 	return *this;
 }
 
-void CCrewMember::operator+=(int minutes)
+void CCrewMember::operator+=(int minutes) throw(CCompStringException)
 {
 	if (minutes < 0)
 		throw CCompStringException("Minutes have to be positive number");
@@ -119,7 +119,7 @@ istream& operator>>(istream& in, CCrewMember& cCrewMember)
 		in >> cCrewMember.name >> cCrewMember.flyMinutes;
 	else
 	{
-		int crewType;
+		/*int crewType;
 
 		do
 		{
@@ -127,13 +127,13 @@ istream& operator>>(istream& in, CCrewMember& cCrewMember)
 			in >> crewType;
 
 			if (crewType != 0 || crewType != 1)
-				cout << "\nWrong input, Please try again" << endl;
+				cout << "Wrong input, Please try again" << endl;
 		} while (crewType != 0 || crewType != 1);
 
-		cout << "\nPlease enter name: ";
+		cout << "Please enter name: ";
 		in.getline(cCrewMember.name, MAX_SIZE);
-		cout << "\nPlease enter fly minutes: ";
-		in >> cCrewMember.flyMinutes;
+		cout << "Please enter fly minutes: ";
+		in >> cCrewMember.flyMinutes;*/
 	}
 
 	cCrewMember.fromOs(in);

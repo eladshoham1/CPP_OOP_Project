@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning(disable : 4290)
+
 #include "FlightCompException.h"
 
 #define MAX 100
@@ -14,7 +16,7 @@ private:
 public:
 	CFlightInfo(const char dest[], int fNum, int flightMinutes, int destiny) throw(CCompStringException);
 	CFlightInfo(ifstream& in);
-	CFlightInfo(const CFlightInfo& other) throw(CCompStringException);
+	CFlightInfo(const CFlightInfo& cFlightInfo) throw(CCompStringException);
 
 	int getFNum() const;
 	const char* getDest() const;
@@ -29,7 +31,7 @@ public:
 	bool isEqual(const CFlightInfo& cFlightInfo);
 	void print(ostream& out) const;
 
-	const CFlightInfo& operator=(const CFlightInfo& other) throw(CFlightCompException);
+	const CFlightInfo& operator=(const CFlightInfo& other) throw(CCompStringException);
 	friend ostream& operator<<(ostream& os, const CFlightInfo& cFlightInfo);
 	friend istream& operator>>(istream& in, CFlightInfo& cFlightInfo);
 	bool operator==(const CFlightInfo& other) const;

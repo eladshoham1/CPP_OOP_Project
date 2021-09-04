@@ -5,7 +5,7 @@ using namespace std;
 
 #include "FlightInfo.h"
 
-CFlightInfo::CFlightInfo(const char dest[], int fNum, int flightMinutes, int destiny)
+CFlightInfo::CFlightInfo(const char dest[], int fNum, int flightMinutes, int destiny) throw(CCompStringException)
 {
 	setDest(dest);
 	setFNum(fNum);
@@ -18,7 +18,7 @@ CFlightInfo::CFlightInfo(ifstream& in)
 	in >> *this;
 }
 
-CFlightInfo::CFlightInfo(const CFlightInfo& cFlightInfo)
+CFlightInfo::CFlightInfo(const CFlightInfo& cFlightInfo) throw(CCompStringException)
 {
 	*this = cFlightInfo;
 }
@@ -43,7 +43,7 @@ int CFlightInfo::getDestiny() const
 	return this->destiny;
 }
 
-void CFlightInfo::setFNum(int fNum)
+void CFlightInfo::setFNum(int fNum) throw(CCompStringException)
 {
 	if (fNum < 0)
 		throw CCompStringException("Flight number must be positive number");
@@ -51,7 +51,7 @@ void CFlightInfo::setFNum(int fNum)
 	this->fNum = fNum;
 }
 
-void CFlightInfo::setDest(const char* dest)
+void CFlightInfo::setDest(const char* dest) throw(CCompStringException)
 {
 	if (strlen(dest) > MAX)
 		throw CCompStringException("Dest name is too long");
@@ -59,7 +59,7 @@ void CFlightInfo::setDest(const char* dest)
 	strcpy(this->dest, dest);
 }
 
-void CFlightInfo::setFlightMinutes(int flightMinutes)
+void CFlightInfo::setFlightMinutes(int flightMinutes) throw(CCompStringException)
 {
 	if (flightMinutes < 0)
 		throw CCompStringException("Flight minutes must be positive number");
@@ -67,7 +67,7 @@ void CFlightInfo::setFlightMinutes(int flightMinutes)
 	this->flightMinutes = flightMinutes;
 }
 
-void CFlightInfo::setDestiny(int destiny)
+void CFlightInfo::setDestiny(int destiny) throw(CCompStringException)
 {
 	if (destiny < 0)
 		throw CCompStringException("Destiny must be positive number");
@@ -85,7 +85,7 @@ void CFlightInfo::print(ostream& out) const
 	out << this;
 }
 
-const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other)
+const CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other) throw(CCompStringException)
 {
 	if (this != &other)
 	{
@@ -114,7 +114,14 @@ istream& operator>>(istream& in, CFlightInfo& cFlightInfo)
 		in >> cFlightInfo.dest >> cFlightInfo.fNum >> cFlightInfo.flightMinutes >> cFlightInfo.destiny;
 	else
 	{
-		//
+		cout << "Please enter dest: ";
+		in.getline(cFlightInfo.dest, MAX);
+		cout << "Please enter flight number: ";
+		in >> cFlightInfo.fNum;
+		cout << "Please enter flight minutes: ";
+		in >> cFlightInfo.flightMinutes;
+		cout << "Please enter destiny: ";
+		in >> cFlightInfo.destiny;
 	}
 
 	return in;
