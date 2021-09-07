@@ -99,8 +99,8 @@ istream& operator>>(istream& in, CAddress& cAddress)
 	cAddress.street = new char[MAX];
 	cAddress.city = new char[MAX];
 
-	//if (typeid(in) != typeid(ifstream))
-		//cout << "Please enter house number street name and city name:" << endl;
+	if (typeid(in) != typeid(ifstream))
+		cout << "Please enter house number street name and city name:" << endl;
 
 	in >> cAddress.homeNumber >> cAddress.street >> cAddress.city;
 	return in;

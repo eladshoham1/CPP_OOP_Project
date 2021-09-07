@@ -18,7 +18,7 @@ CFlightCompany::CFlightCompany(const char* fileName, int file) throw(CCompFileEx
 {
 	ifstream inFile(fileName);
 
-	if (inFile.fail())
+	if (inFile.fail() || inFile.peek() == EOF)
 		throw CCompFileException(fileName);
 
 	inFile >> *this;
@@ -201,7 +201,7 @@ int CFlightCompany::getCrewCount() const
 
 void CFlightCompany::saveToFile(const char* fileName) throw(CCompFileException)
 {
-	ofstream outFile(fileName);
+	ofstream outFile(fileName, ios::trunc);
 
 	if (outFile.fail())
 		throw CCompFileException(fileName);

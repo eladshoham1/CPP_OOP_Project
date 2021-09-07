@@ -95,7 +95,7 @@ CCrewMember* CPlaneCrewFactory::getCrewFromUser()
 	CAddress *homeAddress = nullptr;
 	char name[MAX];
 	int crewType, hostType, flyMinutes;
-	char isCaptain, haveAddress;
+	char isCaptain;
 	bool readAgain;
 
 	do
@@ -155,12 +155,7 @@ CCrewMember* CPlaneCrewFactory::getCrewFromUser()
 	{
 		cout << "His Captain? (Y,y - yes/Any other key - no) ";
 		cin >> isCaptain;
-
-		cout << "Have address? (Y,y - yes/Any other key - no) ";
-		cin >> haveAddress;
-
-		if (haveAddress == 'Y' || haveAddress == 'y')
-			homeAddress = getAddressFromUser();
+		homeAddress = getAddressFromUser();
 
 		cCrewMember = new CPilot(name, isCaptain == 'Y' || isCaptain == 'y', homeAddress, flyMinutes);
 	}

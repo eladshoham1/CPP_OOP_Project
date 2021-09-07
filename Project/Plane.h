@@ -3,6 +3,8 @@
 
 #include "FlightCompException.h"
 
+#define MAX_SIZE 100
+
 class CPlane
 {
 protected:

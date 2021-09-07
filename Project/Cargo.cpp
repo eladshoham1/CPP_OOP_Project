@@ -88,9 +88,9 @@ void CCargo::fromOs(istream& in)
 		in >> this->maxVolume >> this->maxWeight >> this->currentVolume >> this->currentWeight;
 	else
 	{
-		/*cout << "Please enter max weight: ";
+		cout << "Please enter max weight: ";
 		in >> this->maxWeight;
 		cout << "Please enter max volume: ";
-		in >> this->maxVolume;*/
+		in >> this->maxVolume;
 	}
 }

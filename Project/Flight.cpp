@@ -143,7 +143,7 @@ CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember) throw(CFlightC
 		if (theFlight.crewMembers[i] == newCrewMember)
 			throw CCompStringException("This crew member already in this flight");
 	}
-
+	
 	if (pilot)
 		theFlight.crewMembers[theFlight.currentCrew++] = new CPilot(*pilot);
 	else if (host)

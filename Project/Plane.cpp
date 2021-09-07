@@ -104,13 +104,12 @@ ostream& operator<<(ostream& os, const CPlane& cPlane)
 istream& operator>>(istream& in, CPlane& cPlane)
 {
 	delete[] cPlane.model;
-	cPlane.model = new char[100];
+	cPlane.model = new char[MAX_SIZE];
 
-	if (typeid(in) == typeid(ifstream))
-		in >> cPlane.id >> cPlane.model >> cPlane.seats;
-	else
-		//
+	if (typeid(in) != typeid(ifstream))
+		cout << "Please enter id model and number of seats: ";
 
+	in >> cPlane.id >> cPlane.model >> cPlane.seats;
 	cPlane.fromOs(in);
 	return in;
 }

@@ -124,21 +124,8 @@ istream& operator>>(istream& in, CCrewMember& cCrewMember)
 	}
 	else
 	{
-		/*int crewType;
-
-		do
-		{
-			cout << "Please enter crew type (0-Host, 1-Pilot): ";
-			in >> crewType;
-
-			if (crewType != 0 || crewType != 1)
-				cout << "Wrong input, Please try again" << endl;
-		} while (crewType != 0 || crewType != 1);
-
-		cout << "Please enter name: ";
-		in.getline(cCrewMember.name, MAX_SIZE);
-		cout << "Please enter fly minutes: ";
-		in >> cCrewMember.flyMinutes;*/
+		cout << "Please enter name and fly minutes: ";
+		in >> cCrewMember.name >> cCrewMember.flyMinutes;
 	}
 
 	cCrewMember.fromOs(in);
