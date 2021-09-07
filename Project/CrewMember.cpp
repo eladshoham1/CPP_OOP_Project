@@ -102,7 +102,7 @@ bool CCrewMember::operator==(const CCrewMember& other) const
 ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)
 {
 	if (typeid(os) == typeid(ofstream))
-		os << cCrewMember.name << " " << cCrewMember.flyMinutes;
+		os << strlen(cCrewMember.name) << " " << cCrewMember.name << " " << cCrewMember.flyMinutes;
 	else
 		os << typeid(cCrewMember).name() + 7 << ": " << cCrewMember.name << " minutes " << cCrewMember.flyMinutes;
 
@@ -112,11 +112,16 @@ ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)
 
 istream& operator>>(istream& in, CCrewMember& cCrewMember)
 {
-	delete[] cCrewMember.name;
-	cCrewMember.name = new char[MAX_SIZE];
-
 	if (typeid(in) == typeid(ifstream))
+	{
+		int nameLen;
+		in >> nameLen;
+
+		delete[] cCrewMember.name;
+		cCrewMember.name = new char[nameLen];
+
 		in >> cCrewMember.name >> cCrewMember.flyMinutes;
+	}
 	else
 	{
 		/*int crewType;

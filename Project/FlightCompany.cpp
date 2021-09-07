@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "FlightCompany.h"
+#include "PlaneCrewFactory.h"
 
 CFlightCompany::CFlightCompany(const char* name) throw(CCompStringException)
 {
@@ -125,10 +126,10 @@ void CFlightCompany::addFlight(const CFlight& flight) throw(CFlightCompException
 	this->flights[this->currentFlights++] = new CFlight(flight);
 }
 
-CCrewMember* CFlightCompany::getCrewMember(int index) throw(CCompStringException)
+CCrewMember* CFlightCompany::getCrewMember(int index) throw(CCompLimitException)
 {
 	if (index < 0 || index >= this->currentCrew)
-		throw CCompStringException("Illegal index of crew member");
+		throw CCompLimitException(this->currentCrew);
 
 	return this->crewMembers[index];
 }
@@ -244,16 +245,16 @@ ostream& operator<<(ostream& os, const CFlightCompany& cFlightCompany)
 {
 	if (typeid(os) == typeid(ofstream))
 	{
-		os << cFlightCompany.name << endl;
+		os << strlen(cFlightCompany.name) << " " << cFlightCompany.name << endl;
 
 		os << cFlightCompany.currentCrew << endl;
 		for (int i = 0; i < cFlightCompany.currentCrew; i++)
-			os << (typeid(*cFlightCompany.crewMembers[i]) == typeid(CHost) ? 0 : 1) << " " << *cFlightCompany.crewMembers[i];
+			os << CPlaneCrewFactory::getCrewType(cFlightCompany.crewMembers[i]) << " " << *cFlightCompany.crewMembers[i];
 
 		os << cFlightCompany.currentPlanes << endl;
 		os << CPlane::generateNumber << endl;
 		for (int i = 0; i < cFlightCompany.currentPlanes; i++)
-			os << (typeid(*cFlightCompany.planes[i]) == typeid(CPlane) ? 0 : 1) << " "  << *cFlightCompany.planes[i];
+			os << CPlaneCrewFactory::getPlaneType(cFlightCompany.planes[i]) << " " << *cFlightCompany.planes[i];
 
 		os << cFlightCompany.currentFlights << endl;
 		for (int i = 0; i < cFlightCompany.currentFlights; i++)
@@ -278,47 +279,31 @@ ostream& operator<<(ostream& os, const CFlightCompany& cFlightCompany)
 
 istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 {
-
 	if (typeid(in) == typeid(ifstream))
 	{
 		ifstream& inFile = dynamic_cast<ifstream&>(in);
-		int type;
+		int nameLen;
+		in >> nameLen;
 
 		delete[] cFlightCompany.name;
-		cFlightCompany.name = new char[MAX_SIZE];
+		cFlightCompany.name = new char[nameLen];
 		in >> cFlightCompany.name;
 
 		in >> cFlightCompany.currentCrew;
 		for (int i = 0; i < cFlightCompany.currentCrew; i++)
-		{
-			//cFlightCompany.crewMembers[i] = CPlaneCrewFactory::getCrewMemberFromFile(inFile);
-			in >> type;
-			if (type == 0)
-				cFlightCompany.crewMembers[i] = new CHost(inFile);
-			else
-				cFlightCompany.crewMembers[i] = new CPilot(inFile);
-		}
+			cFlightCompany.crewMembers[i] = CPlaneCrewFactory::getCrewMemberFromFile(inFile);
 
 		in >> cFlightCompany.currentPlanes;
 		in >> CPlane::generateNumber;
 		for (int i = 0; i < cFlightCompany.currentPlanes; i++)
-		{
-			//cFlightCompany.planes[i] = CPlaneCrewFactory::getPlaneFromFile(inFile);
-			in >> type;
-			if (type == 0)
-				cFlightCompany.planes[i] = new CPlane(inFile);
-			else
-				cFlightCompany.planes[i] = new CCargo(inFile);
-		}
+			cFlightCompany.planes[i] = CPlaneCrewFactory::getPlaneFromFile(inFile);
 
 		in >> cFlightCompany.currentFlights;
 		for (int i = 0; i < cFlightCompany.currentFlights; i++)
 			cFlightCompany.flights[i] = new CFlight(inFile);
 	}
 	else
-	{
-		//
-	}
+		CPlaneCrewFactory::getCompanyDataFromUser(cFlightCompany);
 
 	return in;
 }

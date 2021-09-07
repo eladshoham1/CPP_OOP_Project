@@ -36,12 +36,7 @@ public:
 
 	virtual void show() const override
 	{
-		cout << "Index out of boundry, ";
-
-		if (max == 0)
-			cout << "there is no elements" << endl;
-		else
-			cout << max << " is the maximum" << endl;
+		cout << "Index out of boundry, the number of elements is " << max << endl;
 	}
 };
 

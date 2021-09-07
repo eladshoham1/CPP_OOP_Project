@@ -53,6 +53,9 @@ void CFlightInfo::setFNum(int fNum) throw(CCompStringException)
 
 void CFlightInfo::setDest(const char* dest) throw(CCompStringException)
 {
+	if (strcmp(dest, "") == 0)
+		throw CCompStringException("Dest can't be empty");
+
 	if (strlen(dest) > MAX)
 		throw CCompStringException("Dest name is too long");
 

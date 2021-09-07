@@ -73,7 +73,7 @@ void CPilot::toOs(ostream& os) const
 		if (this->homeAddress)
 			os << *this->homeAddress;
 
-		os << (this->isCaptain ? " a Captain" : "Not a Captain") << endl;
+		os << (this->isCaptain ? "a Captain" : "Not a Captain") << endl;
 	}
 }
 

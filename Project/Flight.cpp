@@ -3,6 +3,7 @@ using namespace std;
 #include <string.h>
 
 #include "Flight.h"
+#include "PlaneCrewFactory.h"
 
 CFlight::CFlight(CFlightInfo flightInfo, CPlane* plane) : flightInfo(flightInfo)
 {
@@ -121,8 +122,8 @@ const CFlight& CFlight::operator=(const CFlight& other)
 	{
 		this->flightInfo = other.flightInfo;
 		setPlane(other.plane);
-
-		for (int i = 0; i < other.currentCrew; i++)
+		this->currentCrew = 0;
+		for (int i = 0; i < this->currentCrew; i++)
 			*this + other.crewMembers[i];
 	}
 
@@ -178,7 +179,7 @@ ostream& operator<<(ostream& os, const CFlight& cFlight)
 			os << *cFlight.plane;
 		else
 			os << "No plane assign yet" << endl;
-		os << " There are " << cFlight.currentCrew << " crew members in flight:" << endl;
+		os << "There are " << cFlight.currentCrew << " crew members in flight:" << endl;
 
 		for (int i = 0; i < cFlight.currentCrew; i++)
 			os << *cFlight.crewMembers[i];
@@ -192,35 +193,15 @@ istream& operator>>(istream& in, CFlight& cFlight)
 	if (typeid(in) == typeid(ifstream))
 	{
 		ifstream& inFile = dynamic_cast<ifstream&>(in);
-		int hasPlane, type;
-		in >> cFlight.flightInfo >> hasPlane;
-	
-		if (hasPlane == 1)
-		{
-			in >> type;
+		int hasPlane;
+		in >> hasPlane;
 
-			if (type == 0)
-				cFlight.plane = new CPlane(inFile);
-			else
-				cFlight.plane = new CCargo(inFile);
-		}
+		if (hasPlane == 1)
+			cFlight.plane = CPlaneCrewFactory::getPlaneFromFile(inFile);
 
 		in >> cFlight.currentCrew;
 		for (int i = 0; i < cFlight.currentCrew; i++)
-		{
-			//cFlight.crewMembers[i] = CPlaneCrewFactory::getCrewMemberFromFile(inFile);
-			in >> type;
-			in >> type;
-
-			if (type == 0)
-				cFlight.crewMembers[i] = new CHost(inFile);
-			else
-				cFlight.crewMembers[i] = new CPilot(inFile);
-		}
-	}
-	else
-	{
-		// CPlaneCrewFactory::getFlightFromUser();
+			cFlight.crewMembers[i] = CPlaneCrewFactory::getCrewMemberFromFile(inFile);
 	}
 
 	return in;

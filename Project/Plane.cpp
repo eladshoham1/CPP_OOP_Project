@@ -109,13 +109,7 @@ istream& operator>>(istream& in, CPlane& cPlane)
 	if (typeid(in) == typeid(ifstream))
 		in >> cPlane.id >> cPlane.model >> cPlane.seats;
 	else
-	{
-		/*cout << "\nPlease enter model: ";
-		in.getline(cPlane.model, MAX);
-
-		cout << "\nPlease enter number of chairs: ";
-		in >> cPlane.seats;*/
-	}
+		//
 
 	cPlane.fromOs(in);
 	return in;

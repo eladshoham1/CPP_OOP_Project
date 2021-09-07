@@ -10,8 +10,6 @@ using namespace std;
 #include "Flight.h"
 #include "Pilot.h"
 
-#define MAX_SIZE 100
-
 class CFlightCompany
 {
 private:
@@ -43,9 +41,9 @@ public:
 	void addCrewMember(const CCrewMember& pCrewMember) throw(CFlightCompException);
 	void addPlane(const CPlane& pPlaneArr) throw(CFlightCompException);
 	void addFlight(const CFlight& fArr) throw(CFlightCompException);
-	CCrewMember* getCrewMember(int workerId) throw(CCompStringException);
+	CCrewMember* getCrewMember(int workerId) throw(CCompLimitException);
 	CFlight* getFlightByNum(int fNum);
-	void addCrewToFlight(int fNum, int workerId);
+	void addCrewToFlight(int fNum, int index);
 	int getCargoCount() const;
 	void pilotsToSimulator() const;
 	void crewGetPresent() const;
