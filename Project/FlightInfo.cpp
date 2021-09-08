@@ -45,7 +45,7 @@ int CFlightInfo::getDestiny() const
 
 void CFlightInfo::setFNum(int fNum) throw(CCompStringException)
 {
-	if (fNum < 0)
+	if (fNum <= 0)
 		throw CCompStringException("Flight number must be positive number");
 
 	this->fNum = fNum;
@@ -64,7 +64,7 @@ void CFlightInfo::setDest(const char* dest) throw(CCompStringException)
 
 void CFlightInfo::setFlightMinutes(int flightMinutes) throw(CCompStringException)
 {
-	if (flightMinutes < 0)
+	if (flightMinutes <= 0)
 		throw CCompStringException("Flight minutes must be positive number");
 
 	this->flightMinutes = flightMinutes;
@@ -72,7 +72,7 @@ void CFlightInfo::setFlightMinutes(int flightMinutes) throw(CCompStringException
 
 void CFlightInfo::setDestiny(int destiny) throw(CCompStringException)
 {
-	if (destiny < 0)
+	if (destiny <= 0)
 		throw CCompStringException("Destiny must be positive number");
 
 	this->destiny = destiny;

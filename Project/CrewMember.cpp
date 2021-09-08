@@ -47,7 +47,7 @@ void CCrewMember::setName(const char* name) throw(CCompStringException)
 
 void CCrewMember::setFlyMinutes(int flyMinutes) throw(CCompStringException)
 {
-	if (flyMinutes < 0)
+	if (flyMinutes <= 0)
 		throw CCompStringException("Fly minutes have to be positive number");
 
 	this->flyMinutes = flyMinutes;
@@ -70,7 +70,7 @@ void CCrewMember::getPresent() const
 
 void CCrewMember::takeOff(int minutes) throw(CCompStringException)
 {
-	if (minutes < 0)
+	if (minutes <= 0)
 		throw CCompStringException("Minutes have to be positive number");
 
 	this->flyMinutes += minutes;
@@ -89,7 +89,7 @@ const CCrewMember& CCrewMember::operator=(const CCrewMember& other) throw(CCompS
 
 void CCrewMember::operator+=(int minutes) throw(CCompStringException)
 {
-	if (minutes < 0)
+	if (minutes <= 0)
 		throw CCompStringException("Minutes have to be positive number");
 
 	this->flyMinutes += minutes;

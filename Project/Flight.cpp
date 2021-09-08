@@ -133,7 +133,7 @@ const CFlight& CFlight::operator=(const CFlight& other)
 		this->flightInfo = other.flightInfo;
 		setPlane(other.plane);
 		this->currentCrew = 0;
-		for (int i = 0; i < this->currentCrew; i++)
+		for (int i = 0; i < other.currentCrew; i++)
 			*this + other.crewMembers[i];
 	}
 
@@ -142,8 +142,8 @@ const CFlight& CFlight::operator=(const CFlight& other)
 
 CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember) throw(CFlightCompException)
 {
-	const CPilot *pilot = dynamic_cast<const CPilot*>(newCrewMember);
-	const CHost *host = dynamic_cast<const CHost*>(newCrewMember);
+	if (newCrewMember == nullptr)
+		throw CCompStringException("Crew member can't be null");
 
 	if (theFlight.currentCrew >= CFlight::MAX_CREW)
 		throw CCompLimitException(CFlight::MAX_CREW);
@@ -154,6 +154,9 @@ CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember) throw(CFlightC
 			throw CCompStringException("This crew member already in this flight");
 	}
 	
+	const CPilot *pilot = dynamic_cast<const CPilot*>(newCrewMember);
+	const CHost *host = dynamic_cast<const CHost*>(newCrewMember);
+
 	if (pilot)
 		theFlight.crewMembers[theFlight.currentCrew++] = new CPilot(*pilot);
 	else if (host)

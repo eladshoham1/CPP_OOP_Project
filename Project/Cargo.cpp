@@ -26,7 +26,7 @@ CCargo::CCargo(const CCargo& cCargo) throw(CCompStringException) : CPlane(cCargo
 
 void CCargo::setMaxWeight(float maxWeight) throw(CCompStringException)
 {
-	if (maxWeight < 0)
+	if (maxWeight <= 0)
 		throw CCompStringException("Max weight must be positive number");
 
 	this->maxWeight = maxWeight;
@@ -34,7 +34,7 @@ void CCargo::setMaxWeight(float maxWeight) throw(CCompStringException)
 
 void CCargo::setMaxVolume(float maxVolume) throw(CCompStringException)
 {
-	if (maxVolume < 0)
+	if (maxVolume <= 0)
 		throw CCompStringException("Max volume must be positive number");
 
 	this->maxVolume = maxVolume;

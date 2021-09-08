@@ -9,10 +9,11 @@ using namespace std;
 
 enum PlaneType { eRegular, eCargo, nofPlaneType };
 enum CrewType { eHost, ePilot, nofCrewType };
+enum eMenuOptions {eAddCrewMember, eAddPlane, eExit, eNofOption};
 
+const string menuOptions[eNofOption] = { "Add crew member", "Add plane", "Exit"};
 const string planeTypeTitle[nofPlaneType] = { "Regular", "Cargo" };
 const string crewTypeTitle[nofCrewType] = { "Host", "Pilot" };
-
 class CPlaneCrewFactory
 {
 public:

@@ -1,12 +1,18 @@
 Delta
-2
+4
 0 momo 100 1
 1 koko 400 1 2 dsf sdfs 1
-2
-102
+0 fd 2 1
+1 gfhj 123 1 65 jhkl fghj 1
+5
+105
 0 100 eee 100
 1 101 rrrr 4
 20000 1000  0 0
+0 102 ghjkl 56
+0 103 fghjkl 56
+1 104 uio 56
+655656 65656  0 0
 1
 Paris 343 320 5000 1 100
 2

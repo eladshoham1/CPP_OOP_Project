@@ -11,7 +11,7 @@ public:
 
 class CCompStringException : public CFlightCompException
 {
-private:
+protected:
 	char* msg;
 public:
 
@@ -54,5 +54,21 @@ public:
 	virtual void show() const override
 	{
 		cout << "There is a problem with the file " << fileName << endl;
+	}
+};
+
+class CCompInputTypeException : public CCompStringException
+{
+private:
+	istream& in;
+	static constexpr int MAX_SIZE = 256;
+public:
+	CCompInputTypeException(istream& in) : CCompStringException("Wrong input type"), in(in) {}
+
+	virtual void show() const override
+	{
+		CCompStringException::show();
+		in.clear();
+		in.ignore(MAX_SIZE, '\n');
 	}
 };

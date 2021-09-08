@@ -29,6 +29,7 @@ int main()
 		e.show();
 		pDelta = new CFlightCompany("Delta");
 	}
+	cout << endl;
 	try
 	{
 		CPlane p1(-34, "AirBus");
@@ -124,6 +125,8 @@ int main()
 	}
 
 	CPlaneCrewFactory::getCompanyDataFromUser(*pDelta);
+
+	cout << endl;
 
 	try
 	{

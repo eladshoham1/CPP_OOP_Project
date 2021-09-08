@@ -46,7 +46,7 @@ int CPlane::getSeats() const
 
 void CPlane::setId(int id) throw(CCompStringException)
 {
-	if (id < 0)
+	if (id <= 0)
 		throw CCompStringException("Id must be positive number");
 
 	this->id = id;
@@ -63,7 +63,7 @@ void CPlane::setModel(const char* model) throw(CCompStringException)
 
 void CPlane::setSeats(int seats) throw(CCompStringException)
 {
-	if (seats < 0)
+	if (seats <= 0)
 		throw CCompStringException("Number of seats must be positive number");
 
 	this->seats = seats;

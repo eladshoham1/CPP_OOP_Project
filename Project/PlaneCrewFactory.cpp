@@ -31,39 +31,50 @@ void CPlaneCrewFactory::getCompanyDataFromUser(CFlightCompany& comp)
 	do
 	{
 		cout << endl << "Please choose one of the following options:" << endl;
-		cout << "1 - Add crew member" << endl;
-		cout << "2 - Add plane" << endl;
-		cout << "3 - Exit" << endl;
-		cin >> option;
-
-		switch (option)
+		cout << eAddCrewMember << " - " << menuOptions[eAddCrewMember] << endl;
+		cout << eAddPlane << " - " << menuOptions[eAddPlane] << endl;
+		cout << eExit << " - " << menuOptions[eExit] << endl;
+		try
 		{
-		case 1: 
-			try
+			cin >> option;
+			if (cin.fail())
+				throw CCompInputTypeException(cin);
+
+			switch (option)
 			{
-				comp.addCrewMember(*getCrewFromUser());
+			case eAddCrewMember:
+				try
+				{
+					comp.addCrewMember(*getCrewFromUser());
+				}
+				catch (CFlightCompException& e)
+				{
+					e.show();
+				}
+				break;
+			case eAddPlane:
+				try
+				{
+					comp.addPlane(*getPlaneFromUser());
+				}
+				catch (CFlightCompException& e)
+				{
+					e.show();
+				}
+				break;
+			case eExit:
+				break;
+			default:
+				cout << "Invalid option" << endl;
 			}
-			catch (CFlightCompException& e)
-			{
-				e.show();
-			}
-			break;
-		case 2:
-			try
-			{
-				comp.addPlane(*getPlaneFromUser());
-			}
-			catch (CFlightCompException& e)
-			{
-				e.show();
-			}
-			break;
-		case 3:
-			break;
-		default:
-			cout << "Invalid option" << endl;
 		}
-	} while (option != 3);
+		catch (CCompInputTypeException& e)
+		{
+			e.show();
+		}
+
+
+	} while (option != eExit);
 }
 
 CPlane* CPlaneCrewFactory::getPlaneFromUser()
@@ -132,6 +143,7 @@ CCrewMember* CPlaneCrewFactory::getCrewFromUser()
 	do
 	{
 		cout << "Please enter crew type (0-Host, 1-Pilot): ";
+
 		cin >> crewType;
 
 		if (crewType != 0 && crewType != 1)
