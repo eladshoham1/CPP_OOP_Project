@@ -18,6 +18,9 @@
     <ClInclude Include="Address.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cargo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="CrewMember.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -27,10 +30,10 @@
     <ClInclude Include="FlightCompany.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FlightInfo.h">
+    <ClInclude Include="FlightCompException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
+    <ClInclude Include="FlightInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Host.h">
@@ -39,18 +42,18 @@
     <ClInclude Include="Pilot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cargo.h">
+    <ClInclude Include="Plane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlaneCrewFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FlightCompException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Address.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cargo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CrewMember.cpp">
@@ -65,19 +68,16 @@
     <ClCompile Include="FlightInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Plane.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Host.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Pilot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cargo.cpp">
+    <ClCompile Include="Plane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlaneCrewFactory.cpp">

@@ -1,0 +1,14 @@
+Delta			//company name
+2			//crew member count
+0 momo 100 1		//host name minutes Super
+1 koko 400 1 2 dsf sdfs 1	//pilot name minutes 1(has address) address captain
+2			//plane count
+102			//lastID
+0 100 eee 100		//regular id degem seats
+1 101 rrrr 4		//cargo id degem seats
+20000 1000 0 0		//maxVolume maxKG volume kg
+1			//Flight count
+Paris 343 320 5000 1 100	//Destination num minutes km 1(has plane) planeId
+2			//crew member count
+0 momo 100 1		//host name minutes Super
+1 koko 400 1 2 dsf sdfs 1	//pilot name minutes 1(has address) address captain

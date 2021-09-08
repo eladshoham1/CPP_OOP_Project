@@ -21,7 +21,7 @@ private:
 public:
 	CFlight(CFlightInfo flightInfo, CPlane* plane = nullptr);
 	CFlight(ifstream& in);
-	CFlight(const CFlight& cFlight);
+	CFlight(const CFlight& cFlight) throw(CFlightCompException);
 	~CFlight();
 
 	const CFlightInfo& getFlightInfo() const;
@@ -30,13 +30,13 @@ public:
 	int getPlaneId() const;
 
 	void setPlane(CPlane* plane);
-
+	void addCrewMember(const CCrewMember* newCrewMember) throw(CFlightCompException);
 	bool checkPlane() const;
 	bool checkCargo() const;
 	virtual bool takeOff();
 	void print(ostream& out) const;
 
-	const CFlight& operator=(const CFlight& other);
+	const CFlight& operator=(const CFlight& other) throw(CFlightCompException);
 	friend CFlight operator+(CFlight& theFlight, CCrewMember* cCrewMember) throw(CFlightCompException);
 	friend CFlight operator+(CCrewMember* cCrewMember, CFlight& theFlight) throw(CFlightCompException);
 	friend ostream& operator<<(ostream& os, const CFlight& cFlight);

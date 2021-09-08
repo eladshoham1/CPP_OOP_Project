@@ -1,7 +1,6 @@
 #include <fstream>
 using namespace std;
 #include <string.h>
-#include <string>
 
 #include "CrewMember.h"
 
@@ -115,11 +114,9 @@ istream& operator>>(istream& in, CCrewMember& cCrewMember)
 {
 	if (typeid(in) == typeid(ifstream))
 	{
-		string name;
-		in >> name >> cCrewMember.flyMinutes;
-
 		delete[] cCrewMember.name;
-		cCrewMember.name = _strdup(name.c_str());
+		cCrewMember.name = new char[MAX];
+		in >> cCrewMember.name >> cCrewMember.flyMinutes;
 	}
 	else
 	{

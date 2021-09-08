@@ -29,7 +29,9 @@ int main()
 		e.show();
 		pDelta = new CFlightCompany("Delta");
 	}
+
 	cout << endl;
+
 	try
 	{
 		CPlane p1(-34, "AirBus");
@@ -102,6 +104,7 @@ int main()
 	}
 	catch (const CFlightCompException& e)
 	{
+
 		e.show();
 	}
 
@@ -148,8 +151,15 @@ int main()
 			cout << "flight 343 was found " << endl;
 			for (int i = 0; i < pDelta->getCrewCount(); i++)
 			{
-				pCmTemp = pDelta->getCrewMember(i);
-				*pF + pCmTemp;
+				try
+				{
+					pCmTemp = pDelta->getCrewMember(i);
+					*pF + pCmTemp;
+				}
+				catch (CFlightCompException& e)
+				{
+					e.show();
+				}
 			}
 		}
 	}

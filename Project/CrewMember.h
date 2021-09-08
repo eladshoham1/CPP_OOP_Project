@@ -3,6 +3,8 @@
 
 #include "FlightCompException.h"
 
+#define MAX 100
+
 class CCrewMember
 {
 protected:

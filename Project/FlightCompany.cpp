@@ -2,7 +2,6 @@
 #include <fstream>
 using namespace std;
 #include <string.h>
-#include <string>
 
 #include "FlightCompany.h"
 #include "PlaneCrewFactory.h"
@@ -304,11 +303,10 @@ istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 	if (typeid(in) == typeid(ifstream))
 	{
 		ifstream& inFile = dynamic_cast<ifstream&>(in);
-		string name;
-		in >> name;
 
 		delete[] cFlightCompany.name;
-		cFlightCompany.name = _strdup(name.c_str());
+		cFlightCompany.name = new char[MAX];
+		in.getline(cFlightCompany.name, MAX);
 
 		in >> cFlightCompany.currentCrew;
 		for (int i = 0; i < cFlightCompany.currentCrew; i++)
