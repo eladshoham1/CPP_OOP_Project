@@ -39,10 +39,24 @@ void CPlaneCrewFactory::getCompanyDataFromUser(CFlightCompany& comp)
 		switch (option)
 		{
 		case 1: 
-			comp.addCrewMember(*getCrewFromUser());
+			try
+			{
+				comp.addCrewMember(*getCrewFromUser());
+			}
+			catch (CFlightCompException& e)
+			{
+				e.show();
+			}
 			break;
 		case 2:
-			comp.addPlane(*getPlaneFromUser());
+			try
+			{
+				comp.addPlane(*getPlaneFromUser());
+			}
+			catch (CFlightCompException& e)
+			{
+				e.show();
+			}
 			break;
 		case 3:
 			break;
@@ -54,7 +68,7 @@ void CPlaneCrewFactory::getCompanyDataFromUser(CFlightCompany& comp)
 
 CPlane* CPlaneCrewFactory::getPlaneFromUser()
 {
-	CPlane* cPlane;
+	CPlane* cPlane = nullptr;
 	char model[MAX];
 	int planeType, seats;
 	float maxWeight, maxVolume;
@@ -75,7 +89,17 @@ CPlane* CPlaneCrewFactory::getPlaneFromUser()
 	cin >> seats;
 
 	if (planeType == eRegular)
-		cPlane = new CPlane(seats, model);
+	{
+		try
+		{
+			cPlane = new CPlane(seats, model);
+		}
+		catch (CCompStringException& e)
+		{
+			CPlane::generateNumber--;
+			e.show();
+		}
+	}
 	else
 	{
 		cout << "Please enter max weight: ";
@@ -83,7 +107,15 @@ CPlane* CPlaneCrewFactory::getPlaneFromUser()
 		cout << "Please enter max volume: ";
 		cin >> maxVolume;
 
-		cPlane = new CCargo(seats, model, maxWeight, maxVolume);
+		try
+		{
+			cPlane = new CCargo(seats, model, maxWeight, maxVolume);
+		}
+		catch (CCompStringException& e)
+		{
+			CPlane::generateNumber--;
+			e.show();
+		}
 	}
 
 	return cPlane;
@@ -91,12 +123,11 @@ CPlane* CPlaneCrewFactory::getPlaneFromUser()
 
 CCrewMember* CPlaneCrewFactory::getCrewFromUser()
 {
-	CCrewMember* cCrewMember;
+	CCrewMember* cCrewMember = nullptr;
 	CAddress *homeAddress = nullptr;
 	char name[MAX];
 	int crewType, hostType, flyMinutes;
 	char isCaptain;
-	bool readAgain;
 
 	do
 	{
@@ -107,36 +138,11 @@ CCrewMember* CPlaneCrewFactory::getCrewFromUser()
 			cout << "Wrong input, Please try again" << endl;
 	} while (crewType != 0 && crewType != 1);
 
-	do
-	{
-		try
-		{
-			cleanBuffer();
-			cout << "Please enter name: ";
-			cin.getline(name, MAX);
-			readAgain = false;
-		}
-		catch (CCompStringException& e)
-		{
-			e.show();
-			readAgain = true;
-		}
-	} while (readAgain);
-
-	do
-	{
-		try
-		{
-			cout << "Please enter fly minutes: ";
-			cin >> flyMinutes;
-			readAgain = false;
-		}
-		catch (CCompStringException& e)
-		{
-			e.show();
-			readAgain = true;
-		}
-	} while (readAgain);
+	cleanBuffer();
+	cout << "Please enter name: ";
+	cin.getline(name, MAX);
+	cout << "Please enter fly minutes: ";
+	cin >> flyMinutes;
 
 	if ((CrewType)crewType == eHost)
 	{
@@ -149,72 +155,55 @@ CCrewMember* CPlaneCrewFactory::getCrewFromUser()
 				cout << "Wrong input, Please try again" << endl;
 		} while (hostType < 0 || hostType > 2);
 
-		cCrewMember = new CHost(name, (CHost::eType)hostType, flyMinutes);
+		try
+		{
+			cCrewMember = new CHost(name, (CHost::eType)hostType, flyMinutes);
+		}
+		catch (CCompStringException& e)
+		{
+			e.show();
+		}
 	}
 	else
 	{
 		cout << "His Captain? (Y,y - yes/Any other key - no) ";
 		cin >> isCaptain;
-		homeAddress = getAddressFromUser();
 
-		cCrewMember = new CPilot(name, isCaptain == 'Y' || isCaptain == 'y', homeAddress, flyMinutes);
+		try
+		{
+			homeAddress = getAddressFromUser();
+		}
+		catch (CCompStringException& e)
+		{
+			e.show();
+		}
+
+		try
+		{
+			cCrewMember = new CPilot(name, isCaptain == 'Y' || isCaptain == 'y', homeAddress, flyMinutes);
+		}
+		catch (CCompStringException& e)
+		{
+			e.show();
+		}
 	}
 
 	return cCrewMember;
 }
 
-CAddress* CPlaneCrewFactory::getAddressFromUser()
+CAddress* CPlaneCrewFactory::getAddressFromUser() throw(CCompStringException)
 {
 	int homeNumber;
 	char street[MAX], city[MAX];
-	bool readAgain;
 
-	do
-	{
-		try
-		{
-			cleanBuffer();
-			cout << "Please enter home number: ";
-			cin >> homeNumber;
-			readAgain = false;
-		}
-		catch (CCompStringException& e)
-		{
-			e.show();
-			readAgain = true;
-		}
-	} while (readAgain);
-
-	do
-	{
-		try
-		{
-			cleanBuffer();
-			cout << "Please enter street: ";
-			cin.getline(street, MAX);
-			readAgain = false;
-		}
-		catch (CCompStringException& e)
-		{
-			e.show();
-			readAgain = true;
-		}
-	} while (readAgain);
-
-	do
-	{
-		try
-		{
-			cout << "Please enter city: ";
-			cin.getline(city, MAX);
-			readAgain = false;
-		}
-		catch (CCompStringException& e)
-		{
-			e.show();
-			readAgain = true;
-		}
-	} while (readAgain);
+	cleanBuffer();
+	cout << "Please enter home number: ";
+	cin >> homeNumber;
+	cleanBuffer();
+	cout << "Please enter street: ";
+	cin.getline(street, MAX);
+	cout << "Please enter city: ";
+	cin.getline(city, MAX);
 
 	return new CAddress(homeNumber, street, city);
 }

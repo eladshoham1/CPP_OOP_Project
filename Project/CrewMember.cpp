@@ -1,6 +1,7 @@
 #include <fstream>
 using namespace std;
 #include <string.h>
+#include <string>
 
 #include "CrewMember.h"
 
@@ -102,7 +103,7 @@ bool CCrewMember::operator==(const CCrewMember& other) const
 ostream& operator<<(ostream& os, const CCrewMember& cCrewMember)
 {
 	if (typeid(os) == typeid(ofstream))
-		os << strlen(cCrewMember.name) << " " << cCrewMember.name << " " << cCrewMember.flyMinutes;
+		os << cCrewMember.name << " " << cCrewMember.flyMinutes;
 	else
 		os << typeid(cCrewMember).name() + 7 << ": " << cCrewMember.name << " minutes " << cCrewMember.flyMinutes;
 
@@ -114,13 +115,11 @@ istream& operator>>(istream& in, CCrewMember& cCrewMember)
 {
 	if (typeid(in) == typeid(ifstream))
 	{
-		int nameLen;
-		in >> nameLen;
+		string name;
+		in >> name >> cCrewMember.flyMinutes;
 
 		delete[] cCrewMember.name;
-		cCrewMember.name = new char[nameLen];
-
-		in >> cCrewMember.name >> cCrewMember.flyMinutes;
+		cCrewMember.name = _strdup(name.c_str());
 	}
 	else
 	{

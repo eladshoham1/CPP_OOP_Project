@@ -29,13 +29,13 @@ int main()
 		e.show();
 		pDelta = new CFlightCompany("Delta");
 	}
-	
 	try
 	{
 		CPlane p1(-34, "AirBus");
 	}
 	catch (const CCompStringException& e)
 	{
+		CPlane::generateNumber--;
 		e.show();
 	}
 	
@@ -45,6 +45,7 @@ int main()
 	}
 	catch (const CCompStringException& e)
 	{
+		CPlane::generateNumber--;
 		e.show();
 	}
 
@@ -54,6 +55,7 @@ int main()
 	}
 	catch (const CCompStringException& e)
 	{
+		CPlane::generateNumber--;
 		e.show();
 	}
 

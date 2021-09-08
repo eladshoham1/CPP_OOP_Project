@@ -43,6 +43,7 @@ public:
 	void addFlight(const CFlight& fArr) throw(CFlightCompException);
 	CCrewMember* getCrewMember(int workerId) throw(CCompLimitException);
 	CFlight* getFlightByNum(int fNum);
+	CPlane* getPlaneById(int id);
 	void addCrewToFlight(int fNum, int index);
 	int getCargoCount() const;
 	void pilotsToSimulator() const;

@@ -1,6 +1,7 @@
 #include <fstream>
 using namespace std;
 #include <string.h>
+#include <string>
 
 #include "Plane.h"
 
@@ -103,13 +104,16 @@ ostream& operator<<(ostream& os, const CPlane& cPlane)
 
 istream& operator>>(istream& in, CPlane& cPlane)
 {
-	delete[] cPlane.model;
-	cPlane.model = new char[MAX_SIZE];
+	string model;
 
 	if (typeid(in) != typeid(ifstream))
 		cout << "Please enter id model and number of seats: ";
 
-	in >> cPlane.id >> cPlane.model >> cPlane.seats;
+	in >> cPlane.id >> model >> cPlane.seats;
+
+	delete[] cPlane.model;
+	cPlane.model = _strdup(model.c_str());
+
 	cPlane.fromOs(in);
 	return in;
 }

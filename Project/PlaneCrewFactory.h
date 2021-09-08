@@ -22,7 +22,7 @@ public:
 	static void getCompanyDataFromUser(CFlightCompany& comp);
 	static CPlane* getPlaneFromUser();
 	static CCrewMember* getCrewFromUser();
-	static CAddress* getAddressFromUser();
+	static CAddress* getAddressFromUser() throw(CCompStringException);
 
 	static CCrewMember* getCrewMemberFromFile(ifstream& inFile);
 	static CPlane* getPlaneFromFile(ifstream& inFile);

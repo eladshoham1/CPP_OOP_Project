@@ -1,7 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <fstream>
-#include <string.h>
 using namespace std;
+#include <string.h>
+#include <string>
 
 #include "FlightCompany.h"
 #include "PlaneCrewFactory.h"
@@ -75,8 +76,8 @@ void CFlightCompany::print(ostream& out) const
 
 void CFlightCompany::addCrewMember(const CCrewMember& pCrewMember) throw(CFlightCompException)
 {
-	const CPilot *cPilot = dynamic_cast<const CPilot*>(&pCrewMember);
-	const CHost *cHost = dynamic_cast<const CHost*>(&pCrewMember);
+	if (&pCrewMember == nullptr)
+		throw CCompStringException("Can't add null crew member");
 
 	if (this->currentCrew >= CFlightCompany::MAX_CREWS)
 		throw CCompLimitException(CFlightCompany::MAX_CREWS);
@@ -87,6 +88,9 @@ void CFlightCompany::addCrewMember(const CCrewMember& pCrewMember) throw(CFlight
 			throw CCompStringException("This crew member already in the flight company");
 	}
 
+	const CPilot *cPilot = dynamic_cast<const CPilot*>(&pCrewMember);
+	const CHost *cHost = dynamic_cast<const CHost*>(&pCrewMember);
+
 	if (cPilot)
 		this->crewMembers[this->currentCrew++] = new CPilot(*cPilot);
 	else if (cHost)
@@ -95,7 +99,8 @@ void CFlightCompany::addCrewMember(const CCrewMember& pCrewMember) throw(CFlight
 
 void CFlightCompany::addPlane(const CPlane& pPlane) throw(CFlightCompException)
 {
-	const CCargo *cCargo = dynamic_cast<const CCargo*>(&pPlane);
+	if (&pPlane == nullptr)
+		throw CCompStringException("Can't add null plane");
 
 	if (this->currentPlanes >= CFlightCompany::MAX_PLANES)
 		throw CCompLimitException(CFlightCompany::MAX_PLANES);
@@ -106,6 +111,8 @@ void CFlightCompany::addPlane(const CPlane& pPlane) throw(CFlightCompException)
 			throw CCompStringException("This plane already in the flight company");
 	}
 
+	const CCargo *cCargo = dynamic_cast<const CCargo*>(&pPlane);
+
 	if (cCargo)
 		this->planes[this->currentPlanes++] = new CCargo(*cCargo);
 	else
@@ -114,6 +121,10 @@ void CFlightCompany::addPlane(const CPlane& pPlane) throw(CFlightCompException)
 
 void CFlightCompany::addFlight(const CFlight& flight) throw(CFlightCompException)
 {
+	if (&flight == nullptr)
+
+		throw CCompStringException("Can't add null flight");
+
 	if (flight.getCurrentCrew() != 0 || this->currentFlights >= CFlightCompany::MAX_FLIGHT)
 		throw CCompLimitException(CFlightCompany::MAX_FLIGHT);
 
@@ -140,6 +151,17 @@ CFlight* CFlightCompany::getFlightByNum(int fNum)
 	{
 		if (this->flights[i]->getFlightInfo().getFNum() == fNum)
 			return this->flights[i];
+	}
+
+	return nullptr;
+}
+
+CPlane* CFlightCompany::getPlaneById(int id)
+{
+	for (int i = 0; i < this->currentPlanes; i++)
+	{
+		if (this->planes[i]->getId() == id)
+			return this->planes[i];
 	}
 
 	return nullptr;
@@ -245,7 +267,7 @@ ostream& operator<<(ostream& os, const CFlightCompany& cFlightCompany)
 {
 	if (typeid(os) == typeid(ofstream))
 	{
-		os << strlen(cFlightCompany.name) << " " << cFlightCompany.name << endl;
+		os << cFlightCompany.name << endl;
 
 		os << cFlightCompany.currentCrew << endl;
 		for (int i = 0; i < cFlightCompany.currentCrew; i++)
@@ -282,12 +304,11 @@ istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 	if (typeid(in) == typeid(ifstream))
 	{
 		ifstream& inFile = dynamic_cast<ifstream&>(in);
-		int nameLen;
-		in >> nameLen;
+		string name;
+		in >> name;
 
 		delete[] cFlightCompany.name;
-		cFlightCompany.name = new char[nameLen];
-		in >> cFlightCompany.name;
+		cFlightCompany.name = _strdup(name.c_str());
 
 		in >> cFlightCompany.currentCrew;
 		for (int i = 0; i < cFlightCompany.currentCrew; i++)
@@ -300,7 +321,12 @@ istream& operator>>(istream& in, CFlightCompany& cFlightCompany)
 
 		in >> cFlightCompany.currentFlights;
 		for (int i = 0; i < cFlightCompany.currentFlights; i++)
+		{
 			cFlightCompany.flights[i] = new CFlight(inFile);
+
+			if (cFlightCompany.flights[i]->getPlaneId() != 0)
+				cFlightCompany.flights[i]->setPlane(cFlightCompany.getPlaneById(cFlightCompany.flights[i]->getPlaneId()));
+		}
 	}
 	else
 		CPlaneCrewFactory::getCompanyDataFromUser(cFlightCompany);

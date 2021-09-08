@@ -42,6 +42,11 @@ int CFlight::getCurrentCrew() const
 	return this->currentCrew;
 }
 
+int CFlight::getPlaneId() const
+{
+	return this->planeId;
+}
+
 void CFlight::setPlane(CPlane* plane)
 {
 	if (plane != nullptr)
@@ -52,9 +57,14 @@ void CFlight::setPlane(CPlane* plane)
 			this->plane = new CCargo(*cCargo);
 		else
 			this->plane = new CPlane(*plane);
+
+		this->planeId = this->plane->getId();
 	}
 	else
+	{
 		this->plane = nullptr;
+		this->planeId = 0;
+	}
 }
 
 bool CFlight::checkPlane() const
@@ -140,7 +150,7 @@ CFlight operator+(CFlight& theFlight, CCrewMember* newCrewMember) throw(CFlightC
 
 	for (int i = 0; i < theFlight.currentCrew; i++)
 	{
-		if (theFlight.crewMembers[i] == newCrewMember)
+		if (theFlight.crewMembers[i]->isEqual(*newCrewMember))
 			throw CCompStringException("This crew member already in this flight");
 	}
 	
@@ -164,13 +174,13 @@ ostream& operator<<(ostream& os, const CFlight& cFlight)
 		os << cFlight.flightInfo << " ";
 		
 		if (cFlight.plane)
-			os << 1 << (typeid(*cFlight.plane) == typeid(CPlane) ? 0 : 1) << " " << *cFlight.plane;
+			os << 1 << " " << cFlight.planeId;
 		else
 			os << 0;
 
 		os << endl << cFlight.currentCrew << endl;
 		for (int i = 0; i < cFlight.currentCrew; i++)
-			os << (typeid(*cFlight.crewMembers[i]) == typeid(CHost) ? 0 : 1) << " " << *cFlight.crewMembers[i];
+			os << CPlaneCrewFactory::getCrewType(cFlight.crewMembers[i]) << " " << *cFlight.crewMembers[i];
 	}
 	else
 	{
@@ -197,7 +207,7 @@ istream& operator>>(istream& in, CFlight& cFlight)
 		in >> hasPlane;
 
 		if (hasPlane == 1)
-			cFlight.plane = CPlaneCrewFactory::getPlaneFromFile(inFile);
+			in >> cFlight.planeId;
 
 		in >> cFlight.currentCrew;
 		for (int i = 0; i < cFlight.currentCrew; i++)

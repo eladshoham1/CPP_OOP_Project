@@ -16,6 +16,7 @@ private:
 	CPlane* plane;
 	CCrewMember* crewMembers[MAX_CREW];
 	int currentCrew;
+	int planeId;
 
 public:
 	CFlight(CFlightInfo flightInfo, CPlane* plane = nullptr);
@@ -26,6 +27,7 @@ public:
 	const CFlightInfo& getFlightInfo() const;
 	CPlane* getPlane() const;
 	int getCurrentCrew() const;
+	int getPlaneId() const;
 
 	void setPlane(CPlane* plane);
 
